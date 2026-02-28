@@ -26,6 +26,30 @@ function parseStepFromGemini(text: string): StoryStep {
   };
 }
 
+/** Predvolený krok rozprávky bez volania Gemini (pre testovanie alebo keď API zlyhá) */
+function getDefaultStep(
+  namesList: string,
+  theme: string,
+  moral: string,
+  isContinuation: boolean,
+  selectedOption?: string
+): StoryStep {
+  if (isContinuation) {
+    return {
+      title: "Ďalšia kapitola",
+      content: `Na základe toho, že si ${namesList || "hrdina"} vybral${namesList ? "" : "a"} možnosť "${selectedOption || "pokračovať"}", príbeh pokračuje.\n\nV kúzelnom svete sa stalo všetko podľa plánu. Postavy sa stretli s novými priateľmi a prežili malé dobrodružstvo.\n\nTéma príbehu "${theme}" sa ešte len rozvinie v ďalších kapitolách.${moral ? `\n\nPonaučenie: ${moral}` : ""}`,
+      options: ["Pokračovať ďalej", "Preskúmať miesto"],
+      isFinal: false,
+    };
+  }
+  return {
+    title: `Začiatok rozprávky: ${theme || "dobrodružstvo"}`,
+    content: `Bolo raz, nebolo raz. V jednom krásnom kraji žili deti menom ${namesList || "hrdinovia"}.\n\nJedného dňa sa rozhodli, že zažijú veľké dobrodružstvo. Téma ich cesty bola: ${theme || "priateľstvo a odvaha"}.\n\nVyšli do sveta plného čarov a možností. Čo ich čaká ďalej? To zistíte v ďalších kapitolách.${moral ? `\n\nTáto rozprávka má ponaučenie: ${moral}` : ""}`,
+    options: ["Ísť do lesa", "Navštíviť hrad"],
+    isFinal: false,
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -50,15 +74,40 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!genAI) {
-      return NextResponse.json(
-        { error: "Chýba GOOGLE_GEMINI_API_KEY v .env. Pridaj API kľúč z Google AI Studio." },
-        { status: 500 }
-      );
-    }
-
     const namesList = childrenNames.filter(Boolean).join(", ");
     const isContinuation = Boolean(storySoFar && selectedOption);
+    const useDefaultStory =
+      process.env.USE_DEFAULT_STORY === "true" || process.env.USE_DEFAULT_STORY === "1" || !genAI;
+
+    if (useDefaultStory) {
+      const step = getDefaultStep(namesList, theme, moral, isContinuation, selectedOption);
+      let savedStory = null;
+      if (!isContinuation && supabase) {
+        const childNamesFiltered = childrenNames.filter(Boolean);
+        const fullText = [step.title, step.content].join("\n\n");
+        const { data: inserted, error: insertError } = await supabase
+          .from("stories")
+          .insert({
+            child_names: childNamesFiltered,
+            topic: theme,
+            lesson: moral ?? "",
+            full_text: fullText,
+          })
+          .select("id, child_names, topic, lesson, full_text, created_at")
+          .single();
+        if (!insertError && inserted) {
+          savedStory = {
+            id: inserted.id,
+            childNames: inserted.child_names,
+            topic: inserted.topic,
+            lesson: inserted.lesson,
+            fullText: inserted.full_text,
+            createdAt: inserted.created_at,
+          };
+        }
+      }
+      return NextResponse.json({ step, savedStory });
+    }
 
     const systemPrompt = `Si rozprávkar. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
 Pravidlá: options má presne 2 krátke možnosti (čo môže postava urobiť). isFinal je true len pri úplnom závere príbehu.`;
@@ -84,52 +133,43 @@ Vygeneruj prvú kapitolu. Vráť len jeden JSON objekt: title, content (3-5 odse
     }
 
     const fullPrompt = systemPrompt + "\n\n" + userPrompt;
-    const model = genAI.getGenerativeModel({ model: "gemini-flash" });
-    const result = await model.generateContent(fullPrompt);
-
-    const response = result.response;
-
-    if (!response.candidates?.length) {
-      const blockReason =
-        response.promptFeedback?.blockReason ||
-        "Žiadna odpoveď od modelu (bezpečnostné filtre alebo chyba).";
-      console.error("Gemini no candidates:", response.promptFeedback);
-      return NextResponse.json(
-        { error: `AI neodpovedala: ${blockReason}` },
-        { status: 500 }
-      );
-    }
-
-    let rawText: string;
-    try {
-      rawText = response.text();
-    } catch (textErr) {
-      console.error("Gemini response.text() error:", textErr);
-      return NextResponse.json(
-        {
-          error:
-            "AI vrátila prázdnu alebo blokovanú odpoveď. Skúste inú tému alebo formuláciu.",
-        },
-        { status: 500 }
-      );
-    }
-
-    if (!rawText?.trim()) {
-      return NextResponse.json(
-        { error: "AI nevrátila žiadny text. Skúste to znova." },
-        { status: 500 }
-      );
-    }
-
     let step: StoryStep;
+
     try {
+      const model = genAI!.getGenerativeModel({ model: "gemini-flash" });
+      const result = await model.generateContent(fullPrompt);
+      const response = result.response;
+
+      if (!response.candidates?.length) {
+        const blockReason =
+          response.promptFeedback?.blockReason ||
+          "Žiadna odpoveď od modelu (bezpečnostné filtre alebo chyba).";
+        console.error("Gemini no candidates:", response.promptFeedback);
+        throw new Error(blockReason);
+      }
+
+      let rawText: string;
+      try {
+        rawText = response.text();
+      } catch (textErr) {
+        console.error("Gemini response.text() error:", textErr);
+        throw new Error("AI vrátila prázdnu alebo blokovanú odpoveď.");
+      }
+
+      if (!rawText?.trim()) {
+        throw new Error("AI nevrátila žiadny text.");
+      }
+
       step = parseStepFromGemini(rawText);
-    } catch (parseErr) {
-      console.error("Gemini JSON parse error:", parseErr);
-      return NextResponse.json(
-        { error: "AI vrátilo neplatnú odpoveď. Skúste to znova." },
-        { status: 500 }
-      );
+    } catch (geminiErr) {
+      const msg = geminiErr instanceof Error ? geminiErr.message : String(geminiErr);
+      const is404 = msg.includes("404") || msg.includes("Not Found");
+      if (is404) {
+        console.warn("Gemini model 404, vracia sa default rozprávka.");
+      } else {
+        console.error("Gemini error:", geminiErr);
+      }
+      step = getDefaultStep(namesList, theme, moral, isContinuation, selectedOption);
     }
 
     let savedStory = null;
