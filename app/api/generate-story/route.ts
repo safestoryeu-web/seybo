@@ -84,23 +84,8 @@ Vygeneruj prvú kapitolu. Vráť len jeden JSON objekt: title, content (3-5 odse
     }
 
     const fullPrompt = systemPrompt + "\n\n" + userPrompt;
-    const primaryModel = process.env.GEMINI_MODEL?.trim() || "gemini-1.5-flash";
-    const fallbackModel = "gemini-2.0-flash";
-
-    let result: { response: { candidates?: unknown[]; promptFeedback?: { blockReason?: string }; text: () => string } };
-
-    try {
-      const model = genAI.getGenerativeModel({ model: primaryModel });
-      result = await model.generateContent(fullPrompt);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      if ((msg.includes("404") || msg.includes("Not Found")) && primaryModel !== fallbackModel) {
-        const fallback = genAI.getGenerativeModel({ model: fallbackModel });
-        result = await fallback.generateContent(fullPrompt);
-      } else {
-        throw err;
-      }
-    }
+    const model = genAI.getGenerativeModel({ model: "gemini-flash" });
+    const result = await model.generateContent(fullPrompt);
 
     const response = result.response;
 
