@@ -11,7 +11,7 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Seybo – Rozprávky pre deti",
+  title: "Dobrú noc – Rozprávky pre deti",
   description: "Generuj osobné rozprávky s menami vašich detí, témou a ponaučením.",
 };
 
