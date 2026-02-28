@@ -1,18 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, BookOpen, Heart, Plus, X } from "lucide-react";
+import { Sparkles, BookOpen, Heart, Plus, X, Lock } from "lucide-react";
 import type { StoryFormData } from "@/types/story";
 import { StoryEngine } from "@/components/StoryEngine";
 
+const GATE_KEY = "dobru-noc-gate";
+const PASSWORD = "kornas";
+
 export default function Home() {
+  const [unlocked, setUnlocked] = useState(false);
   const [formData, setFormData] = useState<StoryFormData>({
     childrenNames: [""],
     theme: "",
     moral: "",
   });
   const [startStory, setStartStory] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem(GATE_KEY) === "1") {
+      setUnlocked(true);
+    }
+  }, []);
+
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const input = form.querySelector<HTMLInputElement>('input[type="password"]');
+    const value = input?.value?.trim() ?? "";
+    if (value === PASSWORD) {
+      sessionStorage.setItem(GATE_KEY, "1");
+      setUnlocked(true);
+    } else {
+      setWrongPassword(true);
+    }
+  };
+
+  const [wrongPassword, setWrongPassword] = useState(false);
 
   const addChild = () => {
     setFormData((prev) => ({
@@ -42,6 +67,47 @@ export default function Home() {
     e.preventDefault();
     setStartStory(true);
   };
+
+  if (!unlocked) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="w-full max-w-sm"
+      >
+        <div className="fairy-card p-6 sm:p-8 shadow-fairy-glow text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Lock className="w-8 h-8 text-fairy-violet" />
+            <h1 className="text-xl font-bold text-fairy-deep">Dobrú noc</h1>
+          </div>
+          <p className="text-fairy-deep/80 mb-6">
+            Ak poznáš heslo, môžeš vstupiť.
+          </p>
+          <form onSubmit={handleUnlock} className="space-y-4">
+            <input
+              type="password"
+              className="fairy-input w-full"
+              placeholder="Heslo"
+              autoComplete="off"
+              autoFocus
+              onChange={() => setWrongPassword(false)}
+            />
+            {wrongPassword && (
+              <p className="text-sm text-red-600">Nesprávne heslo.</p>
+            )}
+            <motion.button
+              type="submit"
+              className="fairy-btn w-full flex items-center justify-center gap-2 py-3"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Vstupiť
+            </motion.button>
+          </form>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <>
