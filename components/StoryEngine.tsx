@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles, Volume2, Square } from "lucide-react";
 import type { StoryFormData, StoryStep } from "@/types/story";
+import { useStoryTTS } from "@/hooks/useStoryTTS";
 
 interface StoryEngineProps {
   initialData: StoryFormData;
@@ -54,6 +55,7 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
   const [storySoFar, setStorySoFar] = useState("");
   const [typewriterDone, setTypewriterDone] = useState(false);
   const [historySteps, setHistorySteps] = useState<StoryStep[]>([]);
+  const { speak, stop, isSpeaking, isSupported } = useStoryTTS();
 
   const fetchStep = useCallback(
     async (continuation?: { storySoFar: string; selectedOption: string }) => {
@@ -110,6 +112,7 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
 
   const handleOptionClick = (option: string) => {
     if (!currentStep) return;
+    stop();
     if (currentStep.isFinal) {
       onBack();
       return;
@@ -239,9 +242,39 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
               exit={{ opacity: 0, y: -10 }}
               className="space-y-6"
             >
-              <h2 className="text-xl font-bold text-fairy-deep border-b border-fairy-lavender/50 pb-2">
-                {currentStep.title}
-              </h2>
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-fairy-lavender/50 pb-2">
+                <h2 className="text-xl font-bold text-fairy-deep">
+                  {currentStep.title}
+                </h2>
+                {isSupported && (
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      if (isSpeaking) stop();
+                      else {
+                        const textToRead = `${currentStep.title}.\n\n${currentStep.content}`;
+                        speak(textToRead);
+                      }
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 rounded-fairy-xl text-sm font-medium text-fairy-deep bg-fairy-sky/80 hover:bg-fairy-dusk/80 border border-fairy-lavender/50 transition-colors"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    aria-label={isSpeaking ? "Zastaviť čítanie" : "Počúvať kapitolu"}
+                  >
+                    {isSpeaking ? (
+                      <>
+                        <Square className="w-4 h-4 fill-current" />
+                        Zastaviť
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4" />
+                        Počúvať
+                      </>
+                    )}
+                  </motion.button>
+                )}
+              </div>
 
               <TypewriterText
                 text={currentStep.content}
