@@ -3,7 +3,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/lib/supabase";
 import type { StoryStep } from "@/types/story";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY ?? "");
+const geminiKey = process.env.GOOGLE_GEMINI_API_KEY?.trim() ?? "";
+const genAI = geminiKey ? new GoogleGenerativeAI(geminiKey) : null;
 
 const STEP_JSON_SCHEMA = `{
   "title": "string - krátky nadpis kapitoly",
@@ -49,7 +50,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    if (!genAI) {
+      return NextResponse.json(
+        { error: "Chýba GOOGLE_GEMINI_API_KEY v .env. Pridaj API kľúč z Google AI Studio." },
+        { status: 500 }
+      );
+    }
+
+    // Použiť gemini-1.5-flash alebo gemini-2.0-flash podľa dostupnosti v AI Studio
+    const modelName =
+      process.env.GEMINI_MODEL?.trim() || "gemini-1.5-flash";
+    const model = genAI.getGenerativeModel({ model: modelName });
     const namesList = childrenNames.filter(Boolean).join(", ");
     const isContinuation = Boolean(storySoFar && selectedOption);
 
@@ -77,8 +88,40 @@ Vygeneruj prvú kapitolu. Vráť len jeden JSON objekt: title, content (3-5 odse
     }
 
     const result = await model.generateContent(systemPrompt + "\n\n" + userPrompt);
+    const response = result.response;
 
-    const rawText = result.response.text();
+    if (!response.candidates?.length) {
+      const blockReason =
+        response.promptFeedback?.blockReason ||
+        "Žiadna odpoveď od modelu (bezpečnostné filtre alebo chyba).";
+      console.error("Gemini no candidates:", response.promptFeedback);
+      return NextResponse.json(
+        { error: `AI neodpovedala: ${blockReason}` },
+        { status: 500 }
+      );
+    }
+
+    let rawText: string;
+    try {
+      rawText = response.text();
+    } catch (textErr) {
+      console.error("Gemini response.text() error:", textErr);
+      return NextResponse.json(
+        {
+          error:
+            "AI vrátila prázdnu alebo blokovanú odpoveď. Skúste inú tému alebo formuláciu.",
+        },
+        { status: 500 }
+      );
+    }
+
+    if (!rawText?.trim()) {
+      return NextResponse.json(
+        { error: "AI nevrátila žiadny text. Skúste to znova." },
+        { status: 500 }
+      );
+    }
+
     let step: StoryStep;
     try {
       step = parseStepFromGemini(rawText);
@@ -91,7 +134,7 @@ Vygeneruj prvú kapitolu. Vráť len jeden JSON objekt: title, content (3-5 odse
     }
 
     let savedStory = null;
-    if (!isContinuation) {
+    if (!isContinuation && supabase) {
       const childNamesFiltered = childrenNames.filter(Boolean);
       const fullText = [step.title, step.content].join("\n\n");
 
@@ -123,9 +166,39 @@ Vygeneruj prvú kapitolu. Vráť len jeden JSON objekt: title, content (3-5 odse
       savedStory,
     });
   } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
     console.error("generate-story error:", err);
+
+    if (message.includes("404") || message.includes("Not Found")) {
+      return NextResponse.json(
+        {
+          error:
+            "Gemini model nie je dostupný (404). Skontroluj API kľúč a názov modelu v Google AI Studio.",
+        },
+        { status: 500 }
+      );
+    }
+    if (message.includes("403") || message.includes("Permission")) {
+      return NextResponse.json(
+        {
+          error:
+            "Prístup k Gemini API zamietnutý. Povol API v Google Cloud / AI Studio a skontroluj kľúč.",
+        },
+        { status: 500 }
+      );
+    }
+    if (message.includes("API key") || message.includes("invalid")) {
+      return NextResponse.json(
+        {
+          error:
+            "Neplatný alebo chýbajúci Gemini API kľúč. Skontroluj GOOGLE_GEMINI_API_KEY v .env.local.",
+        },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Nepodarilo sa vygenerovať rozprávku." },
+      { error: "Nepodarilo sa vygenerovať rozprávku. " + message },
       { status: 500 }
     );
   }
