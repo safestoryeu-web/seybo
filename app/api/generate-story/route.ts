@@ -26,7 +26,7 @@ function parseStepFromGemini(text: string): StoryStep {
   };
 }
 
-/** Predvolený krok rozprávky bez volania Gemini (pre testovanie alebo keď API zlyhá) */
+/** Predvolené kroky rozprávky – zaujímavejšie a rôznorodé podľa výberu (keď API nie je alebo zlyhá) */
 function getDefaultStep(
   namesList: string,
   theme: string,
@@ -34,17 +34,39 @@ function getDefaultStep(
   isContinuation: boolean,
   selectedOption?: string
 ): StoryStep {
+  const names = namesList || "hrdinovia";
+  const moralLine = moral ? `\n\nTáto rozprávka má ponaučenie: ${moral}` : "";
+
   if (isContinuation) {
-    return {
-      title: "Ďalšia kapitola",
-      content: `Na základe toho, že si ${namesList || "hrdina"} vybral${namesList ? "" : "a"} možnosť "${selectedOption || "pokračovať"}", príbeh pokračuje.\n\nV kúzelnom svete sa stalo všetko podľa plánu. Postavy sa stretli s novými priateľmi a prežili malé dobrodružstvo.\n\nTéma príbehu "${theme}" sa ešte len rozvinie v ďalších kapitolách.${moral ? `\n\nPonaučenie: ${moral}` : ""}`,
-      options: ["Pokračovať ďalej", "Preskúmať miesto"],
-      isFinal: false,
-    };
+    const opt = (selectedOption || "").toLowerCase();
+    let title: string;
+    let content: string;
+    let options: [string, string];
+
+    if (opt.includes("les") || opt.includes("forest")) {
+      title = "V kúzelnom lese";
+      content = `Keď ${names} zišli do lesa, medzi stromami zavívala tajomná melódia. Na jednej starodávnej dubine visel zlatý zvonček. Jedno z detí ho opatrne zazvonilo a z koreňov stromu vystúpil malý lesný škriatok.\n\n„Hľadáte niečo?“ spýtal sa. „V lese žijú zvieratká, ktoré rozprávajú sny. Ak budete hodní, jedného uvidíte.“ ${names} sa rozbehli ďalej po chodníčku, kde svetlušky kreslili do tmy obrázky.${moralLine}`;
+      options = ["Ísť za svetluškami", "Vrátiť sa k škriatkovi"];
+    } else if (opt.includes("hrad") || opt.includes("castle")) {
+      title = "Pred bránou hradu";
+      content = `Cesta viedla ${names} až k veľkému hradu. Na veži vlál fialový prapor a v bráne stál strážnik v lesklom brnení. „Vítam vás v hrade snov,“ povedal. „Vnútri je záhrada, kde kvety spievajú. Ale pozor – na západnom krídle býva starý kráľ, ktorý rád rozpráva príbehy.“\n\n${names} prešli cez most a vo dvorane ich privítala záhradníčka so košíkom plným jahôd. „Kto chce, nech ochutná. Potom si vyberte: záhrada alebo kráľ?“${moralLine}`;
+      options = ["Ísť do záhrady", "Navštíviť kráľa"];
+    } else if (opt.includes("preskúmať") || opt.includes("miesto")) {
+      title = "Tajomstvo miesta";
+      content = `${names} sa rozhliadli po okolí. Pod kameňom Sofia našla starú mapu; Olivia objavila stopu, ktorá viedla k jaskyni. „Čo povedia, pôjdeme spolu?“\n\nV jaskyni svietilo jemné svetlo. Stredom pretekal potôčik a na jeho brehu stál malý domček z perníka. Za dverami sa ozvalo: „Kto tam? Ak máte odvahu, vstúpte.“${moralLine}`;
+      options = ["Vstúpiť do domčeka", "Nasledovať potôčik"];
+    } else {
+      title = "Ďalšie dobrodružstvo";
+      content = `Cesta viedla ${names} ďalej. Zrazu sa pred nimi zjavil most cez rieku, na druhej strane záhrada plná kvetov. Nad riekou lietal drak – malý a priateľský – a mával na ne krídlami.\n\n„Vitajte!“ zavolal. „Hľadám kamaráta na prechádzku. Môžem vás previesť na druhý breh, alebo vás zoberiem nad oblaky. Čo si vyberiete?“ ${names} sa na seba pozreli a usmiali.${moralLine}`;
+      options = ["Prejsť mostom", "Letieť s drakom"];
+    }
+
+    return { title, content, options, isFinal: false };
   }
+
   return {
     title: `Začiatok rozprávky: ${theme || "dobrodružstvo"}`,
-    content: `Bolo raz, nebolo raz. V jednom krásnom kraji žili deti menom ${namesList || "hrdinovia"}.\n\nJedného dňa sa rozhodli, že zažijú veľké dobrodružstvo. Téma ich cesty bola: ${theme || "priateľstvo a odvaha"}.\n\nVyšli do sveta plného čarov a možností. Čo ich čaká ďalej? To zistíte v ďalších kapitolách.${moral ? `\n\nTáto rozprávka má ponaučenie: ${moral}` : ""}`,
+    content: `Bolo raz, nebolo raz. V jednom krásnom kraji žili deti menom ${names}.\n\nJedného dňa sa rozhodli, že zažijú veľké dobrodružstvo. Téma ich cesty bola: ${theme || "priateľstvo a odvaha"}.\n\nVyšli do sveta plného čarov a možností. Čo ich čaká ďalej? To zistíte v ďalších kapitolách.${moralLine}`,
     options: ["Ísť do lesa", "Navštíviť hrad"],
     isFinal: false,
   };
@@ -109,8 +131,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ step, savedStory });
     }
 
-    const systemPrompt = `Si rozprávkar. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
-Pravidlá: options má presne 2 krátke možnosti (čo môže postava urobiť). isFinal je true len pri úplnom závere príbehu.`;
+    const systemPrompt = `Si skúsený rozprávkar pre deti. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
+Pravidlá: options má presne 2 rôznorodé možnosti (konkrétne činy, nie všeobecné "pokračovať"). isFinal len pri skutočnom závere. DÔLEŽITÉ: Píš živý, konkrétny dej – konkrétne udalosti, postavy, miesta. Žiadne vágne frázy ako "všetko šlo podľa plánu" alebo "prežili dobrodružstvo". Každá kapitola musí priniesť NOVÝ dej podľa výberu.`;
 
     let userPrompt: string;
     if (isContinuation) {
@@ -121,15 +143,15 @@ Doterajší text rozprávky:
 ${storySoFar}
 ---
 
-Dieťa si vybralo túto možnosť: "${selectedOption}"
+Dieťa si vybralo: "${selectedOption}"
 
-Napíš ďalšiu kapitolu: čo sa stalo po tomto rozhodnutí. Vráť JSON s title, content (3-5 odsekov), options (2 ďalšie možnosti), isFinal (true len ak je to koniec príbehu).`;
+Napíš JEDNU ďalšiu kapitolu: čo KONKRÉTNE sa stalo po tomto rozhodnutí. Vymysli nové udalosti, postavy alebo prekvapenia podľa výberu. Nepoužívaj rovnaké formulácie ako v predchádzajúcom texte. Vráť JSON: title (výstižný nadpis kapitoly), content (3-5 odsekov, živý dej), options (2 konkrétne možnosti čo môžu urobiť ďalej), isFinal (true len ak rozprávka skutočne končí).`;
     } else {
       userPrompt = `Prvá kapitola rozprávky pre deti v slovenčine.
 Mená postáv: ${namesList}.
 Téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""}
 
-Vygeneruj prvú kapitolu. Vráť len jeden JSON objekt: title, content (3-5 odsekov), options (presne 2 možnosti pre dieťa), isFinal: false.`;
+Napíš úvodnú kapitolu s konkrétnym dejom – čo sa deje, kde sú, čo objavia. Žiadne vágne úvody. Vráť JSON: title, content (3-5 odsekov), options (2 konkrétne možnosti), isFinal: false.`;
     }
 
     const fullPrompt = systemPrompt + "\n\n" + userPrompt;
