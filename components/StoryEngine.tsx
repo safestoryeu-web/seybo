@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Sparkles, Volume2, Square } from "lucide-react";
 import type { StoryFormData, StoryStep } from "@/types/story";
@@ -15,10 +15,10 @@ const TYPEWRITER_INTERVAL_MS = 25;
 
 function TypewriterText({
   text,
-  onComplete,
+  onCompleteRef,
 }: {
   text: string;
-  onComplete: () => void;
+  onCompleteRef: React.MutableRefObject<() => void>;
 }) {
   const [displayed, setDisplayed] = useState("");
 
@@ -31,11 +31,11 @@ function TypewriterText({
         i++;
       } else {
         clearInterval(id);
-        onComplete();
+        onCompleteRef.current();
       }
     }, TYPEWRITER_INTERVAL_MS);
     return () => clearInterval(id);
-  }, [text, onComplete]);
+  }, [text, onCompleteRef]); // onCompleteRef je stabilná referencia
 
   return (
     <p className="text-fairy-deep whitespace-pre-wrap leading-relaxed">
@@ -56,6 +56,7 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
   const [typewriterDone, setTypewriterDone] = useState(false);
   const [historySteps, setHistorySteps] = useState<StoryStep[]>([]);
   const { speak, stop, isSpeaking, isSupported } = useStoryTTS();
+  const onTypewriterCompleteRef = useRef(() => setTypewriterDone(true));
 
   const fetchStep = useCallback(
     async (continuation?: { storySoFar: string; selectedOption: string }) => {
@@ -278,7 +279,7 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
 
               <TypewriterText
                 text={currentStep.content}
-                onComplete={() => setTypewriterDone(true)}
+                onCompleteRef={onTypewriterCompleteRef}
               />
 
               <AnimatePresence>

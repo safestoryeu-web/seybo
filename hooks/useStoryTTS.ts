@@ -3,16 +3,25 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 
 const SK_LOCALE = "sk-SK";
-/** Pomalšie tempo pre príjemné rozprávkové čítanie */
-const STORYTELLING_RATE = 0.88;
+/** Pomalšie tempo – menej roboticky, vhodné pre rozprávku */
+const STORYTELLING_RATE = 0.82;
 const STORYTELLING_PITCH = 1;
 
 function getSlovakVoice(synth: SpeechSynthesis): SpeechSynthesisVoice | null {
   const voices = synth.getVoices();
-  const sk = voices.find((v) => v.lang.startsWith("sk"));
-  if (sk) return sk;
-  const cs = voices.find((v) => v.lang.startsWith("cs"));
-  if (cs) return cs;
+  const skVoices = voices.filter((v) => v.lang.startsWith("sk"));
+  // Preferuj „prirodzenejšie“ hlasy (Natural, Online, Female – často lepšia kvalita)
+  const preferNatural = (v: SpeechSynthesisVoice) => {
+    const n = v.name.toLowerCase();
+    return n.includes("natural") || n.includes("online") || n.includes("premium") || n.includes("female") || n.includes("zuzana") || n.includes("helena");
+  };
+  if (skVoices.length > 0) {
+    return skVoices.find(preferNatural) ?? skVoices[0];
+  }
+  const csVoices = voices.filter((v) => v.lang.startsWith("cs"));
+  if (csVoices.length > 0) {
+    return csVoices.find(preferNatural) ?? csVoices[0];
+  }
   return voices.find((v) => v.default) ?? voices[0] ?? null;
 }
 
