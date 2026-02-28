@@ -57,7 +57,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Použiť gemini-1.5-flash alebo gemini-2.0-flash podľa dostupnosti v AI Studio
     const modelName =
       process.env.GEMINI_MODEL?.trim() || "gemini-1.5-flash";
     const model = genAI.getGenerativeModel({ model: modelName });
