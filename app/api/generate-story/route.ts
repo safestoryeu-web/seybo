@@ -13,12 +13,63 @@ const STEP_JSON_SCHEMA = `{
   "isFinal": false
 }`;
 
+function extractJsonBlock(raw: string): string {
+  let s = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/g, "").trim();
+  const start = s.indexOf("{");
+  if (start === -1) return s;
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  let quote = "";
+  let end = -1;
+  for (let i = start; i < s.length; i++) {
+    const c = s[i];
+    if (escape) {
+      escape = false;
+      continue;
+    }
+    if (c === "\\" && inString) {
+      escape = true;
+      continue;
+    }
+    if (!inString) {
+      if (c === "{") depth++;
+      else if (c === "}") {
+        depth--;
+        if (depth === 0) {
+          end = i;
+          break;
+        }
+      } else if (c === '"' || c === "'") {
+        inString = true;
+        quote = c;
+      }
+      continue;
+    }
+    if (c === quote) inString = false;
+  }
+  if (end !== -1) return s.slice(start, end + 1);
+  return s;
+}
+
 function parseStepFromGemini(text: string): StoryStep {
-  const trimmed = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/g, "").trim();
-  const parsed = JSON.parse(trimmed) as Record<string, unknown>;
+  const trimmed = extractJsonBlock(text);
+  const noTrailingComma = trimmed.replace(/,\s*([}\]])/g, "$1");
+  let parsed: Record<string, unknown>;
+  try {
+    parsed = JSON.parse(noTrailingComma) as Record<string, unknown>;
+  } catch {
+    const fallback = noTrailingComma.replace(/\n/g, " ").replace(/\r/g, "");
+    try {
+      parsed = JSON.parse(fallback) as Record<string, unknown>;
+    } catch (e) {
+      console.error("Gemini JSON parse error. Raw (first 500 chars):", trimmed.slice(0, 500));
+      throw e;
+    }
+  }
   return {
     title: String(parsed.title ?? ""),
-    content: String(parsed.content ?? ""),
+    content: String(parsed.content ?? "").replace(/\\n/g, "\n"),
     options: Array.isArray(parsed.options)
       ? (parsed.options as string[]).slice(0, 2)
       : ["Pokračovať", "Ísť ďalej"],
@@ -61,7 +112,7 @@ export async function POST(request: NextRequest) {
     }
 
     const systemPrompt = `Si skúsený rozprávkar pre deti. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
-Pravidlá: options má presne 2 rôznorodé možnosti (konkrétne činy, nie všeobecné "pokračovať"). isFinal len pri skutočnom závere. DÔLEŽITÉ: Píš živý, konkrétny dej – konkrétne udalosti, postavy, miesta. Žiadne vágne frázy ako "všetko šlo podľa plánu" alebo "prežili dobrodružstvo". Každá kapitola musí priniesť NOVÝ dej podľa výberu.`;
+Pravidlá: options má presne 2 rôznorodé možnosti (konkrétne činy). isFinal len pri skutočnom závere. Píš živý, konkrétny dej. DÔLEŽITÉ pre JSON: vo vnútri reťazcov (title, content, options) escapuj úvodzovky ako \\", použij \\n pre zalomenie riadku. Odpoveď musí byť platný JSON bez trailing čiarok.`;
 
     let userPrompt: string;
     if (isContinuation) {

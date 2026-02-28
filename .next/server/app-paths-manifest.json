@@ -1,4 +1,1 @@
-{
-  "/api/generate-story/route": "app/api/generate-story/route.js",
-  "/api/tts/route": "app/api/tts/route.js"
-}
+{}
