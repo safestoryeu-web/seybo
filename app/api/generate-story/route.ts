@@ -26,52 +26,6 @@ function parseStepFromGemini(text: string): StoryStep {
   };
 }
 
-/** Predvolené kroky rozprávky – zaujímavejšie a rôznorodé podľa výberu (keď API nie je alebo zlyhá) */
-function getDefaultStep(
-  namesList: string,
-  theme: string,
-  moral: string,
-  isContinuation: boolean,
-  selectedOption?: string
-): StoryStep {
-  const names = namesList || "hrdinovia";
-  const moralLine = moral ? `\n\nTáto rozprávka má ponaučenie: ${moral}` : "";
-
-  if (isContinuation) {
-    const opt = (selectedOption || "").toLowerCase();
-    let title: string;
-    let content: string;
-    let options: [string, string];
-
-    if (opt.includes("les") || opt.includes("forest")) {
-      title = "V kúzelnom lese";
-      content = `Keď ${names} zišli do lesa, medzi stromami zavívala tajomná melódia. Na jednej starodávnej dubine visel zlatý zvonček. Jedno z detí ho opatrne zazvonilo a z koreňov stromu vystúpil malý lesný škriatok.\n\n„Hľadáte niečo?“ spýtal sa. „V lese žijú zvieratká, ktoré rozprávajú sny. Ak budete hodní, jedného uvidíte.“ ${names} sa rozbehli ďalej po chodníčku, kde svetlušky kreslili do tmy obrázky.${moralLine}`;
-      options = ["Ísť za svetluškami", "Vrátiť sa k škriatkovi"];
-    } else if (opt.includes("hrad") || opt.includes("castle")) {
-      title = "Pred bránou hradu";
-      content = `Cesta viedla ${names} až k veľkému hradu. Na veži vlál fialový prapor a v bráne stál strážnik v lesklom brnení. „Vítam vás v hrade snov,“ povedal. „Vnútri je záhrada, kde kvety spievajú. Ale pozor – na západnom krídle býva starý kráľ, ktorý rád rozpráva príbehy.“\n\n${names} prešli cez most a vo dvorane ich privítala záhradníčka so košíkom plným jahôd. „Kto chce, nech ochutná. Potom si vyberte: záhrada alebo kráľ?“${moralLine}`;
-      options = ["Ísť do záhrady", "Navštíviť kráľa"];
-    } else if (opt.includes("preskúmať") || opt.includes("miesto")) {
-      title = "Tajomstvo miesta";
-      content = `${names} sa rozhliadli po okolí. Pod kameňom Sofia našla starú mapu; Olivia objavila stopu, ktorá viedla k jaskyni. „Čo povedia, pôjdeme spolu?“\n\nV jaskyni svietilo jemné svetlo. Stredom pretekal potôčik a na jeho brehu stál malý domček z perníka. Za dverami sa ozvalo: „Kto tam? Ak máte odvahu, vstúpte.“${moralLine}`;
-      options = ["Vstúpiť do domčeka", "Nasledovať potôčik"];
-    } else {
-      title = "Ďalšie dobrodružstvo";
-      content = `Cesta viedla ${names} ďalej. Zrazu sa pred nimi zjavil most cez rieku, na druhej strane záhrada plná kvetov. Nad riekou lietal drak – malý a priateľský – a mával na ne krídlami.\n\n„Vitajte!“ zavolal. „Hľadám kamaráta na prechádzku. Môžem vás previesť na druhý breh, alebo vás zoberiem nad oblaky. Čo si vyberiete?“ ${names} sa na seba pozreli a usmiali.${moralLine}`;
-      options = ["Prejsť mostom", "Letieť s drakom"];
-    }
-
-    return { title, content, options, isFinal: false };
-  }
-
-  return {
-    title: `Začiatok rozprávky: ${theme || "dobrodružstvo"}`,
-    content: `Bolo raz, nebolo raz. V jednom krásnom kraji žili deti menom ${names}.\n\nJedného dňa sa rozhodli, že zažijú veľké dobrodružstvo. Téma ich cesty bola: ${theme || "priateľstvo a odvaha"}.\n\nVyšli do sveta plného čarov a možností. Čo ich čaká ďalej? To zistíte v ďalších kapitolách.${moralLine}`,
-    options: ["Ísť do lesa", "Navštíviť hrad"],
-    isFinal: false,
-  };
-}
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -98,37 +52,12 @@ export async function POST(request: NextRequest) {
 
     const namesList = childrenNames.filter(Boolean).join(", ");
     const isContinuation = Boolean(storySoFar && selectedOption);
-    const useDefaultStory =
-      process.env.USE_DEFAULT_STORY === "true" || process.env.USE_DEFAULT_STORY === "1" || !genAI;
 
-    if (useDefaultStory) {
-      const step = getDefaultStep(namesList, theme, moral, isContinuation, selectedOption);
-      let savedStory = null;
-      if (!isContinuation && supabase) {
-        const childNamesFiltered = childrenNames.filter(Boolean);
-        const fullText = [step.title, step.content].join("\n\n");
-        const { data: inserted, error: insertError } = await supabase
-          .from("stories")
-          .insert({
-            child_names: childNamesFiltered,
-            topic: theme,
-            lesson: moral ?? "",
-            full_text: fullText,
-          })
-          .select("id, child_names, topic, lesson, full_text, created_at")
-          .single();
-        if (!insertError && inserted) {
-          savedStory = {
-            id: inserted.id,
-            childNames: inserted.child_names,
-            topic: inserted.topic,
-            lesson: inserted.lesson,
-            fullText: inserted.full_text,
-            createdAt: inserted.created_at,
-          };
-        }
-      }
-      return NextResponse.json({ step, savedStory });
+    if (!genAI) {
+      return NextResponse.json(
+        { error: "Chýba GOOGLE_GEMINI_API_KEY. Pridaj API kľúč do .env.local." },
+        { status: 500 }
+      );
     }
 
     const systemPrompt = `Si skúsený rozprávkar pre deti. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
@@ -158,7 +87,8 @@ Napíš úvodnú kapitolu s konkrétnym dejom – čo sa deje, kde sú, čo obja
     let step: StoryStep;
 
     try {
-      const model = genAI!.getGenerativeModel({ model: "gemini-flash" });
+      const modelId = process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
+    const model = genAI!.getGenerativeModel({ model: modelId });
       const result = await model.generateContent(fullPrompt);
       const response = result.response;
 
@@ -184,14 +114,8 @@ Napíš úvodnú kapitolu s konkrétnym dejom – čo sa deje, kde sú, čo obja
 
       step = parseStepFromGemini(rawText);
     } catch (geminiErr) {
-      const msg = geminiErr instanceof Error ? geminiErr.message : String(geminiErr);
-      const is404 = msg.includes("404") || msg.includes("Not Found");
-      if (is404) {
-        console.warn("Gemini model 404, vracia sa default rozprávka.");
-      } else {
-        console.error("Gemini error:", geminiErr);
-      }
-      step = getDefaultStep(namesList, theme, moral, isContinuation, selectedOption);
+      console.error("Gemini error:", geminiErr);
+      throw geminiErr;
     }
 
     let savedStory = null;
