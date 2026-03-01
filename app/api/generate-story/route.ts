@@ -3,8 +3,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/lib/supabase";
 import type { StoryStep } from "@/types/story";
 
-const geminiKey = process.env.GOOGLE_GEMINI_API_KEY?.trim() ?? "";
-const genAI = geminiKey ? new GoogleGenerativeAI(geminiKey) : null;
+function getGenAI() {
+  const key = process.env.GOOGLE_GEMINI_API_KEY?.trim() ?? "";
+  return key ? new GoogleGenerativeAI(key) : null;
+}
 
 const STEP_JSON_SCHEMA = `{
   "title": "string - krátky nadpis kapitoly",
@@ -104,6 +106,7 @@ export async function POST(request: NextRequest) {
     const namesList = childrenNames.filter(Boolean).join(", ");
     const isContinuation = Boolean(storySoFar && selectedOption);
 
+    const genAI = getGenAI();
     if (!genAI) {
       return NextResponse.json(
         { error: "Chýba GOOGLE_GEMINI_API_KEY. Pridaj API kľúč do .env.local." },
@@ -139,7 +142,7 @@ Napíš úvodnú kapitolu s konkrétnym dejom – čo sa deje, kde sú, čo obja
 
     try {
       const modelId = process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
-    const model = genAI!.getGenerativeModel({ model: modelId });
+    const model = genAI.getGenerativeModel({ model: modelId });
       const result = await model.generateContent(fullPrompt);
       const response = result.response;
 
