@@ -54,19 +54,43 @@ function extractJsonBlock(raw: string): string {
   return s;
 }
 
+/** Skúsi opraviť bežné chyby v options poli (chýbajúca čiarka medzi prvkami) */
+function repairOptionsArray(jsonStr: string): string {
+  const optionsMatch = jsonStr.match(/"options"\s*:\s*\[/);
+  if (!optionsMatch || optionsMatch.index === undefined) return jsonStr;
+  const start = optionsMatch.index + optionsMatch[0].length;
+  let depth = 1;
+  let i = start;
+  while (i < jsonStr.length && depth > 0) {
+    const c = jsonStr[i];
+    if (c === "[" || c === "{") depth++;
+    else if (c === "]" || c === "}") depth--;
+    i++;
+  }
+  const end = i;
+  const inside = jsonStr.slice(start, end - 1);
+  const repaired = inside.replace(/"\s+"/g, '", "');
+  return jsonStr.slice(0, start) + repaired + jsonStr.slice(end - 1);
+}
+
 function parseStepFromGemini(text: string): StoryStep {
-  const trimmed = extractJsonBlock(text);
-  const noTrailingComma = trimmed.replace(/,\s*([}\]])/g, "$1");
+  let trimmed = extractJsonBlock(text);
+  trimmed = trimmed.replace(/,\s*([}\]])/g, "$1");
+  trimmed = repairOptionsArray(trimmed);
   let parsed: Record<string, unknown>;
   try {
-    parsed = JSON.parse(noTrailingComma) as Record<string, unknown>;
+    parsed = JSON.parse(trimmed) as Record<string, unknown>;
   } catch {
-    const fallback = noTrailingComma.replace(/\n/g, " ").replace(/\r/g, "");
+    const fallback = trimmed.replace(/\n/g, " ").replace(/\r/g, "");
     try {
       parsed = JSON.parse(fallback) as Record<string, unknown>;
-    } catch (e) {
-      console.error("Gemini JSON parse error. Raw (first 500 chars):", trimmed.slice(0, 500));
-      throw e;
+    } catch {
+      try {
+        parsed = JSON.parse(repairOptionsArray(fallback)) as Record<string, unknown>;
+      } catch (e) {
+        console.error("Gemini JSON parse error. Raw (first 500 chars):", trimmed.slice(0, 500));
+        throw e;
+      }
     }
   }
   return {
@@ -88,12 +112,14 @@ export async function POST(request: NextRequest) {
       moral,
       storySoFar,
       selectedOption,
+      forceFinal,
     } = body as {
       childrenNames: string[];
       theme: string;
       moral: string;
       storySoFar?: string;
       selectedOption?: string;
+      forceFinal?: boolean;
     };
 
     if (!childrenNames?.length || !theme) {
@@ -114,12 +140,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const systemPrompt = `Si skúsený rozprávkar pre deti. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
+    const systemPrompt = `Si skúsený rozprávkar pre 5-ročné deti. Rozprávka musí byť prístupná päťročnému: jednoduché vety, zrozumiteľné slová, krátke odseky, jemný dej bez strašidelných prvkov. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
 Pravidlá: options má presne 2 rôznorodé možnosti (konkrétne činy). isFinal len pri skutočnom závere. Píš živý, konkrétny dej. DÔLEŽITÉ pre JSON: vo vnútri reťazcov (title, content, options) escapuj úvodzovky ako \\", použij \\n pre zalomenie riadku. Odpoveď musí byť platný JSON bez trailing čiarok.`;
 
     let userPrompt: string;
     if (isContinuation) {
-      userPrompt = `Rozprávka pre deti (mená: ${namesList}), téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""}
+      const finalInstruction = forceFinal
+        ? "\n\nDÔLEŽITÉ: Toto je POSLEDNÁ kapitola rozprávky. Napíš pekný záver a ukončenie príbehu. Vráť isFinal: true a options: [\"Späť na formulár\"]."
+        : "";
+      userPrompt = `Rozprávka pre 5-ročné dieťa (mená: ${namesList}), téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""} Jazyk jednoduchý, vety krátke, vhodné pre päťročných.
 
 Doterajší text rozprávky:
 ---
@@ -128,13 +157,13 @@ ${storySoFar}
 
 Dieťa si vybralo: "${selectedOption}"
 
-Napíš JEDNU ďalšiu kapitolu: čo KONKRÉTNE sa stalo po tomto rozhodnutí. Vymysli nové udalosti, postavy alebo prekvapenia podľa výberu. Nepoužívaj rovnaké formulácie ako v predchádzajúcom texte. Vráť JSON: title (výstižný nadpis kapitoly), content (3-5 odsekov, živý dej), options (2 konkrétne možnosti čo môžu urobiť ďalej), isFinal (true len ak rozprávka skutočne končí).`;
+Napíš JEDNU ďalšiu kapitolu: čo KONKRÉTNE sa stalo po tomto rozhodnutí. Vymysli nové udalosti, postavy alebo prekvapenia podľa výberu. Nepoužívaj rovnaké formulácie ako v predchádzajúcom texte. Vráť JSON: title (výstižný nadpis kapitoly), content (3-5 odsekov, živý dej), options (2 konkrétne možnosti čo môžu urobiť ďalej), isFinal (true len ak rozprávka skutočne končí).${finalInstruction}`;
     } else {
-      userPrompt = `Prvá kapitola rozprávky pre deti v slovenčine.
+      userPrompt = `Prvá kapitola rozprávky pre 5-ročné dieťa v slovenčine.
 Mená postáv: ${namesList}.
 Téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""}
 
-Napíš úvodnú kapitolu s konkrétnym dejom – čo sa deje, kde sú, čo objavia. Žiadne vágne úvody. Vráť JSON: title, content (3-5 odsekov), options (2 konkrétne možnosti), isFinal: false.`;
+Napíš úvodnú kapitolu pre 5-ročné dieťa: jednoduché vety, zrozumiteľné slová, konkrétny dej – čo sa deje, kde sú, čo objavia. Vráť JSON: title, content (3-5 krátkych odsekov), options (2 konkrétne možnosti), isFinal: false.`;
     }
 
     const fullPrompt = systemPrompt + "\n\n" + userPrompt;
@@ -167,6 +196,9 @@ Napíš úvodnú kapitolu s konkrétnym dejom – čo sa deje, kde sú, čo obja
       }
 
       step = parseStepFromGemini(rawText);
+      if (forceFinal) {
+        step = { ...step, isFinal: true, options: ["Späť na formulár"] };
+      }
     } catch (geminiErr) {
       console.error("Gemini error:", geminiErr);
       throw geminiErr;

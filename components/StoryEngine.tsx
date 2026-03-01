@@ -59,13 +59,18 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
   const onTypewriterCompleteRef = useRef(() => setTypewriterDone(true));
 
   const fetchStep = useCallback(
-    async (continuation?: { storySoFar: string; selectedOption: string }) => {
+    async (
+      continuation?: { storySoFar: string; selectedOption: string },
+      choiceCount?: number
+    ) => {
       setError(null);
       setLoading(true);
       if (continuation) setLoadingNext(true);
       setTypewriterDone(false);
 
       try {
+        const forceFinal = Boolean(continuation && choiceCount !== undefined && choiceCount >= 4);
+
         const res = await fetch("/api/generate-story", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -77,6 +82,7 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
               storySoFar: continuation.storySoFar,
               selectedOption: continuation.selectedOption,
             }),
+            forceFinal: forceFinal || undefined,
           }),
         });
 
@@ -119,10 +125,10 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
       return;
     }
     setTypewriterDone(false);
-    fetchStep({
-      storySoFar,
-      selectedOption: option,
-    });
+    fetchStep(
+      { storySoFar, selectedOption: option },
+      historySteps.length
+    );
   };
 
   const isFirstLoad = loading && historySteps.length === 0;
