@@ -4,7 +4,11 @@ import { supabase } from "@/lib/supabase";
 import type { StoryStep } from "@/types/story";
 
 function getGenAI() {
-  const key = process.env.GOOGLE_GEMINI_API_KEY?.trim() ?? "";
+  const key =
+    process.env.GOOGLE_GEMINI_API_KEY?.trim() ||
+    process.env.GEMINI_API_KEY?.trim() ||
+    process.env.GOOGLE_GEMINI_KEY?.trim() ||
+    "";
   return key ? new GoogleGenerativeAI(key) : null;
 }
 
@@ -135,7 +139,10 @@ export async function POST(request: NextRequest) {
     const genAI = getGenAI();
     if (!genAI) {
       return NextResponse.json(
-        { error: "Chýba GOOGLE_GEMINI_API_KEY. Pridaj API kľúč do .env.local." },
+        {
+          error:
+            "Chýba API kľúč pre Gemini. Do .env.local pridaj riadok: GOOGLE_GEMINI_API_KEY=tvoj_kluc (z Google AI Studio). Po úprave .env.local reštartuj dev server (Ctrl+C, potom npm run dev).",
+        },
         { status: 500 }
       );
     }
