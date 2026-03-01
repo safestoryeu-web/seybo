@@ -174,37 +174,56 @@ Napíš úvodnú kapitolu pre 5-ročné dieťa: jednoduché vety, zrozumiteľné
     }
 
     const fullPrompt = systemPrompt + "\n\n" + userPrompt;
-    let step: StoryStep;
+    const modelId = process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
+    const model = genAI.getGenerativeModel({ model: modelId });
+    let step: StoryStep | null = null;
+    const maxTries = 2;
 
     try {
-      const modelId = process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
-    const model = genAI.getGenerativeModel({ model: modelId });
-      const result = await model.generateContent(fullPrompt);
-      const response = result.response;
+      let rawText = "";
+      for (let tryNum = 1; tryNum <= maxTries; tryNum++) {
+        const result = await model.generateContent(fullPrompt);
+        const response = result.response;
 
-      if (!response.candidates?.length) {
-        const blockReason =
-          response.promptFeedback?.blockReason ||
-          "Žiadna odpoveď od modelu (bezpečnostné filtre alebo chyba).";
-        console.error("Gemini no candidates:", response.promptFeedback);
-        throw new Error(blockReason);
+        if (!response.candidates?.length) {
+          const blockReason =
+            response.promptFeedback?.blockReason ||
+            "Žiadna odpoveď od modelu (bezpečnostné filtre alebo chyba).";
+          console.error("Gemini no candidates (try " + tryNum + "):", response.promptFeedback);
+          if (tryNum === maxTries) throw new Error(blockReason);
+          continue;
+        }
+
+        const candidate = response.candidates[0];
+        try {
+          rawText = response.text();
+        } catch (textErr) {
+          console.error("Gemini response.text() error (try " + tryNum + "):", textErr);
+          if (tryNum === maxTries) throw new Error("AI vrátila prázdnu alebo blokovanú odpoveď.");
+          continue;
+        }
+
+        if (!rawText?.trim()) {
+          const finishReason = (candidate as { finishReason?: string })?.finishReason;
+          console.error("Gemini empty text (try " + tryNum + "). finishReason:", finishReason);
+          if (tryNum === maxTries) {
+            if (finishReason === "SAFETY" || finishReason === "RECITATION") {
+              throw new Error("AI zablokovala odpoveď (bezpečnostné filtre). Skúste inú tému.");
+            }
+            throw new Error("AI nevrátila žiadny text. Skúste to znova za chvíľu.");
+          }
+          continue;
+        }
+
+        step = parseStepFromGemini(rawText);
+        if (forceFinal) {
+          step = { ...step, isFinal: true, options: ["Späť na formulár"] };
+        }
+        break;
       }
 
-      let rawText: string;
-      try {
-        rawText = response.text();
-      } catch (textErr) {
-        console.error("Gemini response.text() error:", textErr);
-        throw new Error("AI vrátila prázdnu alebo blokovanú odpoveď.");
-      }
-
-      if (!rawText?.trim()) {
-        throw new Error("AI nevrátila žiadny text.");
-      }
-
-      step = parseStepFromGemini(rawText);
-      if (forceFinal) {
-        step = { ...step, isFinal: true, options: ["Späť na formulár"] };
+      if (!step) {
+        throw new Error("AI nevrátila žiadny text. Skúste to znova za chvíľu.");
       }
     } catch (geminiErr) {
       console.error("Gemini error:", geminiErr);
