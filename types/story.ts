@@ -1,5 +1,9 @@
+export type ChildGender = "girl" | "boy";
+
 export interface StoryFormData {
   childrenNames: string[];
+  /** Rovnaká dĺžka ako childrenNames; "girl" alebo "boy" pre každý záznam */
+  childrenGenders?: ChildGender[];
   theme: string;
   moral: string;
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, BookOpen, Heart, Plus, X, Lock } from "lucide-react";
-import type { StoryFormData } from "@/types/story";
+import type { StoryFormData, ChildGender } from "@/types/story";
 import { StoryEngine } from "@/components/StoryEngine";
 
 const GATE_KEY = "dobru-noc-gate";
@@ -13,6 +13,7 @@ export default function Home() {
   const [unlocked, setUnlocked] = useState(false);
   const [formData, setFormData] = useState<StoryFormData>({
     childrenNames: [""],
+    childrenGenders: ["girl"],
     theme: "",
     moral: "",
   });
@@ -43,6 +44,7 @@ export default function Home() {
     setFormData((prev) => ({
       ...prev,
       childrenNames: [...prev.childrenNames, ""],
+      childrenGenders: [...(prev.childrenGenders ?? []), "girl"],
     }));
   };
 
@@ -51,6 +53,7 @@ export default function Home() {
     setFormData((prev) => ({
       ...prev,
       childrenNames: prev.childrenNames.filter((_, i) => i !== index),
+      childrenGenders: (prev.childrenGenders ?? []).filter((_, i) => i !== index),
     }));
   };
 
@@ -61,6 +64,15 @@ export default function Home() {
         i === index ? value : name
       ),
     }));
+  };
+
+  const updateChildGender = (index: number, value: ChildGender) => {
+    setFormData((prev) => {
+      const current = prev.childrenGenders ?? [];
+      const next = current.length ? [...current] : Array(prev.childrenNames.length).fill("girl");
+      next[index] = value;
+      return { ...prev, childrenGenders: next };
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -153,27 +165,60 @@ export default function Home() {
                     <Heart className="w-4 h-4 text-fairy-violet" />
                     Mená detí
                   </label>
-                  {formData.childrenNames.map((name, index) => (
-                    <div key={index} className="flex gap-2 mb-2">
-                      <input
-                        type="text"
-                        className="fairy-input flex-1"
-                        placeholder={`Meno dieťaťa ${index + 1}`}
-                        value={name}
-                        onChange={(e) => updateChildName(index, e.target.value)}
-                      />
-                      {formData.childrenNames.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeChild(index)}
-                          className="p-2 rounded-fairy-xl text-fairy-deep/70 hover:bg-fairy-lavender/30 transition-colors"
-                          aria-label="Odstrániť"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      )}
-                    </div>
-                  ))}
+                  {formData.childrenNames.map((name, index) => {
+                    const gender: ChildGender =
+                      formData.childrenGenders?.[index] ?? "girl";
+                    return (
+                      <div key={index} className="flex flex-col gap-1 mb-2">
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            className="fairy-input flex-1"
+                            placeholder={`Meno dieťaťa ${index + 1}`}
+                            value={name}
+                            onChange={(e) => updateChildName(index, e.target.value)}
+                          />
+                          {formData.childrenNames.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeChild(index)}
+                              className="p-2 rounded-fairy-xl text-fairy-deep/70 hover:bg-fairy-lavender/30 transition-colors"
+                              aria-label="Odstrániť"
+                            >
+                              <X className="w-5 h-5" />
+                            </button>
+                          )}
+                        </div>
+                        <div className="flex gap-2 text-xs text-fairy-deep/80">
+                          <span className="mt-1">Rod:</span>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => updateChildGender(index, "girl")}
+                              className={`px-3 py-1 rounded-fairy-xl border text-xs ${
+                                gender === "girl"
+                                  ? "bg-fairy-violet text-white border-fairy-violet"
+                                  : "bg-white/70 text-fairy-deep border-fairy-lavender/60"
+                              }`}
+                            >
+                              Dievča
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => updateChildGender(index, "boy")}
+                              className={`px-3 py-1 rounded-fairy-xl border text-xs ${
+                                gender === "boy"
+                                  ? "bg-fairy-violet text-white border-fairy-violet"
+                                  : "bg-white/70 text-fairy-deep border-fairy-lavender/60"
+                              }`}
+                            >
+                              Chlapec
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                   <button
                     type="button"
                     onClick={addChild}

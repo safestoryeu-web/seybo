@@ -76,6 +76,7 @@ export function StoryEngine({ initialData, onBack }: StoryEngineProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             childrenNames: initialData.childrenNames.filter(Boolean),
+            childrenGenders: initialData.childrenGenders,
             theme: initialData.theme,
             moral: initialData.moral,
             ...(continuation && {
