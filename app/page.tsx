@@ -147,12 +147,17 @@ export default function Home() {
             className="w-full max-w-lg"
           >
             <div className="fairy-card p-6 sm:p-8 shadow-fairy-glow">
-              <div className="flex items-center justify-center gap-2 mb-6">
-                <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
-                <h1 className="text-2xl sm:text-3xl font-bold text-fairy-deep">
-                  Rozprávka na dobrú noc
-                </h1>
-                <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
+              <div className="flex flex-col items-center justify-center gap-1 mb-6">
+                <div className="flex items-center justify-center gap-2">
+                  <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
+                  <h1 className="text-2xl sm:text-3xl font-bold text-fairy-deep">
+                    Rozprávka na
+                  </h1>
+                  <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
+                </div>
+                <div className="text-3xl sm:text-4xl font-extrabold text-fairy-violet">
+                  Dobrú noc
+                </div>
               </div>
               <p className="text-center text-fairy-deep mb-6">
                 Rozprávku vytvorí umelá inteligencia na základe zadaných údajov.
