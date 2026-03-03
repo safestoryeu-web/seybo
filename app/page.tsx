@@ -154,9 +154,15 @@ export default function Home() {
                 </h1>
                 <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
               </div>
-              <p className="text-center text-fairy-deep/80 mb-6">
-              Rozprávku vytvorí umelá inteligencia na základe zadaných údajov. Deti budú mať kontrolu nad vývojom príbehu v podobe dvoch možností po každej kapitole. Každá rozprávka je jedinečná a nikdy sa neopakuje.
-              Website created by Seybo
+              <p className="text-center text-fairy-deep mb-6">
+                Rozprávku vytvorí umelá inteligencia na základe zadaných údajov.
+                Deti budú mať kontrolu nad vývojom príbehu v podobe dvoch možností
+                po každej kapitole. Každá rozprávka je jedinečná a nikdy sa
+                neopakuje.
+                <br />
+                <span className="text-fairy-violet font-semibold">
+                  Website created by Seybo
+                </span>
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
