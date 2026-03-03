@@ -150,7 +150,7 @@ export default function Home() {
               <div className="flex items-center justify-center gap-2 mb-6">
                 <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
                 <h1 className="text-2xl sm:text-3xl font-bold text-fairy-deep">
-                  Dobrú noc
+                  Rozprávka na dobrú noc
                 </h1>
                 <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
               </div>
