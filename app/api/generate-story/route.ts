@@ -147,15 +147,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const systemPrompt = `Si skúsený rozprávkar pre 5-ročné deti. Rozprávka musí byť prístupná päťročnému: jednoduché vety, zrozumiteľné slová, krátke odseky, jemný dej bez strašidelných prvkov. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
-Pravidlá: options má presne 2 rôznorodé možnosti (konkrétne činy). isFinal len pri skutočnom závere. Píš živý, konkrétny dej. DÔLEŽITÉ pre JSON: vo vnútri reťazcov (title, content, options) escapuj úvodzovky ako \\", použij \\n pre zalomenie riadku. Odpoveď musí byť platný JSON bez trailing čiarok.`;
+    const systemPrompt = `Si skúsený rozprávkar pre 5-ročné deti. Rozprávka musí byť prístupná päťročnému: veľmi jednoduché vety (max 8–10 slov), zrozumiteľné bežné slová, krátke odseky. Vyhýbaj sa metaforám a básnickým opisom (napr. \"slnečné lúče sa prepletali\", \"vietor šepkal\", \"farby tanca\" a pod.) – opisuj veci priamo a jednoducho (napr. \"bolo slnečno\", \"fúkal vietor\"). Dej má byť jasný, bez strašidelných prvkov. Odpovedaj VŽDY len platným JSON bez úvodného textu. Formát: ${STEP_JSON_SCHEMA}
+Pravidlá: options má presne 2 rôznorodé možnosti (konkrétne činy). isFinal len pri skutočnom závere. Píš konkrétny, ale jednoduchý dej vhodný pre 5-ročné dieťa. DÔLEŽITÉ pre JSON: vo vnútri reťazcov (title, content, options) escapuj úvodzovky ako \\", použij \\n pre zalomenie riadku. Odpoveď musí byť platný JSON bez trailing čiarok.`;
 
     let userPrompt: string;
     if (isContinuation) {
       const finalInstruction = forceFinal
         ? "\n\nDÔLEŽITÉ: Toto je POSLEDNÁ kapitola rozprávky. Napíš pekný záver a ukončenie príbehu. Vráť isFinal: true a options: [\"Späť na formulár\"]."
         : "";
-      userPrompt = `Rozprávka pre 5-ročné dieťa (mená: ${namesList}), téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""} Jazyk jednoduchý, vety krátke, vhodné pre päťročných.
+      userPrompt = `Rozprávka pre 5-ročné dieťa (mená: ${namesList}), téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""} Jazyk veľmi jednoduchý, vety krátke, bez básnických opisov.
 
 Doterajší text rozprávky:
 ---
@@ -164,13 +164,13 @@ ${storySoFar}
 
 Dieťa si vybralo: "${selectedOption}"
 
-Napíš JEDNU ďalšiu kapitolu: čo KONKRÉTNE sa stalo po tomto rozhodnutí. Vymysli nové udalosti, postavy alebo prekvapenia podľa výberu. Nepoužívaj rovnaké formulácie ako v predchádzajúcom texte. Vráť JSON: title (výstižný nadpis kapitoly), content (3-5 odsekov, živý dej), options (2 konkrétne možnosti čo môžu urobiť ďalej), isFinal (true len ak rozprávka skutočne končí).${finalInstruction}`;
+Napíš JEDNU ďalšiu kapitolu: čo KONKRÉTNE sa stalo po tomto rozhodnutí. Použi jednoduché slová a krátke vety, bez metafor a komplikovaných opisov. Nepoužívaj rovnaké formulácie ako v predchádzajúcom texte. Vráť JSON: title (výstižný nadpis kapitoly), content (3-5 krátkych odsekov, jednoduchý dej), options (2 konkrétne možnosti čo môžu urobiť ďalej), isFinal (true len ak rozprávka skutočne končí).${finalInstruction}`;
     } else {
       userPrompt = `Prvá kapitola rozprávky pre 5-ročné dieťa v slovenčine.
 Mená postáv: ${namesList}.
 Téma: ${theme}.${moral ? ` Ponaučenie: ${moral}.` : ""}
 
-Napíš úvodnú kapitolu pre 5-ročné dieťa: jednoduché vety, zrozumiteľné slová, konkrétny dej – čo sa deje, kde sú, čo objavia. Vráť JSON: title, content (3-5 krátkych odsekov), options (2 konkrétne možnosti), isFinal: false.`;
+Napíš úvodnú kapitolu pre 5-ročné dieťa: veľmi jednoduché vety, zrozumiteľné slová, konkrétny dej – čo sa deje, kde sú, čo objavia. Vyhýbaj sa básnickým opisom a metaforám. Vráť JSON: title, content (3-5 krátkych odsekov), options (2 konkrétne možnosti), isFinal: false.`;
     }
 
     const fullPrompt = systemPrompt + "\n\n" + userPrompt;
