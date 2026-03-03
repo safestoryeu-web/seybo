@@ -155,7 +155,8 @@ export default function Home() {
                 <Sparkles className="w-8 h-8 text-fairy-purple animate-twinkle" />
               </div>
               <p className="text-center text-fairy-deep/80 mb-6">
-                Rozprávka na mieru pre vaše deti
+              Rozprávku vytvorí umelá inteligencia na základe zadaných údajov. Deti budú mať kontrolu nad vývojom príbehu v podobe dvoch možností po každej kapitole. Každá rozprávka je jedinečná a nikdy sa neopakuje.
+              Website created by Seybo
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
