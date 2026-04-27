@@ -6,6 +6,14 @@ const { DOMAINS, CHAPTERS, QUESTIONS } = window.SY701;
 
 /* ============================== State ============================== */
 const LEARNING_USER_KEY = 'learning-user';
+const LEARNING_GATE_KEY = 'learning-gate';
+
+function clearLearningGateSession() {
+  try {
+    sessionStorage.removeItem(LEARNING_GATE_KEY);
+    sessionStorage.removeItem(LEARNING_USER_KEY);
+  } catch (e) {}
+}
 function learningProgressUserId() {
   try {
     var u = sessionStorage.getItem(LEARNING_USER_KEY);
@@ -921,12 +929,27 @@ if (themeBtn) {
   });
 }
 
+const homeBtn = document.getElementById('header-home');
+if (homeBtn) {
+  homeBtn.addEventListener('click', () => {
+    clearLearningGateSession();
+    window.location.href = '/';
+  });
+}
+const logoutBtn = document.getElementById('header-logout');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    clearLearningGateSession();
+    window.location.href = '/learning';
+  });
+}
+
 $$('nav.bottom-nav button').forEach(b => {
   b.addEventListener('click', () => setTab(b.dataset.nav));
 });
 $('#header-action').addEventListener('click', () => {
   modal('Security+ SY0-701 Study App',
-    'Tap Learn to read chapters · Test to build a quiz · Score to see progress. All data is stored locally on your device.',
+    'Learn / Test / Score — dáta sú lokálne v prehliadači. Domček = odhlásiť a ísť na Seybo. Dvere = odhlásiť a znova zadať heslo (mangalica / potkan).',
     [{ label: 'OK', style: 'primary' }]);
 });
 

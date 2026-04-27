@@ -1,5 +1,19 @@
+/** Session kľúče musia sedieť s `public/learning-app/app.js` (LEARNING_GATE_KEY / LEARNING_USER_KEY). */
+export const LEARNING_GATE_SESSION_KEY = "learning-gate";
+
 /** Ktorý riadok v `learning_progress` a ktorý localStorage kľúč (po odomknutí Learning brány). */
 export const LEARNING_USER_SESSION_KEY = "learning-user";
+
+/** Zruší vstup do Learning (brána + používateľ) — znova sa zobrazí heslo na /learning. */
+export function clearLearningGateSession(): void {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.removeItem(LEARNING_GATE_SESSION_KEY);
+    sessionStorage.removeItem(LEARNING_USER_SESSION_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 export type LearningProgressUserId = "seybo" | "potkan";
 

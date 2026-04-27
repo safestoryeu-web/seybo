@@ -16,9 +16,11 @@ import {
   type ProgressState,
   type SyncStatus,
 } from "@/lib/learning/useProgress";
+import {
+  clearLearningGateSession,
+  LEARNING_GATE_SESSION_KEY,
+} from "@/lib/learning/user";
 import s from "./styles.module.css";
-
-const GATE_KEY = "learning-gate";
 
 type Tab = "learn" | "test" | "score";
 type Route =
@@ -120,7 +122,7 @@ export function LearningApp() {
   // Gate check
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem(GATE_KEY) !== "1") {
+    if (sessionStorage.getItem(LEARNING_GATE_SESSION_KEY) !== "1") {
       router.replace("/learning");
     }
   }, [router]);
@@ -1114,11 +1116,36 @@ export function LearningApp() {
           </div>
           <div className={s.headerActions}>
             <SyncBadge status={status} />
-            <a className={s.iconBtn} href="/" title="Späť na Seybo" aria-label="Späť na Seybo">
+            <button
+              type="button"
+              className={s.iconBtn}
+              title="Odhlásiť a zmeniť heslo"
+              aria-label="Odhlásiť z Learning"
+              onClick={() => {
+                clearLearningGateSession();
+                router.push("/learning");
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </button>
+            <button
+              type="button"
+              className={s.iconBtn}
+              title="Odhlásiť a ísť na Seybo"
+              aria-label="Späť na Seybo"
+              onClick={() => {
+                clearLearningGateSession();
+                router.push("/");
+              }}
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"></path>
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       </header>

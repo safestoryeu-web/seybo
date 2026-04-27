@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Lock, GraduationCap, ArrowLeft } from "lucide-react";
 import {
+  LEARNING_GATE_SESSION_KEY,
   LEARNING_USER_SESSION_KEY,
   learningPasswordToUserId,
 } from "@/lib/learning/user";
 
-const GATE_KEY = "learning-gate";
 const VALID_PASSWORDS = new Set(["mangalica", "potkan"]);
 const APP_URL = "/learning-app/index.html";
 
@@ -18,7 +18,7 @@ export default function LearningGate() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem(GATE_KEY) !== "1") return;
+    if (sessionStorage.getItem(LEARNING_GATE_SESSION_KEY) !== "1") return;
     if (!sessionStorage.getItem(LEARNING_USER_SESSION_KEY)) {
       sessionStorage.setItem(LEARNING_USER_SESSION_KEY, "seybo");
     }
@@ -31,7 +31,7 @@ export default function LearningGate() {
     const input = form.querySelector<HTMLInputElement>('input[type="password"]');
     const value = input?.value?.trim() ?? "";
     if (VALID_PASSWORDS.has(value)) {
-      sessionStorage.setItem(GATE_KEY, "1");
+      sessionStorage.setItem(LEARNING_GATE_SESSION_KEY, "1");
       sessionStorage.setItem(LEARNING_USER_SESSION_KEY, learningPasswordToUserId(value));
       window.location.assign(APP_URL);
     } else {
