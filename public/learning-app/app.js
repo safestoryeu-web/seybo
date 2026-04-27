@@ -33,8 +33,8 @@ const defaultState = {
 };
 
 let state = loadState();
-let currentTab = 'learn';
-let route = { name: 'learn-home' };
+let currentTab = 'dashboard';
+let route = { name: 'dash-home' };
 let testSession = null;
 
 function loadState() {
@@ -239,6 +239,7 @@ function setTab(tab) {
   $$('nav.bottom-nav button').forEach(b => {
     b.classList.toggle('active', b.dataset.nav === tab);
   });
+  if (tab === 'dashboard') route = { name: 'dash-home' };
   if (tab === 'learn') route = { name: 'learn-home' };
   if (tab === 'test') route = { name: 'test-home' };
   if (tab === 'score') route = { name: 'score-home' };
@@ -285,6 +286,149 @@ function overallAccuracy() {
   Object.values(state.questionStats).forEach(s => { seen += s.seen; correct += s.correct; });
   return { seen, correct, pct: seen > 0 ? (correct/seen)*100 : 0 };
 }
+
+function firstUnreadChapterId() {
+  const c = CHAPTERS.find(ch => !state.read[ch.id]);
+  return c ? c.id : CHAPTERS[0].id;
+}
+
+function renderDashboard(root) {
+  const totalChapters = CHAPTERS.length;
+  const readChapters = readCount();
+  const readPct = (readChapters / totalChapters) * 100;
+  const overall = overallAccuracy();
+  const totalQ = QUESTIONS.length;
+  const seenQ = Object.values(state.questionStats).filter(s => s.seen > 0).length;
+  const lastTests = state.testHistory.slice(0, 3);
+  const nextChId = firstUnreadChapterId();
+  const nextCh = CHAPTERS.find(c => c.id === nextChId);
+  const allChaptersRead = readChapters >= totalChapters;
+
+  const domainStats = DOMAINS.map(d => ({
+    d,
+    acc: questionAccuracyForDomain(d.id),
+    rp: readPctForDomain(d.id),
+  }));
+  const seenDomains = domainStats.filter(x => x.acc.seen > 0);
+  const focus = seenDomains.length > 0
+    ? seenDomains.slice().sort((a, b) => a.acc.pct - b.acc.pct)[0]
+    : domainStats.slice().sort((a, b) => a.rp - b.rp)[0];
+
+  const continueLabel = allChaptersRead ? 'Otvoriť kapitoly' : 'Pokračovať v čítaní';
+
+  let html = `
+    <div class="dash-hero">
+      <h2 class="dash-title">Tvoj prehľad</h2>
+      <p class="dash-lead">Súhrn čítania, cvičných otázok a posledných testov.</p>
+    </div>
+
+    <div class="score-summary dash-stats">
+      <div class="stat-card">
+        <div class="label">Čítanie</div>
+        <div class="value" style="color: var(--primary)">${Math.round(readPct)}%</div>
+        <div class="sub">${readChapters} / ${totalChapters} kapitol</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Presnosť (otázky)</div>
+        <div class="value" style="color: ${overall.seen > 0 ? (overall.pct >= 75 ? 'var(--success)' : overall.pct >= 60 ? 'var(--warning)' : 'var(--danger)') : 'var(--text-muted)'}">${overall.seen > 0 ? Math.round(overall.pct) + '%' : '—'}</div>
+        <div class="sub">${overall.seen > 0 ? `${overall.correct} / ${overall.seen} správne` : 'ešte žiadne'}</div>
+      </div>
+    </div>
+
+    <div class="card card--spotlight">
+      <div class="card-eyebrow">Ďalší krok</div>
+      <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:4px;">
+        <div style="flex:1; min-width:0;">
+          <div style="font-weight:600; font-size:16px; line-height:1.35; letter-spacing:-0.02em;">${nextCh ? escHtml(nextCh.title) : ''}</div>
+          <div style="font-size:13px; color:var(--text-muted); margin-top:6px; line-height:1.45;">${allChaptersRead ? 'Všetky kapitoly označené ako prečítané — môžeš opakovať alebo ísť na testy.' : 'Ďalšia odporúčaná kapitola v poradí kurzu.'}</div>
+        </div>
+        ${donutSvg(readPct, 'var(--primary)', 58)}
+      </div>
+      <div class="reading-actions dash-actions">
+        <button type="button" class="btn primary" id="dash-continue-read">${continueLabel}</button>
+        <button type="button" class="btn" id="dash-new-test">Spustiť test</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-eyebrow card-eyebrow--muted">Odporúčaná doména</div>
+      ${focus ? `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="domain-pill" style="background:${focus.d.color}">${focus.d.code}</div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-weight:600; font-size:14px;">${escHtml(focus.d.title)}</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+              ${focus.acc.seen > 0 ? `${Math.round(focus.acc.pct)}% presnosť · ` : ''}${Math.round(focus.rp)}% prečítané
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn primary" style="margin-top:12px; width:100%;" id="dash-focus-domain">Študovať túto doménu</button>
+      ` : '<div style="color:var(--text-muted); font-size:14px;">Začni testom alebo čítaním — potom tu uvidíš tip.</div>'}
+    </div>
+
+    <div class="section-title" style="margin-top:4px;">Čítanie podľa domény</div>
+    ${DOMAINS.map(d => {
+      const pct = readPctForDomain(d.id);
+      const ch = chaptersForDomain(d.id);
+      const r = ch.filter(c => state.read[c.id]).length;
+      return `
+        <div class="bar-row">
+          <div class="name">${d.code}</div>
+          <div class="bar"><div style="width:${pct}%; background:${d.color}"></div></div>
+          <div class="pct">${r}/${ch.length}</div>
+        </div>`;
+    }).join('')}
+
+    <div class="section-title">Posledné testy</div>
+    ${lastTests.length === 0 ? `
+      <div class="empty-state">
+        <div class="emoji">📝</div>
+        <div class="title">Zatiaľ žiadny test</div>
+        <div class="sub">V záložke Test si poskladáš kvíz.</div>
+      </div>
+    ` : lastTests.map(h => {
+      const p = Math.round((h.correct / h.total) * 100);
+      const color = p >= 75 ? 'var(--success)' : p >= 60 ? 'var(--warning)' : 'var(--danger)';
+      return `
+        <div class="history-item">
+          <div style="flex:1;">
+            <div class="what">${h.total} otázok · ${fmtDuration(h.durationSec)} · ${escHtml(h.mode)}</div>
+            <div class="when">${fmtDate(h.ts)}${h.timedOut ? ' · čas vypršal' : ''}</div>
+          </div>
+          <div class="score-badge" style="background:${color}; color:white;">${p}%</div>
+        </div>`;
+    }).join('')}
+    ${state.testHistory.length > 3 ? `
+      <button type="button" class="btn ghost" style="width:100%; margin-top:10px;" id="dash-all-score">Celá história a export</button>
+    ` : ''}
+
+    <div class="section-title">Cvičné otázky</div>
+    <div class="card">
+      <div style="font-size:14px; color:var(--text-dim);">
+        Aspoň raz vyskúšaných: <strong style="color:var(--text);">${seenQ}</strong> z ${totalQ}
+      </div>
+    </div>
+  `;
+
+  root.innerHTML = html;
+  $('#dash-continue-read').addEventListener('click', () => {
+    setTab('learn');
+    setTimeout(() => navigate('chapter', { id: nextChId }), 50);
+  });
+  $('#dash-new-test').addEventListener('click', () => setTab('test'));
+  const allScore = $('#dash-all-score');
+  if (allScore) allScore.addEventListener('click', () => setTab('score'));
+  const focusBtn = $('#dash-focus-domain');
+  if (focusBtn && focus) {
+    focusBtn.addEventListener('click', () => {
+      const ch = chaptersForDomain(focus.d.id);
+      const first = ch.find(c => !state.read[c.id]) || ch[0];
+      setTab('learn');
+      setTimeout(() => navigate('chapter', { id: first.id }), 50);
+    });
+  }
+}
+
 function recordAnswer(qid, isCorrect) {
   if (!state.questionStats[qid]) state.questionStats[qid] = { seen: 0, correct: 0 };
   state.questionStats[qid].seen += 1;
@@ -295,6 +439,7 @@ function recordAnswer(qid, isCorrect) {
 function render() {
   const root = $('#view-root');
   root.innerHTML = '';
+  if (currentTab === 'dashboard') return renderDashboard(root);
   if (currentTab === 'learn') {
     if (route.name === 'learn-home') return renderLearnHome(root);
     if (route.name === 'chapter') return renderChapter(root, route.params.id);
@@ -945,11 +1090,11 @@ if (logoutBtn) {
 }
 
 $$('nav.bottom-nav button').forEach(b => {
-  b.addEventListener('click', () => setTab(b.dataset.nav));
+  b.addEventListener('click', () => setTab(b.dataset.nav || 'dashboard'));
 });
 $('#header-action').addEventListener('click', () => {
   modal('Security+ SY0-701 Study App',
-    'Learn / Test / Score — dáta sú lokálne v prehliadači. Domček = odhlásiť a ísť na Seybo. Dvere = odhlásiť a znova zadať heslo (mangalica / potkan).',
+    'Prehľad / Learn / Test / Score — dáta sú lokálne. Domček = Seybo, dvere = znova heslo. Prehľad = súhrn pokroku po prihlásení.',
     [{ label: 'OK', style: 'primary' }]);
 });
 
