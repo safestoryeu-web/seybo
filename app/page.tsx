@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, BookOpen, Heart, Plus, X, Lock } from "lucide-react";
+import { Sparkles, BookOpen, Heart, Plus, X, Lock, GraduationCap } from "lucide-react";
 import type { StoryFormData, ChildGender } from "@/types/story";
 import { StoryEngine } from "@/components/StoryEngine";
 
@@ -116,6 +117,19 @@ export default function Home() {
               Vstupiť
             </motion.button>
           </form>
+
+          <div className="mt-6 pt-6 border-t border-fairy-lavender/40">
+            <Link href="/learning" className="block">
+              <motion.div
+                className="fairy-btn w-full flex items-center justify-center gap-2 py-3"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <GraduationCap className="w-5 h-5" />
+                Learning
+              </motion.div>
+            </Link>
+          </div>
         </div>
       </motion.div>
     );

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { supabase } from "@/lib/supabase";
+import { supabaseStory } from "@/lib/supabase";
 import type { StoryStep } from "@/types/story";
 
 function getGenAI() {
@@ -245,11 +245,11 @@ Napíš úvodnú kapitolu pre 5-ročné dieťa: veľmi jednoduché vety, zrozumi
     }
 
     let savedStory = null;
-    if (!isContinuation && supabase) {
+    if (!isContinuation && supabaseStory) {
       const childNamesFiltered = childrenNames.filter(Boolean);
       const fullText = [step.title, step.content].join("\n\n");
 
-      const { data: inserted, error: insertError } = await supabase
+      const { data: inserted, error: insertError } = await supabaseStory
         .from("stories")
         .insert({
           child_names: childNamesFiltered,

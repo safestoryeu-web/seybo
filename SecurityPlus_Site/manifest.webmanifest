@@ -1,0 +1,11 @@
+{
+  "name": "Security+ SY0-701 Study",
+  "short_name": "Sec+ Study",
+  "description": "Mobile-first study app for CompTIA Security+ SY0-701 certification.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": []
+}

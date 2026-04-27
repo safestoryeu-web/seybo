@@ -1,4 +1,4 @@
-// File: C:\Users\seybo\Desktop\SEYBO\PROJECT Vercel\seybo\app\api\generate-story\route.ts
+// File: C:\Users\seybo\Desktop\SEYBO PROJECTS\SEYBO\Seybo_Learning\seybo\app\api\generate-story\route.ts
 import * as entry from '../../../../../app/api/generate-story/route.js'
 import type { NextRequest } from 'next/server.js'
 

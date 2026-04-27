@@ -1,0 +1,1050 @@
+<style>
+:root {
+  --bg: #0b1220; --bg-elev: #131b2e; --bg-elev-2: #1b2440;
+  --text: #e7eaf2; --text-dim: #9aa3b8; --text-muted: #6b7794;
+  --border: #2a3554; --primary: #5b8cff; --primary-hover: #7ba5ff;
+  --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+  --d1: #3b82f6; --d2: #ef4444; --d3: #8b5cf6; --d4: #10b981; --d5: #f59e0b;
+  --radius: 14px; --radius-sm: 10px; --shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+.sec-app *, .sec-app *::before, .sec-app *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+.sec-app { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; -webkit-font-smoothing: antialiased; border-radius: 24px; border: 8px solid #1a1a1a; overflow: hidden; position: relative; width: 100%; max-width: 380px; margin: 0 auto; height: 720px; display: flex; flex-direction: column; }
+.sec-app button { cursor: pointer; border: none; background: transparent; font: inherit; color: inherit; }
+.sec-app input, .sec-app select { font-family: inherit; font-size: inherit; color: inherit; }
+.sec-header { height: 56px; background: var(--bg-elev); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; }
+.sec-app-title { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.sec-app-subtitle { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.sec-icon-btn { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--text-dim); }
+.sec-main { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; background: var(--bg); }
+.sec-bottom-nav { height: 70px; background: var(--bg-elev); border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(3, 1fr); flex-shrink: 0; }
+.sec-bottom-nav button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--text-muted); font-size: 11px; font-weight: 500; padding: 8px 4px; }
+.sec-bottom-nav button.active { color: var(--primary); }
+.sec-bottom-nav button svg { width: 24px; height: 24px; }
+.sec-app .card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
+.sec-app .domain-header { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin: 16px 0 8px; background: var(--bg-elev); border-radius: var(--radius); border: 1px solid var(--border); }
+.sec-app .domain-header:first-child { margin-top: 0; }
+.sec-app .domain-pill { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; flex-shrink: 0; font-size: 14px; }
+.sec-app .domain-info { flex: 1; min-width: 0; }
+.sec-app .domain-info .title { font-weight: 600; font-size: 14px; line-height: 1.3; }
+.sec-app .domain-info .meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.sec-app .chapter { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--bg-elev); border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 8px; width: 100%; text-align: left; }
+.sec-app .chapter-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; background: var(--bg-elev-2); color: var(--text-dim); }
+.sec-app .chapter-icon.read { background: var(--success); color: white; }
+.sec-app .chapter-body { flex: 1; min-width: 0; }
+.sec-app .chapter-body .title { font-weight: 500; font-size: 14px; line-height: 1.3; }
+.sec-app .chapter-body .meta { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+.sec-app .chapter-arrow { color: var(--text-muted); flex-shrink: 0; }
+.sec-app .reading h2 { font-size: 22px; line-height: 1.25; margin: 0 0 8px; letter-spacing: -0.02em; }
+.sec-app .reading .crumb { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+.sec-app .reading-content { font-size: 16px; line-height: 1.6; }
+.sec-app .reading-content h2 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+.sec-app .reading-content h3 { font-size: 15px; margin: 18px 0 6px; font-weight: 600; color: var(--text-dim); }
+.sec-app .reading-content p { margin: 8px 0; }
+.sec-app .reading-content ul, .sec-app .reading-content ol { padding-left: 20px; margin: 8px 0; }
+.sec-app .reading-content li { margin: 4px 0; }
+.sec-app .reading-content strong { color: var(--text); font-weight: 600; }
+.sec-app .reading-content code { background: var(--bg-elev-2); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.92em; border: 1px solid var(--border); }
+.sec-app .reading-content blockquote { border-left: 3px solid var(--primary); padding: 6px 14px; margin: 12px 0; background: var(--bg-elev-2); color: var(--text-dim); border-radius: 0 8px 8px 0; }
+.sec-app .reading-content table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+.sec-app .reading-content th, .sec-app .reading-content td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+.sec-app .reading-content th { background: var(--bg-elev-2); font-weight: 600; }
+.sec-app .reading-actions { display: flex; gap: 8px; margin-top: 24px; }
+.sec-app .btn { padding: 12px 16px; border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); flex: 1; min-height: 44px; }
+.sec-app .btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+.sec-app .btn.success { background: var(--success); color: white; border-color: var(--success); }
+.sec-app .btn.danger { background: var(--danger); color: white; border-color: var(--danger); }
+.sec-app .btn.ghost { background: transparent; }
+.sec-app .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.sec-app .test-config h2 { margin: 0 0 4px; font-size: 22px; letter-spacing: -0.02em; }
+.sec-app .test-config .help { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
+.sec-app .field { margin-bottom: 18px; }
+.sec-app .field label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 8px; font-weight: 500; }
+.sec-app .choice-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.sec-app .chip { padding: 8px 12px; border-radius: 999px; background: var(--bg-elev-2); border: 1px solid var(--border); font-size: 13px; font-weight: 500; color: var(--text-dim); min-height: 36px; display: inline-flex; align-items: center; }
+.sec-app .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+.sec-app .test-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 12px 14px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.sec-app .test-bar .progress { font-size: 13px; color: var(--text-dim); font-weight: 500; }
+.sec-app .test-bar .timer { font-size: 13px; color: var(--text); font-weight: 600; }
+.sec-app .q-progress { height: 4px; background: var(--bg-elev-2); border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
+.sec-app .q-progress-fill { height: 100%; background: var(--primary); transition: width 0.3s; }
+.sec-app .question-text { font-size: 17px; line-height: 1.45; font-weight: 500; margin-bottom: 16px; }
+.sec-app .options { display: flex; flex-direction: column; gap: 8px; }
+.sec-app .option { padding: 14px 16px; background: var(--bg-elev); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; line-height: 1.4; text-align: left; width: 100%; display: flex; align-items: flex-start; gap: 10px; min-height: 50px; color: var(--text); }
+.sec-app .option .opt-letter { width: 24px; height: 24px; border-radius: 6px; background: var(--bg-elev-2); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; border: 1px solid var(--border); }
+.sec-app .option.selected { border-color: var(--primary); background: var(--bg-elev-2); }
+.sec-app .option.selected .opt-letter { background: var(--primary); color: white; border-color: var(--primary); }
+.sec-app .option.correct { border-color: var(--success); background: rgba(34, 197, 94, 0.1); }
+.sec-app .option.correct .opt-letter { background: var(--success); color: white; border-color: var(--success); }
+.sec-app .option.incorrect { border-color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+.sec-app .option.incorrect .opt-letter { background: var(--danger); color: white; border-color: var(--danger); }
+.sec-app .explain { margin-top: 14px; padding: 12px 14px; background: var(--bg-elev-2); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.5; color: var(--text-dim); }
+.sec-app .explain strong { color: var(--text); }
+.sec-app .score-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.sec-app .stat-card { padding: 14px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.sec-app .stat-card .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.sec-app .stat-card .value { font-size: 28px; font-weight: 700; margin-top: 4px; line-height: 1.1; }
+.sec-app .stat-card .sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.sec-app .bar-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; }
+.sec-app .bar-row .name { font-size: 13px; flex: 1; min-width: 0; }
+.sec-app .bar-row .bar { flex: 1.5; height: 8px; background: var(--bg-elev-2); border-radius: 4px; overflow: hidden; }
+.sec-app .bar-row .bar > div { height: 100%; }
+.sec-app .bar-row .pct { font-size: 13px; font-weight: 600; min-width: 42px; text-align: right; }
+.sec-app .history-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; }
+.sec-app .history-item .when { font-size: 12px; color: var(--text-muted); }
+.sec-app .history-item .what { font-size: 14px; font-weight: 500; }
+.sec-app .history-item .score-badge { font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 999px; margin-left: auto; }
+.sec-app .section-title { font-size: 14px; font-weight: 600; color: var(--text-dim); margin: 24px 0 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.sec-app .section-title:first-child { margin-top: 0; }
+.sec-app .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
+.sec-app .empty-state .emoji { font-size: 48px; margin-bottom: 12px; opacity: 0.6; }
+.sec-app .empty-state .title { font-weight: 600; color: var(--text-dim); margin-bottom: 4px; }
+.sec-app .empty-state .sub { font-size: 13px; }
+.sec-app .donut-text { fill: var(--text); font-size: 13px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; font-family: -apple-system, sans-serif; }
+.sec-app .donut-track { fill: none; stroke: var(--bg-elev-2); stroke-width: 6; }
+.sec-app .donut-fill { fill: none; stroke-width: 6; stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; }
+.sec-app .toast { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--bg-elev-2); color: var(--text); padding: 10px 16px; border-radius: 999px; border: 1px solid var(--border); font-size: 13px; font-weight: 500; box-shadow: var(--shadow); z-index: 100; }
+.sec-app .modal-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+.sec-app .modal { background: var(--bg-elev); border-radius: var(--radius); padding: 20px; max-width: 320px; width: 100%; border: 1px solid var(--border); }
+.sec-app .modal h3 { margin: 0 0 8px; font-size: 17px; }
+.sec-app .modal p { margin: 0 0 16px; font-size: 14px; color: var(--text-dim); }
+.sec-app .modal-actions { display: flex; gap: 8px; }
+.sec-app .flag-btn { color: var(--text-muted); padding: 6px 8px; border-radius: 6px; font-size: 12px; }
+.sec-app .flag-btn.flagged { color: var(--warning); }
+.sec-preview-note { text-align: center; font-size: 12px; color: #888; margin-top: 12px; padding: 0 16px; }
+</style>
+<div class="sec-app" id="sec-app-root">
+  <header class="sec-header">
+    <div>
+      <div class="sec-app-title">Security+ Study</div>
+      <div class="sec-app-subtitle">SY0-701 - Exam prep</div>
+    </div>
+    <button class="sec-icon-btn" id="sec-header-action" aria-label="Help">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    </button>
+  </header>
+  <main class="sec-main" id="sec-view-root"></main>
+  <nav class="sec-bottom-nav">
+    <button data-nav="learn" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      Learn
+    </button>
+    <button data-nav="test">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line></svg>
+      Test
+    </button>
+    <button data-nav="score">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+      Score
+    </button>
+  </nav>
+</div>
+<div class="sec-preview-note">Live preview - chapter content trimmed for preview. Full version with complete notes is in your workspace folder.</div>
+<script>
+(function(){
+  const store = {};
+  if (typeof window === 'undefined') return;
+  window.__secLS = {
+    getItem: k => Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null,
+    setItem: (k,v) => { store[k] = String(v); },
+    removeItem: k => { delete store[k]; },
+    clear: () => { Object.keys(store).forEach(k=>delete store[k]); }
+  };
+})();
+</script>
+<script>const DOMAINS = [{"id": 1, "code": "1.0", "title": "General Security Concepts", "weight": "12%", "color": "#3b82f6"}, {"id": 2, "code": "2.0", "title": "Threats, Vulnerabilities & Mitigations", "weight": "22%", "color": "#ef4444"}, {"id": 3, "code": "3.0", "title": "Security Architecture", "weight": "18%", "color": "#8b5cf6"}, {"id": 4, "code": "4.0", "title": "Security Operations", "weight": "28%", "color": "#10b981"}, {"id": 5, "code": "5.0", "title": "Security Program Management & Oversight", "weight": "20%", "color": "#f59e0b"}];
+const CHAPTERS = [{"id": "1.1", "domain": 1, "title": "Security Controls", "estMinutes": 6, "body": "## Why security controls matter\nSecurity risks come in many forms \u2014 malware, phishing, insider abuse, environmental hazards. **Controls** are the safeguards that prevent events, minimize damage, and keep systems running.\n\n## The 4 control categories (WHO/WHAT enforces it)\n* **Technical** \u2014 implemented by systems. Firewalls, antivirus, encryption, OS access lists.\n* **Managerial** \u2014 administrative direction. Risk assessments, security policies, SOPs.\n* **Operational** \u2014 performed by people. Awareness training, guards, change-review meetings.\n* **Physical** \u2014 limit physical access. Fences, locks, badges, mantraps, lighting, guard shacks.\n\n## The 6 control types (WHAT the control DOES)\n* **Preventive** \u2014 blocks the action. Firewall rule, door lock, \"no entry\" policy.\n* **Deterrent** \u2014 discourages the action. Warning sign, visible camera, login banner.\n* **Detective** \u2014 finds and logs the action. SIEM alert, motion sensor, audit log review.\n* **Corrective** \u2014 fixes things after the fact. Restore from backup, patch a vuln, IR runbook.\n* **Compensating** \u2014 substitutes when the primary control isn't possible. Generator after a power outage; isolate a legacy app you can't patch.\n* **Directive** \u2014 tells subjects what to do. AUP, \"authorized personnel only\" sign, secure-coding standard.\n\n## Exam tip\nA **single tool can be more than one type**. A camera is both **deterrent** (visible) and **detective** (records). Categorize by what the question is asking the control to *do*."}, {"id": "2.1", "domain": 2, "title": "Threat Actors & Motivations", "estMinutes": 6, "body": "## Actor categories\n* **Nation-state / APT** \u2014 well funded, patient, highly skilled. Goals: espionage, infrastructure disruption, election interference. Threat is **external**.\n* **Organized crime** \u2014 money. Ransomware, banking trojans, BEC. External, financially motivated.\n* **Hacktivist** \u2014 ideology. Defacement, DDoS, doxing. External; can be very public.\n* **Insider threat** \u2014 employees/contractors. Could be malicious (revenge, espionage) or accidental (clicking phish). **Internal**, often hardest to detect.\n* **Script kiddie** \u2014 low skill, uses pre-built tools. Often opportunistic.\n* **Shadow IT** \u2014 internal users/teams running unsanctioned tech (a personal Dropbox, a side AWS account). Not malicious but creates unmanaged risk.\n\n## Attributes to compare\n* **Internal vs external**\n* **Resources / funding** \u2014 nation-state >> script kiddie.\n* **Sophistication / capability**\n* **Intent / motivation** \u2014 see below.\n\n## Motivations\n* **Data exfiltration**\n* **Espionage**\n* **Service disruption**\n* **Financial gain**\n* **Philosophical / political beliefs**\n* **Ethical** (white-hat) \u2014 authorized testing\n* **Revenge**\n* **Disruption / chaos**\n* **War**\n\n## Why this matters\nKnowing the actor shapes the **defenses you prioritize**. APTs need long-term threat hunting; opportunistic ransomware needs patching, MFA, and backups."}, {"id": "3.1a", "domain": 3, "title": "Cloud & Architecture Models", "estMinutes": 8, "body": "## Cloud service models\n* **IaaS** \u2014 Infrastructure (VMs, storage, networking). You manage OS+up. Example: EC2.\n* **PaaS** \u2014 Platform (managed runtime/DB). You manage code. Example: App Service, RDS.\n* **SaaS** \u2014 Software. You manage configuration & data. Example: Microsoft 365, Salesforce.\n\n## Cloud deployment models\n* **Public** \u2014 multi-tenant, shared infrastructure (AWS, Azure, GCP).\n* **Private** \u2014 dedicated to one organization (on-prem cloud or single-tenant hosted).\n* **Community** \u2014 shared by orgs with similar concerns (gov agencies).\n* **Hybrid** \u2014 mix of public + private with orchestration.\n* **Multi-cloud** \u2014 using more than one public provider.\n\n## Shared responsibility model\nProvider always handles the **physical layer** + **hypervisor** (for IaaS).\n* **IaaS** \u2014 customer handles OS, runtime, app, data, identity.\n* **PaaS** \u2014 customer handles app + data + identity.\n* **SaaS** \u2014 customer handles data + identity (and configuration).\n\nIf a question asks \"who patches the host OS in IaaS?\" \u2014 the customer.\n\n## Other architecture concepts\n* **On-premises** \u2014 full control, full responsibility, capital expense.\n* **Centralized** \u2014 single big system; easier to manage, single point of failure.\n* **Decentralized / distributed** \u2014 many smaller nodes; resilient, harder to manage.\n* **Serverless** \u2014 functions execute on demand (Lambda). No servers to patch but tighter vendor lock-in and cold-start considerations.\n* **Microservices** \u2014 many small services over a network. Need strong service-to-service auth (mTLS).\n* **Containers** \u2014 lightweight, OS-level virtualization (Docker). Orchestrated by **Kubernetes**.\n* **IoT / Embedded** \u2014 limited resources, often unpatchable.\n* **ICS/SCADA** \u2014 operational tech; uptime > confidentiality.\n* **RTOS** \u2014 real-time OS for time-critical embedded systems.\n* **Edge computing** \u2014 process near where data is generated (factory, retail store)."}, {"id": "4.1", "domain": 4, "title": "Hardening, Wireless & Mobile Security", "estMinutes": 7, "body": "## Secure baselines\nA **baseline** is the documented, approved configuration of a system. Process:\n1. **Establish** \u2014 define what \"secure\" looks like (CIS Benchmarks are common starting points).\n2. **Deploy** \u2014 image / push the baseline.\n3. **Maintain** \u2014 drift detection, re-apply, update baseline as software changes.\n\n## Hardening targets\nApply the same idea everywhere \u2014 workstations, servers, mobile, network gear, cloud, IoT, ICS, RTOS. Disable unused services, change default credentials, restrict admin, encrypt, log.\n\n## Mobile deployment models\n* **BYOD (Bring Your Own Device)** \u2014 user-owned. Privacy concerns; need MDM with containerization.\n* **CYOD (Choose Your Own Device)** \u2014 user picks from approved list, company-owned.\n* **COPE (Company Owned, Personally Enabled)** \u2014 fully managed, personal use allowed.\n* **COBO (Company Owned, Business Only)** \u2014 strictest.\n\n## MDM / UEM controls\n* Encryption at rest, screen lock, remote wipe.\n* App allow/block lists.\n* Containerization (separate work/personal data).\n* Geolocation, geofencing, screen capture restrictions.\n* Push security policies; revoke if device leaves compliance.\n\n## Connection methods\n* **Cellular** \u2014 provider's network.\n* **Wi-Fi** \u2014 local LAN; biggest attack surface.\n* **Bluetooth** \u2014 pairing risks.\n* **NFC** \u2014 short-range; payments, badges.\n\n## Wireless security settings\n* **WPA3** \u2014 current standard. **SAE (Simultaneous Authentication of Equals)** replaces the WPA2 4-way handshake \u2014 defeats offline brute force.\n* **WPA2** still common. AES-CCMP cipher.\n* **WEP, WPA, TKIP** \u2014 broken; do not use.\n\n## 802.1X / Enterprise Wi-Fi\nRADIUS-backed authentication. Each user authenticates individually with EAP (EAP-TLS strongest).\n\n## Wi-Fi attack defenses\n* Disable WPS.\n* Strong passphrase or 802.1X.\n* Hide guest from corporate via separate SSID + VLAN.\n* WIDS/WIPS for rogue AP detection.\n\n## Application security\n* **Input validation** \u2014 never trust user input.\n* **Secure cookies** \u2014 HttpOnly, Secure, SameSite.\n* **Static (SAST) / Dynamic (DAST) testing**.\n* **Sandboxing** for risky processes.\n* **Code signing** to verify provenance.\n* **Monitoring** \u2014 runtime application self-protection (RASP)."}, {"id": "5.1", "domain": 5, "title": "Governance & Security Policies", "estMinutes": 6, "body": "## Governance hierarchy\n* **Policies** \u2014 high-level \"what.\" Approved by leadership.\n* **Standards** \u2014 specific requirements (\"what version, what config\").\n* **Procedures** \u2014 step-by-step \"how.\"\n* **Guidelines** \u2014 recommendations, not mandatory.\n\n## Common policies\n* **Acceptable Use Policy (AUP)** \u2014 what employees can/can't do with company resources.\n* **Information Security Policy** \u2014 overarching security rules.\n* **Business Continuity Policy** \u2014 keep operating during disruption.\n* **Disaster Recovery Policy** \u2014 restore after disaster.\n* **Incident Response Policy** \u2014 authority to act, roles.\n* **Software Development Lifecycle (SDLC) Policy** \u2014 secure coding, code review, testing.\n* **Change Management Policy** \u2014 who approves what.\n* **Password Policy** \u2014 length, MFA, lockouts.\n* **Data classification & handling**.\n* **BYOD / mobile**.\n* **Privacy policy**.\n\n## Standards\n* **Password standards** \u2014 specific rules (e.g., min 14 chars).\n* **Access control standards** \u2014 RBAC, MFA required.\n* **Physical security standards** \u2014 badge access, camera retention.\n* **Encryption standards** \u2014 TLS 1.2+ in transit, AES-256 at rest.\n\n## Procedures\n* **Onboarding / offboarding**.\n* **Change management procedures**.\n* **Playbooks** \u2014 IR, vuln response.\n\n## External considerations\n* **Regulatory** \u2014 by industry/region (HIPAA, PCI DSS, GDPR, SOX).\n* **Legal** \u2014 contracts, lawsuits, e-discovery.\n* **Industry** \u2014 sector best practices (NIST CSF, ISO 27001).\n* **Local / regional / national / global** \u2014 laws differ.\n\n## Governance structures\n* **Boards / Committees** \u2014 Audit committee, risk committee.\n* **Government entities** \u2014 regulators.\n* **Centralized vs. decentralized** \u2014 single security org vs. embedded teams in each business unit.\n\n## Roles & responsibilities for data\n(See Chapter 3.3 \u2014 Owner, Controller, Processor, Steward, Custodian, DPO.)\n\n## Monitoring & revision\nPolicies are **living documents** \u2014 review annually or after major changes. Track approval, version, owner, next-review date."}];
+const QUESTIONS = [{"id": "q001", "domain": 1, "q": "Which of the following BEST describes the difference between an IDS and an IPS?", "options": ["IDS encrypts traffic; IPS does not", "IDS is passive and alerts; IPS is inline and blocks", "IDS works at Layer 2; IPS at Layer 7", "There is no functional difference"], "answer": 1, "explain": "An IDS detects and alerts on suspicious activity (out-of-band/passive). An IPS sits inline and can actively block malicious traffic."}, {"id": "q002", "domain": 1, "q": "An organization wants to verify that downloaded software has not been altered. Which control provides this?", "options": ["Symmetric encryption", "Hashing", "Tokenization", "Steganography"], "answer": 1, "explain": "Hashing produces a fixed-length fingerprint of data. Comparing the published hash to one you compute confirms integrity."}, {"id": "q003", "domain": 1, "q": "Which control category does a security awareness program BEST fit into?", "options": ["Technical", "Physical", "Operational", "Compensating"], "answer": 2, "explain": "Awareness programs are operational controls \u2014 they are implemented by people, not systems."}, {"id": "q004", "domain": 1, "q": "A bollard at a building's entrance is BEST classified as which control type?", "options": ["Detective", "Preventive", "Corrective", "Directive"], "answer": 1, "explain": "A bollard physically prevents vehicles from accessing the area \u2014 it's a preventive (and physical) control."}, {"id": "q005", "domain": 1, "q": "Which of the following provides non-repudiation?", "options": ["AES encryption", "Symmetric MAC", "Digital signature", "Salt + hash"], "answer": 2, "explain": "A digital signature uses the sender's private key, so only that sender could have produced it \u2014 non-repudiation."}, {"id": "q101", "domain": 2, "q": "Which threat actor is BEST characterized as well-funded, patient, and motivated by espionage?", "options": ["Script kiddie", "Hacktivist", "Nation-state / APT", "Insider"], "answer": 2, "explain": "Nation-state actors / APTs have substantial funding, time horizons measured in years, and espionage or strategic disruption goals."}, {"id": "q102", "domain": 2, "q": "An attacker registers 'paypa1.com' to fool users. This is BEST called:", "options": ["Pharming", "Typosquatting", "Watering-hole attack", "Smishing"], "answer": 1, "explain": "Typosquatting registers a domain that's a misspelling of a real one to capture users who mistype."}, {"id": "q103", "domain": 2, "q": "An attacker compromises a popular industry forum to infect its visitors. This is a:", "options": ["Watering-hole attack", "Whaling attack", "Vishing attack", "Pharming attack"], "answer": 0, "explain": "Watering-hole attacks compromise sites a target group regularly visits, infecting them when they go."}, {"id": "q104", "domain": 2, "q": "Which attack involves writing past the end of a buffer to overwrite the return address?", "options": ["SQL injection", "Cross-site scripting", "Buffer overflow", "Race condition"], "answer": 2, "explain": "A classic buffer overflow overwrites adjacent memory, potentially the function's return address, redirecting execution."}, {"id": "q105", "domain": 2, "q": "Which is the BEST defense against SQL injection?", "options": ["WAF only", "Stored procedures only", "Parameterized queries / prepared statements", "Network segmentation"], "answer": 2, "explain": "Parameterized queries treat user input as data, never code, eliminating the root cause of injection."}, {"id": "q201", "domain": 3, "q": "In an IaaS model, who is responsible for patching the guest operating system?", "options": ["The cloud provider", "The customer", "Shared", "Neither \u2014 it auto-patches"], "answer": 1, "explain": "In IaaS, the customer manages the OS, runtime, application, and data. The provider handles physical and hypervisor layers."}, {"id": "q202", "domain": 3, "q": "Which deployment model uses a mix of public and private cloud with orchestration?", "options": ["Multicloud", "Hybrid", "Community", "Edge"], "answer": 1, "explain": "Hybrid combines private + public with orchestration. Multicloud uses multiple public providers."}, {"id": "q203", "domain": 3, "q": "Which BEST describes microsegmentation?", "options": ["VLANs separating departments", "Per-workload network policy enforced by host firewalls or service mesh", "Splitting backups across regions", "Dedicated VLAN for guests"], "answer": 1, "explain": "Microsegmentation enforces fine-grained policy down to individual workloads, often with host firewalls or a service mesh."}, {"id": "q204", "domain": 3, "q": "Which network appliance sits inline and can drop malicious traffic in real time?", "options": ["IDS", "Honeypot", "IPS", "NetFlow collector"], "answer": 2, "explain": "An IPS is inline and actively blocks; an IDS is passive and only alerts."}, {"id": "q205", "domain": 3, "q": "Which is the strongest EAP method, requiring client-side certificates?", "options": ["EAP-TTLS", "PEAP", "EAP-FAST", "EAP-TLS"], "answer": 3, "explain": "EAP-TLS uses both server and client certificates, providing mutual authentication and the strongest assurance."}, {"id": "q301", "domain": 4, "q": "Which is the FIRST step in NIST's incident response lifecycle?", "options": ["Containment", "Preparation", "Eradication", "Recovery"], "answer": 1, "explain": "Preparation comes first: plan, tools, training, contacts. You can't respond well to what you haven't prepared for."}, {"id": "q302", "domain": 4, "q": "Which order of volatility lists items from MOST to LEAST volatile?", "options": ["Disk \u2192 RAM \u2192 CPU registers", "CPU registers \u2192 RAM \u2192 Disk \u2192 Backups", "Backups \u2192 RAM \u2192 Network state", "RAM \u2192 CPU registers \u2192 Disk"], "answer": 1, "explain": "From most to least volatile: CPU registers/cache \u2192 RAM \u2192 network/process state \u2192 disk \u2192 backups/archives."}, {"id": "q303", "domain": 4, "q": "Which document tracks who handled evidence, when, where, and why?", "options": ["Incident report", "Chain of custody", "RCA", "BIA"], "answer": 1, "explain": "Chain of custody is required for forensic evidence to be admissible and trustworthy."}, {"id": "q304", "domain": 4, "q": "Which BEST describes EDR vs. XDR?", "options": ["No difference", "EDR is for endpoints; XDR adds telemetry from network, email, cloud, and identity", "XDR is for endpoints only", "EDR replaces SIEM"], "answer": 1, "explain": "EDR focuses on endpoints; XDR correlates data across multiple security domains for broader detection."}, {"id": "q305", "domain": 4, "q": "Which BEST defines a security baseline?", "options": ["The cheapest possible configuration", "The documented, approved secure configuration that systems must match", "The minimum patch level", "The default vendor settings"], "answer": 1, "explain": "A baseline is the formally approved secure configuration; deviations are 'drift.'"}, {"id": "q401", "domain": 5, "q": "Which document is HIGH-LEVEL and authorizes the security program?", "options": ["Procedure", "Standard", "Policy", "Guideline"], "answer": 2, "explain": "Policies are high-level, authoritative, and approved by leadership. Standards/procedures derive from them."}, {"id": "q402", "domain": 5, "q": "Which calculation is SLE \u00d7 ARO?", "options": ["Risk score", "ALE", "CVSS", "RTO"], "answer": 1, "explain": "Annualized Loss Expectancy = Single Loss Expectancy \u00d7 Annualized Rate of Occurrence."}, {"id": "q403", "domain": 5, "q": "Which risk treatment passes risk to a third party (e.g., insurance)?", "options": ["Mitigate", "Transfer", "Accept", "Avoid"], "answer": 1, "explain": "Risk transference moves financial responsibility to another party, often via insurance or outsourcing."}, {"id": "q404", "domain": 5, "q": "Which agreement defines specific deliverables under an existing master contract?", "options": ["MSA", "SOW", "NDA", "BPA"], "answer": 1, "explain": "A Statement of Work specifies deliverables, timeline, and acceptance criteria within a Master Service Agreement."}, {"id": "q405", "domain": 5, "q": "Which agreement defines the performance metrics and penalties of a service?", "options": ["NDA", "MOU", "SLA", "SOW"], "answer": 2, "explain": "SLAs (Service Level Agreements) state performance commitments and remedies."}];
+window.SY701 = { DOMAINS, CHAPTERS, QUESTIONS };
+</script>
+<script>/* CompTIA Security+ Study App — main logic */
+(function() {
+'use strict';
+
+const { DOMAINS, CHAPTERS, QUESTIONS } = window.SY701;
+
+/* ============================== State ============================== */
+const STORAGE_KEY = 'sy701_state_v1';
+
+const defaultState = {
+  read: {},        // { chapterId: timestamp }
+  testHistory: [], // [{ ts, total, correct, byDomain: {1:{c,t}, ...}, durationSec, domains:[1,2..] }]
+  questionStats: {}, // { qid: { seen, correct } }
+  flagged: {},     // { qid: true } - for review
+};
+
+let state = loadState();
+let currentTab = 'learn';
+let route = { name: 'learn-home' };
+let testSession = null;
+
+function loadState() {
+  try {
+    const raw = window.__secLS.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return Object.assign({}, defaultState, parsed);
+    }
+  } catch (e) { console.warn('Could not load state', e); }
+  return JSON.parse(JSON.stringify(defaultState));
+}
+function saveState() {
+  try { window.__secLS.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch (e) { console.warn('Could not save state', e); }
+}
+
+/* ============================== Utilities ============================== */
+const __secAppRoot = document.getElementById('sec-app-root') || document;
+function $(sel, root) { return (root || __secAppRoot).querySelector(sel); }
+function $$(sel, root) { return Array.from((root || __secAppRoot).querySelectorAll(sel)); }
+function escHtml(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function fmtDate(ts) {
+  const d = new Date(ts);
+  const now = Date.now();
+  const diff = (now - ts) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff/60) + ' min ago';
+  if (diff < 86400) return Math.floor(diff/3600) + ' h ago';
+  if (diff < 604800) return Math.floor(diff/86400) + ' d ago';
+  return d.toLocaleDateString();
+}
+function fmtDuration(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+/* Lightweight markdown -> HTML for chapter body */
+function md(src) {
+  // Split into blocks by blank lines
+  const lines = src.split('\n');
+  const html = [];
+  let i = 0;
+
+  function isTableLine(s) { return /^\|.*\|/.test(s); }
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Heading
+    if (/^##\s+/.test(line)) {
+      html.push('<h2>' + inline(line.replace(/^##\s+/, '')) + '</h2>');
+      i++; continue;
+    }
+    if (/^###\s+/.test(line)) {
+      html.push('<h3>' + inline(line.replace(/^###\s+/, '')) + '</h3>');
+      i++; continue;
+    }
+    // Blockquote
+    if (/^>\s?/.test(line)) {
+      const buf = [];
+      while (i < lines.length && /^>\s?/.test(lines[i])) {
+        buf.push(lines[i].replace(/^>\s?/, ''));
+        i++;
+      }
+      html.push('<blockquote>' + inline(buf.join(' ')) + '</blockquote>');
+      continue;
+    }
+    // Table (markdown)
+    if (isTableLine(line) && i + 1 < lines.length && /^\|[\s\-|:]+\|/.test(lines[i+1])) {
+      const headerCells = line.split('|').slice(1, -1).map(s => s.trim());
+      i += 2;
+      const rows = [];
+      while (i < lines.length && isTableLine(lines[i])) {
+        rows.push(lines[i].split('|').slice(1, -1).map(s => s.trim()));
+        i++;
+      }
+      let t = '<table><thead><tr>' +
+        headerCells.map(h => `<th>${inline(h)}</th>`).join('') +
+        '</tr></thead><tbody>';
+      rows.forEach(r => {
+        t += '<tr>' + r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>';
+      });
+      t += '</tbody></table>';
+      html.push(t);
+      continue;
+    }
+    // Numbered list
+    if (/^\d+\.\s+/.test(line)) {
+      const buf = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i])) {
+        buf.push('<li>' + inline(lines[i].replace(/^\d+\.\s+/, '')) + '</li>');
+        i++;
+      }
+      html.push('<ol>' + buf.join('') + '</ol>');
+      continue;
+    }
+    // Bullet list
+    if (/^\*\s+/.test(line)) {
+      const buf = [];
+      while (i < lines.length && /^\*\s+/.test(lines[i])) {
+        let item = lines[i].replace(/^\*\s+/, '');
+        // Continuation lines (start with two spaces or hyphens)
+        i++;
+        while (i < lines.length && /^\s{2,}-?\s+/.test(lines[i])) {
+          item += '<br>' + lines[i].trim();
+          i++;
+        }
+        buf.push('<li>' + inline(item) + '</li>');
+      }
+      html.push('<ul>' + buf.join('') + '</ul>');
+      continue;
+    }
+    // Blank
+    if (/^\s*$/.test(line)) { i++; continue; }
+    // Paragraph
+    const buf = [];
+    while (i < lines.length && !/^\s*$/.test(lines[i])
+        && !/^##\s+/.test(lines[i]) && !/^###\s+/.test(lines[i])
+        && !/^\*\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i])
+        && !/^>\s?/.test(lines[i]) && !isTableLine(lines[i])) {
+      buf.push(lines[i]);
+      i++;
+    }
+    html.push('<p>' + inline(buf.join(' ')) + '</p>');
+  }
+
+  return html.join('\n');
+
+  function inline(s) {
+    return escHtml(s)
+      .replace(/`([^`]+)`/g, (_, x) => `<code>${x}</code>`)
+      .replace(/\*\*([^*]+)\*\*/g, (_, x) => `<strong>${x}</strong>`)
+      .replace(/\*([^*]+)\*/g, (_, x) => `<em>${x}</em>`);
+  }
+}
+
+function toast(msg) {
+  const old = document.querySelector('.toast');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  __secAppRoot.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity 0.3s'; }, 1500);
+  setTimeout(() => el.remove(), 1900);
+}
+
+function modal(title, body, actions) {
+  const bg = document.createElement('div');
+  bg.className = 'modal-bg';
+  bg.innerHTML = `
+    <div class="modal">
+      <h3>${escHtml(title)}</h3>
+      <p>${escHtml(body)}</p>
+      <div class="modal-actions">
+        ${actions.map((a, i) => `<button class="btn ${a.style || ''}" data-i="${i}">${escHtml(a.label)}</button>`).join('')}
+      </div>
+    </div>`;
+  __secAppRoot.appendChild(bg);
+  bg.addEventListener('click', e => {
+    if (e.target === bg) bg.remove();
+    const btn = e.target.closest('button');
+    if (btn) {
+      const idx = parseInt(btn.dataset.i, 10);
+      bg.remove();
+      if (actions[idx].onClick) actions[idx].onClick();
+    }
+  });
+}
+
+/* Donut chart SVG */
+function donutSvg(pct, color, size) {
+  size = size || 50;
+  const r = (size - 8) / 2;
+  const c = 2 * Math.PI * r;
+  const dash = (pct / 100) * c;
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" class="donut-track" />
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" class="donut-fill" stroke="${color}"
+      stroke-dasharray="${dash} ${c}" />
+    <text x="${size/2}" y="${size/2}" class="donut-text">${Math.round(pct)}%</text>
+  </svg>`;
+}
+
+/* ============================== Routing ============================== */
+function setTab(tab) {
+  currentTab = tab;
+  Array.from(document.querySelectorAll('.sec-bottom-nav button')).forEach(b => {
+    b.classList.toggle('active', b.dataset.nav === tab);
+  });
+  if (tab === 'learn') route = { name: 'learn-home' };
+  if (tab === 'test') route = { name: 'test-home' };
+  if (tab === 'score') route = { name: 'score-home' };
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+function navigate(name, params) {
+  route = { name, params };
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+/* ============================== Stats helpers ============================== */
+function chaptersForDomain(d) {
+  return CHAPTERS.filter(c => c.domain === d);
+}
+function questionsForDomain(d) {
+  return QUESTIONS.filter(q => q.domain === d);
+}
+function readPctForDomain(d) {
+  const ch = chaptersForDomain(d);
+  if (ch.length === 0) return 0;
+  const r = ch.filter(c => state.read[c.id]).length;
+  return (r / ch.length) * 100;
+}
+function readCount() {
+  return CHAPTERS.filter(c => state.read[c.id]).length;
+}
+function questionAccuracyForDomain(d) {
+  const qs = questionsForDomain(d);
+  let seen = 0, correct = 0;
+  qs.forEach(q => {
+    const s = state.questionStats[q.id];
+    if (s && s.seen > 0) {
+      seen += s.seen;
+      correct += s.correct;
+    }
+  });
+  return { seen, correct, pct: seen > 0 ? (correct/seen)*100 : 0, total: qs.length };
+}
+function overallAccuracy() {
+  let seen = 0, correct = 0;
+  Object.values(state.questionStats).forEach(s => { seen += s.seen; correct += s.correct; });
+  return { seen, correct, pct: seen > 0 ? (correct/seen)*100 : 0 };
+}
+function recordAnswer(qid, isCorrect) {
+  if (!state.questionStats[qid]) state.questionStats[qid] = { seen: 0, correct: 0 };
+  state.questionStats[qid].seen += 1;
+  if (isCorrect) state.questionStats[qid].correct += 1;
+}
+
+/* ============================== Render ============================== */
+function render() {
+  const root = document.getElementById('sec-view-root');
+  root.innerHTML = '';
+  if (currentTab === 'learn') {
+    if (route.name === 'learn-home') return renderLearnHome(root);
+    if (route.name === 'chapter') return renderChapter(root, route.params.id);
+  }
+  if (currentTab === 'test') {
+    if (route.name === 'test-home') return renderTestHome(root);
+    if (route.name === 'test-running') return renderTestRunning(root);
+    if (route.name === 'test-results') return renderTestResults(root);
+  }
+  if (currentTab === 'score') return renderScore(root);
+}
+
+/* ====== Learn home ====== */
+function renderLearnHome(root) {
+  const totalChapters = CHAPTERS.length;
+  const readChapters = readCount();
+  const overallPct = (readChapters / totalChapters) * 100;
+
+  let html = `
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div style="flex:1;">
+          <div style="font-size:13px; color: var(--text-muted); font-weight:600; text-transform: uppercase; letter-spacing:0.05em;">Reading Progress</div>
+          <div style="font-size:24px; font-weight:700; margin-top:4px;">${readChapters} / ${totalChapters}</div>
+          <div style="font-size:13px; color: var(--text-dim); margin-top:2px;">chapters completed</div>
+        </div>
+        <div>${donutSvg(overallPct, 'var(--primary)', 64)}</div>
+      </div>
+    </div>
+  `;
+
+  DOMAINS.forEach(d => {
+    const chs = chaptersForDomain(d.id);
+    const readN = chs.filter(c => state.read[c.id]).length;
+    const pct = chs.length ? (readN / chs.length) * 100 : 0;
+    html += `
+      <div class="domain-header">
+        <div class="domain-pill" style="background:${d.color}">${d.code}</div>
+        <div class="domain-info">
+          <div class="title">${escHtml(d.title)}</div>
+          <div class="meta">Exam weight: ${d.weight} · ${readN}/${chs.length} read</div>
+        </div>
+        <div>${donutSvg(pct, d.color, 50)}</div>
+      </div>`;
+    chs.forEach(c => {
+      const isRead = !!state.read[c.id];
+      html += `
+        <button class="chapter" data-act="open-chapter" data-id="${c.id}">
+          <div class="chapter-icon ${isRead ? 'read' : ''}">${isRead ? '✓' : c.id}</div>
+          <div class="chapter-body">
+            <div class="title">${escHtml(c.title)}</div>
+            <div class="meta">${c.estMinutes} min read</div>
+          </div>
+          <div class="chapter-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+        </button>`;
+    });
+  });
+
+  root.innerHTML = html;
+  $$('[data-act="open-chapter"]').forEach(btn => {
+    btn.addEventListener('click', () => navigate('chapter', { id: btn.dataset.id }));
+  });
+}
+
+/* ====== Chapter view ====== */
+function renderChapter(root, id) {
+  const c = CHAPTERS.find(x => x.id === id);
+  if (!c) { navigate('learn-home'); return; }
+  const d = DOMAINS.find(x => x.id === c.domain);
+  const idx = CHAPTERS.findIndex(x => x.id === id);
+  const next = CHAPTERS[idx + 1];
+  const prev = CHAPTERS[idx - 1];
+  const isRead = !!state.read[c.id];
+
+  root.innerHTML = `
+    <div class="reading">
+      <button class="btn ghost" id="back-btn" style="margin-bottom:12px; max-width:140px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Back
+      </button>
+      <div class="crumb">
+        <span style="color:${d.color}; font-weight:600;">Domain ${d.code} · ${escHtml(d.title)}</span>
+      </div>
+      <h2>${escHtml(c.title)}</h2>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:18px;">~${c.estMinutes} min read</div>
+      <div class="reading-content">${md(c.body)}</div>
+
+      <div class="reading-actions">
+        ${prev ? `<button class="btn" data-act="prev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Prev</button>` : ''}
+        <button class="btn ${isRead ? 'success' : 'primary'}" data-act="toggle-read">
+          ${isRead ? '✓ Marked as read' : 'Mark as read'}
+        </button>
+        ${next ? `<button class="btn primary" data-act="next">Next <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>` : ''}
+      </div>
+    </div>
+  `;
+  $('#back-btn').addEventListener('click', () => navigate('learn-home'));
+  $('[data-act="toggle-read"]').addEventListener('click', () => {
+    if (state.read[c.id]) {
+      delete state.read[c.id];
+      toast('Marked as unread');
+    } else {
+      state.read[c.id] = Date.now();
+      toast('✓ Chapter completed');
+    }
+    saveState();
+    renderChapter(root, id);
+  });
+  if (prev) $('[data-act="prev"]').addEventListener('click', () => navigate('chapter', { id: prev.id }));
+  if (next) $('[data-act="next"]').addEventListener('click', () => navigate('chapter', { id: next.id }));
+}
+
+/* ====== Test home (configurator) ====== */
+let testConfig = {
+  domains: new Set([1,2,3,4,5]),
+  numQuestions: 20,
+  timed: false,
+  mode: 'practice', // practice = explain after each, exam = explain at end
+};
+
+function renderTestHome(root) {
+  const totalAvail = QUESTIONS.filter(q => testConfig.domains.has(q.domain)).length;
+  const sizeChoices = [10, 20, 30, 50, 90];
+  const filteredSizes = sizeChoices.filter(n => n <= totalAvail);
+  if (filteredSizes.length === 0) filteredSizes.push(totalAvail);
+  if (testConfig.numQuestions > totalAvail) testConfig.numQuestions = totalAvail;
+
+  root.innerHTML = `
+    <div class="test-config">
+      <h2>Build a test</h2>
+      <div class="help">Practice with explanations or simulate the real exam.</div>
+
+      <div class="field">
+        <label>Mode</label>
+        <div class="choice-row">
+          <button class="chip ${testConfig.mode === 'practice' ? 'active' : ''}" data-mode="practice">Practice (explain each)</button>
+          <button class="chip ${testConfig.mode === 'exam' ? 'active' : ''}" data-mode="exam">Exam mode</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Domains (${testConfig.domains.size} selected · ${totalAvail} questions available)</label>
+        <div class="choice-row">
+          ${DOMAINS.map(d => `
+            <button class="chip ${testConfig.domains.has(d.id) ? 'active' : ''}" data-dom="${d.id}"
+              style="${testConfig.domains.has(d.id) ? `background:${d.color}; border-color:${d.color}; color:white;` : ''}">
+              ${d.code} ${escHtml(d.title.split(' ').slice(0,2).join(' '))}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Number of questions</label>
+        <div class="choice-row">
+          ${filteredSizes.map(n => `<button class="chip ${testConfig.numQuestions === n ? 'active' : ''}" data-size="${n}">${n}</button>`).join('')}
+          <button class="chip ${testConfig.numQuestions === totalAvail && !filteredSizes.includes(totalAvail) ? 'active' : ''}" data-size="${totalAvail}">All ${totalAvail}</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Timer (90 min like the real exam)</label>
+        <div class="choice-row">
+          <button class="chip ${!testConfig.timed ? 'active' : ''}" data-timed="off">Untimed</button>
+          <button class="chip ${testConfig.timed ? 'active' : ''}" data-timed="on">90 min timer</button>
+        </div>
+      </div>
+
+      <button class="btn primary" id="start-test" style="margin-top:16px;" ${testConfig.domains.size === 0 ? 'disabled' : ''}>
+        Start ${testConfig.numQuestions}-question test
+      </button>
+    </div>
+  `;
+
+  $$('[data-mode]').forEach(b => b.addEventListener('click', () => {
+    testConfig.mode = b.dataset.mode; renderTestHome(root);
+  }));
+  $$('[data-dom]').forEach(b => b.addEventListener('click', () => {
+    const id = parseInt(b.dataset.dom, 10);
+    if (testConfig.domains.has(id)) testConfig.domains.delete(id);
+    else testConfig.domains.add(id);
+    renderTestHome(root);
+  }));
+  $$('[data-size]').forEach(b => b.addEventListener('click', () => {
+    testConfig.numQuestions = parseInt(b.dataset.size, 10);
+    renderTestHome(root);
+  }));
+  $$('[data-timed]').forEach(b => b.addEventListener('click', () => {
+    testConfig.timed = b.dataset.timed === 'on';
+    renderTestHome(root);
+  }));
+  $('#start-test').addEventListener('click', startTest);
+}
+
+/* ====== Test session ====== */
+function startTest() {
+  const pool = QUESTIONS.filter(q => testConfig.domains.has(q.domain));
+  const picked = shuffle(pool).slice(0, testConfig.numQuestions);
+  // Shuffle answer choices per question while remembering correct index
+  const prepared = picked.map(q => {
+    const order = shuffle([0,1,2,3]);
+    return {
+      ...q,
+      shuffledOptions: order.map(i => q.options[i]),
+      newAnswerIndex: order.indexOf(q.answer),
+    };
+  });
+  testSession = {
+    startedAt: Date.now(),
+    config: { ...testConfig, domains: Array.from(testConfig.domains) },
+    questions: prepared,
+    answers: new Array(prepared.length).fill(null),
+    submitted: new Array(prepared.length).fill(false),
+    currentIdx: 0,
+    timed: testConfig.timed,
+    timeLimitSec: testConfig.timed ? 90 * 60 : null,
+    finished: false,
+  };
+  navigate('test-running');
+}
+
+let timerInterval = null;
+function renderTestRunning(root) {
+  if (!testSession) { navigate('test-home'); return; }
+  const s = testSession;
+  const i = s.currentIdx;
+  const q = s.questions[i];
+  const total = s.questions.length;
+  const pct = ((i + 1) / total) * 100;
+  const isPractice = s.config.mode === 'practice';
+  const submitted = s.submitted[i];
+  const userAns = s.answers[i];
+
+  let timerHtml = '';
+  if (s.timed) {
+    const elapsed = Math.floor((Date.now() - s.startedAt) / 1000);
+    const remaining = Math.max(0, s.timeLimitSec - elapsed);
+    timerHtml = `<div class="timer" id="timer-display">${fmtDuration(remaining)}</div>`;
+  }
+
+  root.innerHTML = `
+    <div class="test-bar">
+      <div class="progress">Q ${i + 1} / ${total}</div>
+      ${timerHtml}
+      <button class="btn ghost" id="quit-test" style="flex:0; max-width:60px; min-height:32px; padding: 4px 10px; font-size: 12px;">Quit</button>
+    </div>
+    <div class="q-progress"><div class="q-progress-fill" style="width:${pct}%"></div></div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+        <div style="font-size:11px; color:${DOMAINS.find(d=>d.id===q.domain).color}; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">
+          Domain ${q.domain}
+        </div>
+        <button class="flag-btn ${state.flagged[q.id] ? 'flagged' : ''}" data-act="flag" title="Flag for review">
+          ${state.flagged[q.id] ? '⚑ Flagged' : '⚐ Flag'}
+        </button>
+      </div>
+      <div class="question-text">${escHtml(q.q)}</div>
+      <div class="options" id="options">
+        ${q.shuffledOptions.map((opt, k) => {
+          let cls = 'option';
+          if (submitted) {
+            if (k === q.newAnswerIndex) cls += ' correct';
+            else if (k === userAns) cls += ' incorrect';
+            cls += ' locked';
+          } else if (userAns === k) cls += ' selected';
+          return `
+            <button class="${cls}" data-opt="${k}">
+              <span class="opt-letter">${String.fromCharCode(65 + k)}</span>
+              <span>${escHtml(opt)}</span>
+            </button>`;
+        }).join('')}
+      </div>
+      ${submitted && isPractice ? `
+        <div class="explain"><strong>${userAns === q.newAnswerIndex ? '✓ Correct.' : '✗ Incorrect.'}</strong> ${escHtml(q.explain)}</div>
+      ` : ''}
+    </div>
+
+    <div class="reading-actions">
+      ${i > 0 ? `<button class="btn" data-act="prev">‹ Prev</button>` : ''}
+      ${!submitted && isPractice
+        ? `<button class="btn primary" data-act="submit" ${userAns === null ? 'disabled' : ''}>Submit</button>`
+        : (i < total - 1
+          ? `<button class="btn primary" data-act="next">Next ›</button>`
+          : `<button class="btn primary" data-act="finish">Finish test</button>`)
+      }
+      ${!isPractice && !submitted ? `<button class="btn primary" data-act="exam-next" ${userAns === null ? 'disabled' : ''}>${i < total - 1 ? 'Next ›' : 'Finish'}</button>` : ''}
+    </div>
+  `;
+
+  // Set up timer
+  if (timerInterval) clearInterval(timerInterval);
+  if (s.timed) {
+    timerInterval = setInterval(() => {
+      const td = $('#timer-display');
+      if (!td) { clearInterval(timerInterval); return; }
+      const elapsed = Math.floor((Date.now() - s.startedAt) / 1000);
+      const remaining = Math.max(0, s.timeLimitSec - elapsed);
+      td.textContent = fmtDuration(remaining);
+      if (remaining === 0) {
+        clearInterval(timerInterval);
+        finishTest(true);
+      }
+    }, 1000);
+  }
+
+  // Listeners
+  $$('.option').forEach(opt => opt.addEventListener('click', () => {
+    if (s.submitted[i]) return;
+    s.answers[i] = parseInt(opt.dataset.opt, 10);
+    if (!isPractice) {
+      // exam mode auto-progress on click
+      renderTestRunning(root);
+    } else {
+      renderTestRunning(root);
+    }
+  }));
+  const submitBtn = $('[data-act="submit"]');
+  if (submitBtn) submitBtn.addEventListener('click', () => {
+    s.submitted[i] = true;
+    recordAnswer(q.id, s.answers[i] === q.newAnswerIndex);
+    saveState();
+    renderTestRunning(root);
+  });
+  const examNext = $('[data-act="exam-next"]');
+  if (examNext) examNext.addEventListener('click', () => {
+    s.submitted[i] = true;
+    recordAnswer(q.id, s.answers[i] === q.newAnswerIndex);
+    saveState();
+    if (i < total - 1) { s.currentIdx++; renderTestRunning(root); }
+    else { finishTest(false); }
+  });
+  const nextBtn = $('[data-act="next"]');
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    s.currentIdx++;
+    renderTestRunning(root);
+  });
+  const prevBtn = $('[data-act="prev"]');
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    s.currentIdx--;
+    renderTestRunning(root);
+  });
+  const finishBtn = $('[data-act="finish"]');
+  if (finishBtn) finishBtn.addEventListener('click', () => finishTest(false));
+  const flagBtn = $('[data-act="flag"]');
+  if (flagBtn) flagBtn.addEventListener('click', () => {
+    if (state.flagged[q.id]) delete state.flagged[q.id]; else state.flagged[q.id] = true;
+    saveState();
+    renderTestRunning(root);
+  });
+  const quitBtn = $('#quit-test');
+  if (quitBtn) quitBtn.addEventListener('click', () => {
+    modal('Quit test?', 'Your progress in this test will be lost (your stats from answered questions are kept).', [
+      { label: 'Keep going', style: 'ghost' },
+      { label: 'Quit', style: 'danger', onClick: () => { testSession = null; if (timerInterval) clearInterval(timerInterval); navigate('test-home'); } }
+    ]);
+  });
+}
+
+function finishTest(timedOut) {
+  if (timerInterval) clearInterval(timerInterval);
+  const s = testSession;
+  s.finished = true;
+  // For exam mode, ensure all answered Qs are recorded (they are in handler).
+  const total = s.questions.length;
+  let correct = 0;
+  const byDomain = {};
+  s.questions.forEach((q, i) => {
+    const isCorrect = s.answers[i] === q.newAnswerIndex;
+    if (!byDomain[q.domain]) byDomain[q.domain] = { c: 0, t: 0 };
+    byDomain[q.domain].t += 1;
+    if (isCorrect) { correct++; byDomain[q.domain].c += 1; }
+    if (s.config.mode === 'exam' && !s.submitted[i] && s.answers[i] !== null) {
+      // already recorded above in submit handler; skip
+    }
+  });
+  const durationSec = Math.floor((Date.now() - s.startedAt) / 1000);
+  state.testHistory.unshift({
+    ts: Date.now(),
+    total,
+    correct,
+    byDomain,
+    durationSec,
+    domains: s.config.domains,
+    mode: s.config.mode,
+    timedOut: !!timedOut,
+  });
+  if (state.testHistory.length > 50) state.testHistory = state.testHistory.slice(0, 50);
+  saveState();
+  navigate('test-results');
+}
+
+function renderTestResults(root) {
+  if (!testSession) { navigate('test-home'); return; }
+  const s = testSession;
+  const total = s.questions.length;
+  let correct = 0;
+  const byDomain = {};
+  const wrong = [];
+  s.questions.forEach((q, i) => {
+    const isCorrect = s.answers[i] === q.newAnswerIndex;
+    if (!byDomain[q.domain]) byDomain[q.domain] = { c: 0, t: 0 };
+    byDomain[q.domain].t += 1;
+    if (isCorrect) { correct++; byDomain[q.domain].c += 1; }
+    else wrong.push({ q, idx: i, userAns: s.answers[i] });
+  });
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const passColor = pct >= 75 ? 'var(--success)' : (pct >= 60 ? 'var(--warning)' : 'var(--danger)');
+  const passLabel = pct >= 75 ? 'PASS' : (pct >= 60 ? 'CLOSE' : 'BELOW');
+
+  let html = `
+    <div class="card" style="text-align:center; padding:24px;">
+      <div style="font-size:13px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Test results</div>
+      <div style="font-size:48px; font-weight:800; color:${passColor}; margin:8px 0; letter-spacing:-0.03em;">${pct}%</div>
+      <div style="font-size:14px; color:var(--text-dim);">${correct} of ${total} correct · ${passLabel}</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">Duration: ${fmtDuration(Math.floor((Date.now() - s.startedAt) / 1000))}</div>
+    </div>
+
+    <div class="section-title">By domain</div>
+    ${Object.entries(byDomain).map(([d, v]) => {
+      const dom = DOMAINS.find(x => x.id === parseInt(d, 10));
+      const p = v.t > 0 ? (v.c / v.t) * 100 : 0;
+      return `
+        <div class="bar-row">
+          <div class="name">${dom.code} ${escHtml(dom.title.split(' ').slice(0,3).join(' '))}</div>
+          <div class="bar"><div style="width:${p}%; background:${dom.color}"></div></div>
+          <div class="pct">${v.c}/${v.t}</div>
+        </div>`;
+    }).join('')}
+
+    ${wrong.length > 0 ? `
+      <div class="section-title">Review missed (${wrong.length})</div>
+      ${wrong.map(({ q, userAns }) => `
+        <div class="card">
+          <div style="font-size:11px; color:${DOMAINS.find(d=>d.id===q.domain).color}; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;">Domain ${q.domain}</div>
+          <div style="font-weight:500; font-size:15px; line-height:1.4; margin-bottom:10px;">${escHtml(q.q)}</div>
+          ${userAns !== null ? `<div style="font-size:13px; color:var(--danger); margin-bottom:4px;">✗ Your answer: ${escHtml(q.shuffledOptions[userAns])}</div>` : `<div style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">— No answer given —</div>`}
+          <div style="font-size:13px; color:var(--success); margin-bottom:8px;">✓ Correct: ${escHtml(q.shuffledOptions[q.newAnswerIndex])}</div>
+          <div class="explain" style="margin-top:6px;">${escHtml(q.explain)}</div>
+        </div>
+      `).join('')}
+    ` : `
+      <div class="card" style="text-align:center; padding:24px; color:var(--success);">
+        🏆 Perfect score!
+      </div>
+    `}
+
+    <div class="reading-actions">
+      <button class="btn" id="back-test">Back to tests</button>
+      <button class="btn primary" id="retry-test">Try again</button>
+    </div>
+  `;
+  root.innerHTML = html;
+  $('#back-test').addEventListener('click', () => { testSession = null; navigate('test-home'); });
+  $('#retry-test').addEventListener('click', () => { testSession = null; startTest(); });
+}
+
+/* ====== Score view ====== */
+function renderScore(root) {
+  const overall = overallAccuracy();
+  const totalChapters = CHAPTERS.length;
+  const readChapters = readCount();
+  const readPct = (readChapters / totalChapters) * 100;
+  const totalQ = QUESTIONS.length;
+  const seenQ = Object.values(state.questionStats).filter(s => s.seen > 0).length;
+
+  // Suggest weakest domain
+  const domainStats = DOMAINS.map(d => {
+    const acc = questionAccuracyForDomain(d.id);
+    const rp = readPctForDomain(d.id);
+    return { d, acc, rp };
+  });
+  const seenDomains = domainStats.filter(x => x.acc.seen > 0);
+  let focus = null;
+  if (seenDomains.length > 0) {
+    focus = seenDomains.slice().sort((a,b) => a.acc.pct - b.acc.pct)[0];
+  } else {
+    // Suggest least-read
+    focus = domainStats.slice().sort((a,b) => a.rp - b.rp)[0];
+  }
+
+  let html = `
+    <div class="score-summary">
+      <div class="stat-card">
+        <div class="label">Reading</div>
+        <div class="value" style="color: var(--primary)">${Math.round(readPct)}%</div>
+        <div class="sub">${readChapters} / ${totalChapters} chapters</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Test accuracy</div>
+        <div class="value" style="color: ${overall.pct >= 75 ? 'var(--success)' : overall.pct >= 60 ? 'var(--warning)' : 'var(--danger)'}">${overall.seen > 0 ? Math.round(overall.pct) + '%' : '—'}</div>
+        <div class="sub">${overall.correct} / ${overall.seen} answered correctly</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:12px; font-weight:600; text-transform: uppercase; letter-spacing:0.05em; color:var(--text-muted); margin-bottom:8px;">📚 Recommended focus</div>
+      ${focus ? `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="domain-pill" style="background:${focus.d.color}">${focus.d.code}</div>
+          <div style="flex:1;">
+            <div style="font-weight:600; font-size:14px;">${escHtml(focus.d.title)}</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+              ${focus.acc.seen > 0 ? `${Math.round(focus.acc.pct)}% accuracy · ` : ''}${Math.round(focus.rp)}% read
+            </div>
+          </div>
+        </div>
+        <button class="btn primary" style="margin-top:12px; width:100%;" id="focus-btn">Study this domain</button>
+      ` : '<div style="color:var(--text-muted); font-size:14px;">Take a test to get a recommendation.</div>'}
+    </div>
+
+    <div class="section-title">Reading progress per domain</div>
+    ${DOMAINS.map(d => {
+      const pct = readPctForDomain(d.id);
+      const ch = chaptersForDomain(d.id);
+      const r = ch.filter(c => state.read[c.id]).length;
+      return `
+        <div class="bar-row">
+          <div class="name">${d.code} ${escHtml(d.title.split(' ').slice(0,3).join(' '))}</div>
+          <div class="bar"><div style="width:${pct}%; background:${d.color}"></div></div>
+          <div class="pct">${r}/${ch.length}</div>
+        </div>`;
+    }).join('')}
+
+    <div class="section-title">Test accuracy per domain</div>
+    ${DOMAINS.map(d => {
+      const acc = questionAccuracyForDomain(d.id);
+      return `
+        <div class="bar-row">
+          <div class="name">${d.code} ${escHtml(d.title.split(' ').slice(0,3).join(' '))}</div>
+          <div class="bar"><div style="width:${acc.pct}%; background:${acc.pct >= 75 ? 'var(--success)' : acc.pct >= 60 ? 'var(--warning)' : 'var(--danger)'}"></div></div>
+          <div class="pct">${acc.seen > 0 ? Math.round(acc.pct) + '%' : '—'}</div>
+        </div>`;
+    }).join('')}
+
+    <div class="section-title">Recent tests</div>
+    ${state.testHistory.length === 0 ? `
+      <div class="empty-state">
+        <div class="emoji">📝</div>
+        <div class="title">No tests yet</div>
+        <div class="sub">Take a test to see history here.</div>
+      </div>
+    ` : state.testHistory.slice(0, 10).map(h => {
+      const p = Math.round((h.correct / h.total) * 100);
+      const color = p >= 75 ? 'var(--success)' : p >= 60 ? 'var(--warning)' : 'var(--danger)';
+      return `
+        <div class="history-item">
+          <div style="flex:1;">
+            <div class="what">${h.total} Q · ${fmtDuration(h.durationSec)} · ${escHtml(h.mode)}</div>
+            <div class="when">${fmtDate(h.ts)}${h.timedOut ? ' · timed out' : ''}</div>
+          </div>
+          <div class="score-badge" style="background:${color}; color:white;">${p}%</div>
+        </div>`;
+    }).join('')}
+
+    <div class="section-title">Manage data</div>
+    <div class="card">
+      <div style="font-size:13px; color:var(--text-dim); margin-bottom:10px;">${seenQ} of ${totalQ} questions attempted at least once.</div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn ghost" id="export-btn">Export progress</button>
+        <button class="btn danger" id="reset-btn">Reset all</button>
+      </div>
+    </div>
+  `;
+
+  root.innerHTML = html;
+  if (focus) {
+    $('#focus-btn').addEventListener('click', () => {
+      // Open first unread chapter for that domain, or first chapter
+      const ch = chaptersForDomain(focus.d.id);
+      const first = ch.find(c => !state.read[c.id]) || ch[0];
+      setTab('learn');
+      setTimeout(() => navigate('chapter', { id: first.id }), 50);
+    });
+  }
+  $('#reset-btn').addEventListener('click', () => {
+    modal('Reset all progress?', 'This will clear reading progress, test history, and stats. Cannot be undone.', [
+      { label: 'Cancel', style: 'ghost' },
+      { label: 'Reset', style: 'danger', onClick: () => {
+        state = JSON.parse(JSON.stringify(defaultState));
+        saveState();
+        toast('All progress reset');
+        render();
+      } }
+    ]);
+  });
+  $('#export-btn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'sy701-progress.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast('Exported progress');
+  });
+}
+
+/* ============================== Init ============================== */
+Array.from(document.querySelectorAll('.sec-bottom-nav button')).forEach(b => {
+  b.addEventListener('click', () => setTab(b.dataset.nav));
+});
+document.getElementById('sec-header-action').addEventListener('click', () => {
+  modal('Security+ SY0-701 Study App',
+    'Tap Learn to read chapters · Test to build a quiz · Score to see progress. All data is stored locally on your device.',
+    [{ label: 'OK', style: 'primary' }]);
+});
+
+render();
+})();
+</script>

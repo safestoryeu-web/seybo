@@ -1,4 +1,4 @@
-// File: C:\Users\seybo\Desktop\SEYBO\PROJECT Vercel\seybo\app\layout.tsx
+// File: C:\Users\seybo\Desktop\SEYBO PROJECTS\SEYBO\Seybo_Learning\seybo\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
