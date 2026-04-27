@@ -716,7 +716,7 @@ function renderTestRunning(root) {
         }).join('')}
       </div>
       ${submitted && isPractice ? `
-        <div class="explain"><strong>${userAns === q.newAnswerIndex ? '✓ Correct.' : '✗ Incorrect.'}</strong> ${escHtml(q.explain)}</div>
+        <div class="explain"><strong>${userAns === q.newAnswerIndex ? '✓ Správne.' : '✗ Nesprávne.'}</strong> ${escHtml(q.explain)}${q.explainSk ? `<div class="explain-sk">${escHtml(q.explainSk)}</div>` : ''}</div>
       ` : ''}
     </div>
 
@@ -880,7 +880,7 @@ function renderTestResults(root) {
           <div style="font-weight:500; font-size:15px; line-height:1.4; margin-bottom:10px;">${escHtml(q.q)}</div>
           ${userAns !== null ? `<div style="font-size:13px; color:var(--danger); margin-bottom:4px;">✗ Your answer: ${escHtml(q.shuffledOptions[userAns])}</div>` : `<div style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">— No answer given —</div>`}
           <div style="font-size:13px; color:var(--success); margin-bottom:8px;">✓ Correct: ${escHtml(q.shuffledOptions[q.newAnswerIndex])}</div>
-          <div class="explain" style="margin-top:6px;">${escHtml(q.explain)}</div>
+          <div class="explain" style="margin-top:6px;">${escHtml(q.explain)}${q.explainSk ? `<div class="explain-sk">${escHtml(q.explainSk)}</div>` : ''}</div>
         </div>
       `).join('')}
     ` : `

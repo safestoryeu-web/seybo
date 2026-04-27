@@ -697,8 +697,8 @@ export function LearningApp() {
           </div>
           {submitted && isPractice && (
             <div className={s.explain}>
-              <strong>{userAns === q.newAnswerIndex ? "✓ Správne." : "✗ Nesprávne."}</strong>{" "}
-              {q.explain}
+              <strong>{userAns === q.newAnswerIndex ? "✓ Správne." : "✗ Nesprávne."}</strong> {q.explain}
+              {q.explainSk ? <span className={s.explainSk}>{q.explainSk}</span> : null}
             </div>
           )}
         </div>
@@ -846,7 +846,10 @@ export function LearningApp() {
                 <div style={{ fontSize: 13, color: "var(--success)", marginBottom: 8 }}>
                   ✓ Správne: {w.q.shuffledOptions[w.q.newAnswerIndex]}
                 </div>
-                <div className={s.explain}>{w.q.explain}</div>
+                <div className={s.explain}>
+                  {w.q.explain}
+                  {w.q.explainSk ? <span className={s.explainSk}>{w.q.explainSk}</span> : null}
+                </div>
               </div>
             ))}
           </>

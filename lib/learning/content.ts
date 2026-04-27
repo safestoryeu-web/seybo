@@ -25,6 +25,8 @@ export interface Question {
   options: string[];
   answer: number;
   explain: string;
+  /** Slovak explanation shown under the English explain in quizzes. */
+  explainSk?: string;
 }
 
 export const DOMAINS = domainsJson as Domain[];

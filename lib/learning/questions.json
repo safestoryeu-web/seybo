@@ -10,7 +10,8 @@
       "There is no functional difference"
     ],
     "answer": 1,
-    "explain": "An IDS detects and alerts on suspicious activity (out-of-band/passive). An IPS sits inline and can actively block malicious traffic."
+    "explain": "An IDS detects and alerts on suspicious activity (out-of-band/passive). An IPS sits inline and can actively block malicious traffic.",
+    "explainSk": "IDS odhaľuje podozrivú aktivitu a len upozorní (pasívne, mimo pásma). IPS sedí priamo v toku a vie aktívne blokovať škodlivú premávku."
   },
   {
     "id": "q002",
@@ -23,7 +24,8 @@
       "Steganography"
     ],
     "answer": 1,
-    "explain": "Hashing produces a fixed-length fingerprint of data. Comparing the published hash to one you compute confirms integrity."
+    "explain": "Hashing produces a fixed-length fingerprint of data. Comparing the published hash to one you compute confirms integrity.",
+    "explainSk": "Hashing vytvorí pevnú dĺžku odtlačku (digest) dát. Porovnaním zverejneného hashu s vlastným výpočtom overíš, či sa súbor nezmenil — integrita."
   },
   {
     "id": "q003",
@@ -36,7 +38,8 @@
       "Compensating"
     ],
     "answer": 2,
-    "explain": "Awareness programs are operational controls — they are implemented by people, not systems."
+    "explain": "Awareness programs are operational controls — they are implemented by people, not systems.",
+    "explainSk": "Program bezpečnostného povedomia je prevádzková (operational) kontrola — realizujú ju ľudia a procesy, nie len automatické systémy."
   },
   {
     "id": "q004",
@@ -49,7 +52,8 @@
       "Directive"
     ],
     "answer": 1,
-    "explain": "A bollard physically prevents vehicles from accessing the area — it's a preventive (and physical) control."
+    "explain": "A bollard physically prevents vehicles from accessing the area — it's a preventive (and physical) control.",
+    "explainSk": "Zátaras (bollard) fyzicky bráni vjazdu vozidla — ide o preventívnu (a zároveň fyzickú) kontrolu."
   },
   {
     "id": "q005",
@@ -62,7 +66,8 @@
       "Salt + hash"
     ],
     "answer": 2,
-    "explain": "A digital signature uses the sender's private key, so only that sender could have produced it — non-repudiation."
+    "explain": "A digital signature uses the sender's private key, so only that sender could have produced it — non-repudiation.",
+    "explainSk": "Digitálny podpis používa súkromný kľúč odosielateľa, takže ho nemohol vyrobiť nik iný — zabezpečuje nepopierateľnosť pôvodu."
   },
   {
     "id": "q006",
@@ -75,7 +80,8 @@
       "Subject"
     ],
     "answer": 1,
-    "explain": "The Policy Engine evaluates conditions and produces a decision; the PEP enforces it."
+    "explain": "The Policy Engine evaluates conditions and produces a decision; the PEP enforces it.",
+    "explainSk": "Policy Engine vyhodnotí podmienky a vydá rozhodnutie o prístupe; Policy Enforcement Point (PEP) ho vynútí v premávke."
   },
   {
     "id": "q007",
@@ -88,7 +94,8 @@
       "Stronger encryption keys"
     ],
     "answer": 1,
-    "explain": "Nonces and timestamps make each authentication unique, defeating replay attacks."
+    "explain": "Nonces and timestamps make each authentication unique, defeating replay attacks.",
+    "explainSk": "Nonce a časové pečiatky robia každú autentifikáciu jedinečnou, takže opätovné prehratie starého paketu (replay) zlyhá."
   },
   {
     "id": "q008",
@@ -101,7 +108,8 @@
       "Two different passwords"
     ],
     "answer": 1,
-    "explain": "Smart card (something you have) + PIN (something you know) are different factors. Two passwords are both 'something you know.'"
+    "explain": "Smart card (something you have) + PIN (something you know) are different factors. Two passwords are both 'something you know.'",
+    "explainSk": "Čipová karta (niečo, čo máš) + PIN (niečo, čo vieš) sú dva rôzne faktory. Dve heslá sú stále len „niečo, čo vieš“ — to nie je MFA."
   },
   {
     "id": "q009",
@@ -114,7 +122,8 @@
       "LDAP"
     ],
     "answer": 1,
-    "explain": "Kerberos uses a KDC and time-bound tickets, requiring synchronized clocks (typically within 5 minutes)."
+    "explain": "Kerberos uses a KDC and time-bound tickets, requiring synchronized clocks (typically within 5 minutes).",
+    "explainSk": "Kerberos používa KDC a časovo viazané tickety, preto musia byť hodiny synchronizované (typicky do pár minút)."
   },
   {
     "id": "q010",
@@ -127,7 +136,8 @@
       "Encrypted backup of credentials"
     ],
     "answer": 2,
-    "explain": "A honeyfile looks attractive (e.g., 'passwords.xlsx') and alerts when anyone touches it."
+    "explain": "A honeyfile looks attractive (e.g., 'passwords.xlsx') and alerts when anyone touches it.",
+    "explainSk": "Honeyfile vyzerá lákavo (napr. „heslá.xlsx“) a pri otvorení spustí upozornenie — ide o návnadový súbor."
   },
   {
     "id": "q011",
@@ -140,7 +150,8 @@
       "Threat modeling"
     ],
     "answer": 0,
-    "explain": "Comparing current state to a desired state (a framework) is the definition of gap analysis."
+    "explain": "Comparing current state to a desired state (a framework) is the definition of gap analysis.",
+    "explainSk": "Porovnanie súčasného stavu kontrol s cieľovým stavom (rámec, norma) je definícia medzery — gap analysis."
   },
   {
     "id": "q012",
@@ -153,7 +164,8 @@
       "To meet auditor requirements"
     ],
     "answer": 1,
-    "explain": "A backout plan exists so the team can quickly restore service if the change has unintended impact."
+    "explain": "A backout plan exists so the team can quickly restore service if the change has unintended impact.",
+    "explainSk": "Plán návratu (backout) umožní rýchlo vrátiť službu do funkčného stavu, ak zmena spôsobí problémy."
   },
   {
     "id": "q013",
@@ -166,7 +178,8 @@
       "Public-key"
     ],
     "answer": 1,
-    "explain": "Symmetric encryption uses one key and is much faster than asymmetric — used for bulk data, often with a key exchanged via asymmetric crypto."
+    "explain": "Symmetric encryption uses one key and is much faster than asymmetric — used for bulk data, often with a key exchanged via asymmetric crypto.",
+    "explainSk": "Symetrické šifrovanie jedným kľúčom je oveľa rýchlejšie ako asymetrické — vhodné na objemy dát; kľúč sa často vymení asymetricky."
   },
   {
     "id": "q014",
@@ -179,7 +192,8 @@
       "Replace the need for hashing"
     ],
     "answer": 1,
-    "explain": "A unique salt per password ensures the same password produces different hashes, defeating precomputed rainbow tables."
+    "explain": "A unique salt per password ensures the same password produces different hashes, defeating precomputed rainbow tables.",
+    "explainSk": "Jedinečná soľ na heslo znamená, že rovnaké heslo dá rôzne hashe — znemožní to predpočítané dúhové tabuľky."
   },
   {
     "id": "q015",
@@ -192,7 +206,8 @@
       "Code-signing"
     ],
     "answer": 1,
-    "explain": "A wildcard certificate (*.example.com) covers all subdomains at one level under example.com."
+    "explain": "A wildcard certificate (*.example.com) covers all subdomains at one level under example.com.",
+    "explainSk": "Wildcard certifikát (*.example.com) pokrýva všetky subdomény jednej úrovne pod danou doménou."
   },
   {
     "id": "q016",
@@ -205,7 +220,8 @@
       "HSTS"
     ],
     "answer": 1,
-    "explain": "OCSP stapling lets the server fetch and 'staple' the OCSP response, eliminating the client lookup."
+    "explain": "OCSP stapling lets the server fetch and 'staple' the OCSP response, eliminating the client lookup.",
+    "explainSk": "OCSP stapling: server si vopred stiahne odpoveď OCSP a „pripne“ ju do TLS handshaku, klient nemusí robiť samostatný dotaz."
   },
   {
     "id": "q017",
@@ -218,7 +234,8 @@
       "KMS"
     ],
     "answer": 1,
-    "explain": "An HSM is dedicated tamper-resistant hardware. A TPM is a similar concept but lives on a motherboard for a single host."
+    "explain": "An HSM is dedicated tamper-resistant hardware. A TPM is a similar concept but lives on a motherboard for a single host.",
+    "explainSk": "HSM je špecializovaný odolný hardvér na kryptografiu. TPM je podobný koncept, ale je na doske konkrétneho hostiteľa."
   },
   {
     "id": "q018",
@@ -231,7 +248,8 @@
       "Detect malware"
     ],
     "answer": 0,
-    "explain": "Tokenization substitutes a non-sensitive token for sensitive data (e.g., credit card numbers), with the original stored in a vault."
+    "explain": "Tokenization substitutes a non-sensitive token for sensitive data (e.g., credit card numbers), with the original stored in a vault.",
+    "explainSk": "Tokenizácia nahrádza citlivé údaje (napr. číslo karty) netcitlivým tokenom; originál je v trezore."
   },
   {
     "id": "q019",
@@ -244,7 +262,8 @@
       "Real-time replication"
     ],
     "answer": 1,
-    "explain": "Each block's hash incorporates the prior block's hash, so altering any block invalidates every later one."
+    "explain": "Each block's hash incorporates the prior block's hash, so altering any block invalidates every later one.",
+    "explainSk": "Hash každého bloku obsahuje hash predchádzajúceho bloku — zmena jedného bloku znehodnotí reťazec."
   },
   {
     "id": "q020",
@@ -257,7 +276,8 @@
       "Reversibility"
     ],
     "answer": 1,
-    "explain": "Collision resistance — a strong hash should make it computationally infeasible to find two different inputs that hash to the same value."
+    "explain": "Collision resistance — a strong hash should make it computationally infeasible to find two different inputs that hash to the same value.",
+    "explainSk": "Odolnosť voči kolízii: silný hash má byť výpočtovo nezvládnuteľné nájsť dva rôzne vstupy s rovnakým digestom."
   },
   {
     "id": "q021",
@@ -270,7 +290,8 @@
       "Motion detector"
     ],
     "answer": 1,
-    "explain": "A directive control instructs subjects what to do; signage and policies are classic directive controls."
+    "explain": "A directive control instructs subjects what to do; signage and policies are classic directive controls.",
+    "explainSk": "Direktívna kontrola hovorí subjektom, čo majú robiť — cedule, zásady a podobne."
   },
   {
     "id": "q022",
@@ -283,7 +304,8 @@
       "Performing a vulnerability scan"
     ],
     "answer": 1,
-    "explain": "A compensating control mitigates risk when the primary control isn't available — like using a firewall rule until a patch is released."
+    "explain": "A compensating control mitigates risk when the primary control isn't available — like using a firewall rule until a patch is released.",
+    "explainSk": "Kompenzačná kontrola zmierňuje riziko, keď primárna kontrola chýba — napr. FW pravidlo, kým nevyjde patch."
   },
   {
     "id": "q023",
@@ -296,7 +318,8 @@
       "Federation"
     ],
     "answer": 1,
-    "explain": "Two factors from different categories (something you are + something you have) = MFA/2FA."
+    "explain": "Two factors from different categories (something you are + something you have) = MFA/2FA.",
+    "explainSk": "Dva faktory z rôznych kategórií (biometria + token) = MFA/2FA."
   },
   {
     "id": "q024",
@@ -309,7 +332,8 @@
       "Resistance to quantum attacks"
     ],
     "answer": 1,
-    "explain": "Asymmetric crypto removes the need to pre-share a secret key; the public key can be shared openly."
+    "explain": "Asymmetric crypto removes the need to pre-share a secret key; the public key can be shared openly.",
+    "explainSk": "Asymetrická kryptografia nevyžaduje vopred zdieľať tajný kľúč; verejný kľúč môže byť verejný."
   },
   {
     "id": "q025",
@@ -322,7 +346,8 @@
       "RC4 128-bit"
     ],
     "answer": 2,
-    "explain": "AES with 128-bit (or larger) keys is the current accepted standard."
+    "explain": "AES with 128-bit (or larger) keys is the current accepted standard.",
+    "explainSk": "Aktuálny štandard je AES s kľúčom aspoň 128 bitov (alebo dlhším)."
   },
   {
     "id": "q026",
@@ -335,7 +360,8 @@
       "Managerial"
     ],
     "answer": 2,
-    "explain": "Group Policy is implemented by a system to enforce settings — a technical control."
+    "explain": "Group Policy is implemented by a system to enforce settings — a technical control.",
+    "explainSk": "Group Policy vynucuje nastavenia cez systém — technická kontrola."
   },
   {
     "id": "q027",
@@ -348,7 +374,8 @@
       "Information is auditable"
     ],
     "answer": 1,
-    "explain": "Integrity ensures data has not been changed (or alteration is detectable)."
+    "explain": "Integrity ensures data has not been changed (or alteration is detectable).",
+    "explainSk": "Písmeno I v CIA znamená integritu — dáta sa nezmenili (alebo je zmena zistiteľná)."
   },
   {
     "id": "q028",
@@ -361,7 +388,8 @@
       "LDAPS"
     ],
     "answer": 1,
-    "explain": "RADIUS uses UDP and encrypts only the password field. TACACS+ uses TCP and encrypts the whole payload."
+    "explain": "RADIUS uses UDP and encrypts only the password field. TACACS+ uses TCP and encrypts the whole payload.",
+    "explainSk": "RADIUS používa UDP a šifruje len pole hesla. TACACS+ používa TCP a šifruje celý payload."
   },
   {
     "id": "q101",
@@ -374,7 +402,8 @@
       "Insider"
     ],
     "answer": 2,
-    "explain": "Nation-state actors / APTs have substantial funding, time horizons measured in years, and espionage or strategic disruption goals."
+    "explain": "Nation-state actors / APTs have substantial funding, time horizons measured in years, and espionage or strategic disruption goals.",
+    "explainSk": "Štátne / APT skupiny majú veľké financie, dlhodobé horizonty a ciele ako špionáž alebo strategické narušenie."
   },
   {
     "id": "q102",
@@ -387,7 +416,8 @@
       "Smishing"
     ],
     "answer": 1,
-    "explain": "Typosquatting registers a domain that's a misspelling of a real one to capture users who mistype."
+    "explain": "Typosquatting registers a domain that's a misspelling of a real one to capture users who mistype.",
+    "explainSk": "Typosquatting zaregistruje doménu s preklepom oproti pravej, aby chytil používateľov, ktorí zle napíšu adresu."
   },
   {
     "id": "q103",
@@ -400,7 +430,8 @@
       "Pharming attack"
     ],
     "answer": 0,
-    "explain": "Watering-hole attacks compromise sites a target group regularly visits, infecting them when they go."
+    "explain": "Watering-hole attacks compromise sites a target group regularly visits, infecting them when they go.",
+    "explainSk": "Útok na miesto, ktoré cieľová skupina pravidelne navštevuje (watering-hole), kompromituje stránku a infikuje návštevníkov."
   },
   {
     "id": "q104",
@@ -413,7 +444,8 @@
       "Race condition"
     ],
     "answer": 2,
-    "explain": "A classic buffer overflow overwrites adjacent memory, potentially the function's return address, redirecting execution."
+    "explain": "A classic buffer overflow overwrites adjacent memory, potentially the function's return address, redirecting execution.",
+    "explainSk": "Klasický buffer overflow prepíše susednú pamäť (napr. návratovú adresu funkcie) a zmení beh programu."
   },
   {
     "id": "q105",
@@ -426,7 +458,8 @@
       "Network segmentation"
     ],
     "answer": 2,
-    "explain": "Parameterized queries treat user input as data, never code, eliminating the root cause of injection."
+    "explain": "Parameterized queries treat user input as data, never code, eliminating the root cause of injection.",
+    "explainSk": "Parametrizované dotazy (prepared statements) berú vstup ako dáta, nie ako kód — odstraňujú koreň SQL injection."
   },
   {
     "id": "q106",
@@ -439,7 +472,8 @@
       "Blind"
     ],
     "answer": 1,
-    "explain": "Stored XSS is persisted on the server (e.g., in a comment) and runs in every visitor's browser."
+    "explain": "Stored XSS is persisted on the server (e.g., in a comment) and runs in every visitor's browser.",
+    "explainSk": "Uložené (persistentné) XSS zostáva na serveri (napr. v komentári) a spustí sa u každého ďalšieho návštevníka."
   },
   {
     "id": "q107",
@@ -452,7 +486,8 @@
       "Memory leak"
     ],
     "answer": 1,
-    "explain": "Time-Of-Check / Time-Of-Use is a race condition where the state changes between when it was validated and when it was used."
+    "explain": "Time-Of-Check / Time-Of-Use is a race condition where the state changes between when it was validated and when it was used.",
+    "explainSk": "TOCTOU: medzi kontrolou stavu a použitím sa stav zmení — typ pretečenia časovej medzery."
   },
   {
     "id": "q108",
@@ -465,7 +500,8 @@
       "Adware"
     ],
     "answer": 1,
-    "explain": "A worm is self-replicating and self-propagating; a virus needs a host file and user action."
+    "explain": "A worm is self-replicating and self-propagating; a virus needs a host file and user action.",
+    "explainSk": "Červ (worm) sa sám replikuje a šíri po sieti; vírus potrebuje hostiteľský súbor a často akciu používateľa."
   },
   {
     "id": "q109",
@@ -478,7 +514,8 @@
       "Bloatware"
     ],
     "answer": 1,
-    "explain": "Fileless malware leverages legitimate system tools (LOLBins) and resides in memory to evade signature-based AV."
+    "explain": "Fileless malware leverages legitimate system tools (LOLBins) and resides in memory to evade signature-based AV.",
+    "explainSk": "Bezsúborový malware využíva legitímne nástroje OS (PowerShell, WMI) a žije v pamäti, aby obišiel signatúrové AV."
   },
   {
     "id": "q110",
@@ -491,7 +528,8 @@
       "Brute force"
     ],
     "answer": 1,
-    "explain": "Pass-the-hash uses the hash as the credential — common in Windows lateral movement."
+    "explain": "Pass-the-hash uses the hash as the credential — common in Windows lateral movement.",
+    "explainSk": "Pass-the-hash používa ukradnutý hash ako prihlasovacie tajomstvo — bežné pri laterálnom pohybe vo Windows."
   },
   {
     "id": "q111",
@@ -504,7 +542,8 @@
       "Credential stuffing"
     ],
     "answer": 2,
-    "explain": "Spraying tries a few common passwords against many accounts to avoid lockout thresholds."
+    "explain": "Spraying tries a few common passwords against many accounts to avoid lockout thresholds.",
+    "explainSk": "Password spraying vyskúša málo bežných hesiel proti mnohým účtom, aby sa nestretol s prísnym zamykaním."
   },
   {
     "id": "q112",
@@ -517,7 +556,8 @@
       "HMAC"
     ],
     "answer": 1,
-    "explain": "Salting ensures the same password hashes differently for each user, defeating precomputed lookup tables."
+    "explain": "Salting ensures the same password hashes differently for each user, defeating precomputed lookup tables.",
+    "explainSk": "Soľ zaručí, že rovnaké heslo má u každého používateľa iný hash — porazí predpočítané dúhové tabuľky."
   },
   {
     "id": "q113",
@@ -530,7 +570,8 @@
       "Port 22 firewall rules"
     ],
     "answer": 0,
-    "explain": "DAI (often combined with DHCP snooping) validates ARP packets against trusted bindings; VLAN segmentation limits scope."
+    "explain": "DAI (often combined with DHCP snooping) validates ARP packets against trusted bindings; VLAN segmentation limits scope.",
+    "explainSk": "DAI (Dynamic ARP Inspection) s DHCP snoopingom overuje ARP voči dôveryhodným väzbám; VLAN segmentácia obmedzí dosah."
   },
   {
     "id": "q114",
@@ -543,7 +584,8 @@
       "Pharming"
     ],
     "answer": 1,
-    "explain": "Evil twin = a rogue AP impersonating a legitimate SSID to capture credentials and traffic."
+    "explain": "Evil twin = a rogue AP impersonating a legitimate SSID to capture credentials and traffic.",
+    "explainSk": "Evil twin je falošný prístupový bod s rovnakým SSID ako legitímna sieť, aby zachytil prihlasovanie a premávku."
   },
   {
     "id": "q115",
@@ -556,7 +598,8 @@
       "Split-horizon DNS"
     ],
     "answer": 1,
-    "explain": "DNSSEC adds digital signatures to DNS responses so resolvers can verify authenticity."
+    "explain": "DNSSEC adds digital signatures to DNS responses so resolvers can verify authenticity.",
+    "explainSk": "DNSSEC pridáva digitálne podpisy k odpovediam DNS, aby resolver overil autenticitu."
   },
   {
     "id": "q116",
@@ -569,7 +612,8 @@
       "A vulnerability that requires admin access"
     ],
     "answer": 2,
-    "explain": "Zero-days are unknown to the vendor; no patch yet exists, so defense relies on layered, behavior-based protections."
+    "explain": "Zero-days are unknown to the vendor; no patch yet exists, so defense relies on layered, behavior-based protections.",
+    "explainSk": "Zero-day je zraniteľnosť, o ktorej dodávateľ ešte nevie a neexistuje patch — obrana je vrstvená a správaním."
   },
   {
     "id": "q117",
@@ -582,7 +626,8 @@
       "Replay attack"
     ],
     "answer": 1,
-    "explain": "Compromising the software update mechanism (or vendor) to deliver malware is a supply-chain attack (e.g., SolarWinds)."
+    "explain": "Compromising the software update mechanism (or vendor) to deliver malware is a supply-chain attack (e.g., SolarWinds).",
+    "explainSk": "Kompromitovanie reťazca dodávateľa alebo aktualizácií na doručenie malwaru je supply-chain útok (napr. SolarWinds)."
   },
   {
     "id": "q118",
@@ -595,7 +640,8 @@
       "Pay the ransom"
     ],
     "answer": 1,
-    "explain": "Containment limits the blast radius. Identification and other steps follow once spread is stopped."
+    "explain": "Containment limits the blast radius. Identification and other steps follow once spread is stopped.",
+    "explainSk": "Pri šíriacom sa ransomware treba najprv izolovať hostiteľov (kontajment), aby sa zastavil dosah; identifikácia potom."
   },
   {
     "id": "q119",
@@ -608,7 +654,8 @@
       "ITIL"
     ],
     "answer": 0,
-    "explain": "MITRE ATT&CK organizes real-world TTPs across the kill chain and is widely used for detection engineering and threat hunting."
+    "explain": "MITRE ATT&CK organizes real-world TTPs across the kill chain and is widely used for detection engineering and threat hunting.",
+    "explainSk": "MITRE ATT&CK katalogizuje reálne taktiky a techniky protivníka podľa fáz kill chain — pre detekciu a lov hrozieb."
   },
   {
     "id": "q120",
@@ -621,7 +668,8 @@
       "Multiple failed logins from one IP"
     ],
     "answer": 1,
-    "explain": "Successful logins from far-apart geographies in a short window indicate credential theft (impossible travel)."
+    "explain": "Successful logins from far-apart geographies in a short window indicate credential theft (impossible travel).",
+    "explainSk": "Dva úspešné loginy z veľmi vzdialených miest v krátkom čase naznačujú krádež prihlasovacích údajov (nemožná cesta)."
   },
   {
     "id": "q121",
@@ -634,7 +682,8 @@
       "Add to internet-facing DMZ"
     ],
     "answer": 1,
-    "explain": "Wrap unpatchable systems in compensating controls (segmentation, monitoring, restricted access)."
+    "explain": "Wrap unpatchable systems in compensating controls (segmentation, monitoring, restricted access).",
+    "explainSk": "Nedá sa patchnúť — obal kompenzačnými kontrolami: segmentácia, monitoring, obmedzený prístup."
   },
   {
     "id": "q122",
@@ -647,7 +696,8 @@
       "Daily password rotation"
     ],
     "answer": 2,
-    "explain": "FIDO2/WebAuthn keys are origin-bound and resist phishing even if the user is fooled."
+    "explain": "FIDO2/WebAuthn keys are origin-bound and resist phishing even if the user is fooled.",
+    "explainSk": "FIDO2/WebAuthn kľúče sú viazané na pôvod a odolávajú phishingu aj pri oklamaní používateľa."
   },
   {
     "id": "q123",
@@ -660,7 +710,8 @@
       "A trojan disguised as a game"
     ],
     "answer": 1,
-    "explain": "A logic bomb triggers on a condition (date, event). It's often planted by insiders."
+    "explain": "A logic bomb triggers on a condition (date, event). It's often planted by insiders.",
+    "explainSk": "Logická bomba sa spustí pri podmienke (dátum, udalosť); často ju zasadí insider."
   },
   {
     "id": "q124",
@@ -673,7 +724,8 @@
       "SQLi"
     ],
     "answer": 2,
-    "explain": "Server-Side Request Forgery (SSRF) tricks a server into making attacker-chosen requests, often pivoting to internal services."
+    "explain": "Server-Side Request Forgery (SSRF) tricks a server into making attacker-chosen requests, often pivoting to internal services.",
+    "explainSk": "SSRF donúti server vykonať požiadavky útočníka, často smerom na interné služby nedostupné z internetu."
   },
   {
     "id": "q125",
@@ -686,7 +738,8 @@
       "Stronger TLS ciphers"
     ],
     "answer": 0,
-    "explain": "Anti-CSRF tokens validate that the request originated from the legitimate UI; SameSite cookies prevent cross-site send."
+    "explain": "Anti-CSRF tokens validate that the request originated from the legitimate UI; SameSite cookies prevent cross-site send.",
+    "explainSk": "Anti-CSRF tokeny overia, že požiadavka pochádza z legitímneho UI; SameSite obmedzí odoslanie z iných stránok."
   },
   {
     "id": "q126",
@@ -699,7 +752,8 @@
       "DNS tunneling"
     ],
     "answer": 1,
-    "explain": "Amplification DDoS leverages services that respond with much more data than the request, with spoofed source IPs."
+    "explain": "Amplification DDoS leverages services that respond with much more data than the request, with spoofed source IPs.",
+    "explainSk": "DNS amplifikácia: sfalšovaná zdrojová IP a otvorené resolvery vygenerujú obrovskú odozvu na obeť."
   },
   {
     "id": "q127",
@@ -712,7 +766,8 @@
       "Honeypot infrastructure"
     ],
     "answer": 1,
-    "explain": "Shadow IT = unsanctioned tech (personal cloud, side accounts) that creates unmanaged risk."
+    "explain": "Shadow IT = unsanctioned tech (personal cloud, side accounts) that creates unmanaged risk.",
+    "explainSk": "Shadow IT sú neschválené technológie (súkromný cloud, vlastné účty), ktoré vytvárajú neriadené riziko."
   },
   {
     "id": "q128",
@@ -725,7 +780,8 @@
       "Lighting"
     ],
     "answer": 1,
-    "explain": "A mantrap admits only one person at a time, defeating tailgating directly."
+    "explain": "A mantrap admits only one person at a time, defeating tailgating directly.",
+    "explainSk": "Mantrap (bezpečnostná chodba) pustí naraz len jednu osobu — priamo bráni tailgatingu."
   },
   {
     "id": "q129",
@@ -738,7 +794,8 @@
       "Disabling logging"
     ],
     "answer": 1,
-    "explain": "Hardened cookie attributes plus short timeouts limit theft and abuse windows."
+    "explain": "Hardened cookie attributes plus short timeouts limit theft and abuse windows.",
+    "explainSk": "HttpOnly, Secure, SameSite a krátke timeouty obmedzia zneužitie ukradnutých session cookies."
   },
   {
     "id": "q130",
@@ -751,7 +808,8 @@
       "Vishing"
     ],
     "answer": 0,
-    "explain": "Targeted email impersonating an executive to drive financial fraud is BEC (Business Email Compromise), often classed under spear phishing."
+    "explain": "Targeted email impersonating an executive to drive financial fraud is BEC (Business Email Compromise), often classed under spear phishing.",
+    "explainSk": "Cielený e-mail za výkonného na finančný podvod je BEC (Business Email Compromise), často pod spear phishing."
   },
   {
     "id": "q201",
@@ -764,7 +822,8 @@
       "Neither — it auto-patches"
     ],
     "answer": 1,
-    "explain": "In IaaS, the customer manages the OS, runtime, application, and data. The provider handles physical and hypervisor layers."
+    "explain": "In IaaS, the customer manages the OS, runtime, application, and data. The provider handles physical and hypervisor layers.",
+    "explainSk": "V IaaS zákazník spravuje OS, runtime, aplikáciu a dáta; poskytovateľ fyziku a hypervízor."
   },
   {
     "id": "q202",
@@ -777,7 +836,8 @@
       "Edge"
     ],
     "answer": 1,
-    "explain": "Hybrid combines private + public with orchestration. Multicloud uses multiple public providers."
+    "explain": "Hybrid combines private + public with orchestration. Multicloud uses multiple public providers.",
+    "explainSk": "Hybrid spája súkromný a verejný cloud s orchestráciou. Multicloud znamená viacerých verejných poskytovateľov."
   },
   {
     "id": "q203",
@@ -790,7 +850,8 @@
       "Dedicated VLAN for guests"
     ],
     "answer": 1,
-    "explain": "Microsegmentation enforces fine-grained policy down to individual workloads, often with host firewalls or a service mesh."
+    "explain": "Microsegmentation enforces fine-grained policy down to individual workloads, often with host firewalls or a service mesh.",
+    "explainSk": "Mikrosegmentácia uplatňuje jemnú sieťovú politiku na úroveň jednotlivých workloadov (host FW, service mesh)."
   },
   {
     "id": "q204",
@@ -803,7 +864,8 @@
       "NetFlow collector"
     ],
     "answer": 2,
-    "explain": "An IPS is inline and actively blocks; an IDS is passive and only alerts."
+    "explain": "An IPS is inline and actively blocks; an IDS is passive and only alerts.",
+    "explainSk": "IPS sedí inline a vie blokovať; IDS je pasívne a len hlási."
   },
   {
     "id": "q205",
@@ -816,7 +878,8 @@
       "EAP-TLS"
     ],
     "answer": 3,
-    "explain": "EAP-TLS uses both server and client certificates, providing mutual authentication and the strongest assurance."
+    "explain": "EAP-TLS uses both server and client certificates, providing mutual authentication and the strongest assurance.",
+    "explainSk": "EAP-TLS vyžaduje certifikáty servera aj klienta — vzájomná autentifikácia a najsilnejšia úroveň istoty."
   },
   {
     "id": "q206",
@@ -829,7 +892,8 @@
       "WPA3"
     ],
     "answer": 3,
-    "explain": "WPA3 with SAE replaces the WPA2 4-way handshake and resists offline brute-force attacks."
+    "explain": "WPA3 with SAE replaces the WPA2 4-way handshake and resists offline brute-force attacks.",
+    "explainSk": "WPA3 so SAE nahrádza WPA2 handshake a odoláva offline hrubým silám na heslo."
   },
   {
     "id": "q207",
@@ -842,7 +906,8 @@
       "993"
     ],
     "answer": 0,
-    "explain": "HTTPS uses TCP/443. 465 is SMTPS, 993 is IMAPS."
+    "explain": "HTTPS uses TCP/443. 465 is SMTPS, 993 is IMAPS.",
+    "explainSk": "HTTPS štandardne používa TCP/443. 465 je SMTPS, 993 IMAPS."
   },
   {
     "id": "q208",
@@ -855,7 +920,8 @@
       "An IPv6-only zone"
     ],
     "answer": 1,
-    "explain": "A DMZ hosts public-facing services and limits direct access to the internal trusted network."
+    "explain": "A DMZ hosts public-facing services and limits direct access to the internal trusted network.",
+    "explainSk": "DMZ ( screened subnet) hostí verejné služby a obmedzuje priamy prístup do dôveryhodnej vnútornej siete."
   },
   {
     "id": "q209",
@@ -868,7 +934,8 @@
       "Mobile site"
     ],
     "answer": 2,
-    "explain": "A hot site is fully running with synchronized data; lowest RTO/RPO at highest cost."
+    "explain": "A hot site is fully running with synchronized data; lowest RTO/RPO at highest cost.",
+    "explainSk": "Hot site je plne funkčný s aktuálnymi dátami — najnižší RTO/RPO, najvyššie náklady."
   },
   {
     "id": "q210",
@@ -881,7 +948,8 @@
       "Synthetic full"
     ],
     "answer": 1,
-    "explain": "Differential backups capture all changes since the last full backup. Restore = full + most recent differential."
+    "explain": "Differential backups capture all changes since the last full backup. Restore = full + most recent differential.",
+    "explainSk": "Diferenciálny záloh zachytí zmeny od posledného plného; obnova = plná + posledný diferenciál."
   },
   {
     "id": "q211",
@@ -894,7 +962,8 @@
       "Backups stored on the same SAN"
     ],
     "answer": 1,
-    "explain": "Offline/air-gapped or WORM/immutable backups can't be encrypted by ransomware reaching production storage."
+    "explain": "Offline/air-gapped or WORM/immutable backups can't be encrypted by ransomware reaching production storage.",
+    "explainSk": "Offline / air-gap alebo nemenné (immutable) zálohy ransomware nedokáže zašifrovať z produkčného účtu."
   },
   {
     "id": "q212",
@@ -907,7 +976,8 @@
       "RAID 10"
     ],
     "answer": 2,
-    "explain": "RAID 5 stripes data with distributed parity, surviving a single disk failure."
+    "explain": "RAID 5 stripes data with distributed parity, surviving a single disk failure.",
+    "explainSk": "RAID 5 stripuje dáta s distribuovanou paritou a znesie výpadok jedného disku."
   },
   {
     "id": "q213",
@@ -920,7 +990,8 @@
       "Tokenization"
     ],
     "answer": 1,
-    "explain": "TLS or IPsec encrypts data in motion; FDE protects data at rest."
+    "explain": "TLS or IPsec encrypts data in motion; FDE protects data at rest.",
+    "explainSk": "TLS alebo IPsec šifruje dáta pri prenose; FDE chráni dáta v pokoji."
   },
   {
     "id": "q214",
@@ -933,7 +1004,8 @@
       "Right to be forgotten"
     ],
     "answer": 1,
-    "explain": "Data sovereignty refers to data being subject to the laws of the country it resides in."
+    "explain": "Data sovereignty refers to data being subject to the laws of the country it resides in.",
+    "explainSk": "Suverenita dát znamená, že platia zákony jurisdikcie, kde sú dáta uložené."
   },
   {
     "id": "q215",
@@ -946,7 +1018,8 @@
       "Patch management"
     ],
     "answer": 1,
-    "explain": "HSMs are dedicated tamper-resistant hardware for storing keys and performing crypto operations."
+    "explain": "HSMs are dedicated tamper-resistant hardware for storing keys and performing crypto operations.",
+    "explainSk": "HSM primárne poskytuje odolné úložisko kľúčov a kryptografické operácie v HW."
   },
   {
     "id": "q216",
@@ -959,7 +1032,8 @@
       "A role-based authentication system"
     ],
     "answer": 1,
-    "explain": "CASBs sit between users and cloud apps, enforcing policy (visibility, compliance, threat protection, DLP)."
+    "explain": "CASBs sit between users and cloud apps, enforcing policy (visibility, compliance, threat protection, DLP).",
+    "explainSk": "CASB vynucuje politiku medzi používateľmi a cloudovými aplikáciami (viditeľnosť, compliance, hrozby, DLP)."
   },
   {
     "id": "q217",
@@ -972,7 +1046,8 @@
       "Encrypts all packets"
     ],
     "answer": 1,
-    "explain": "SDN decouples decision-making from forwarding, enabling centralized, programmable policy."
+    "explain": "SDN decouples decision-making from forwarding, enabling centralized, programmable policy.",
+    "explainSk": "SDN oddelí riadiacu rovinu od dátovej — centralizovaná programovateľná politika."
   },
   {
     "id": "q218",
@@ -985,7 +1060,8 @@
       "443"
     ],
     "answer": 0,
-    "explain": "SSH (and SFTP, which runs over SSH) use TCP/22."
+    "explain": "SSH (and SFTP, which runs over SSH) use TCP/22.",
+    "explainSk": "SSH a SFTP nad SSH používajú TCP/22."
   },
   {
     "id": "q219",
@@ -998,7 +1074,8 @@
       "Distributes inbound load"
     ],
     "answer": 1,
-    "explain": "A forward proxy sits between internal users and the internet for filtering, caching, and policy."
+    "explain": "A forward proxy sits between internal users and the internet for filtering, caching, and policy.",
+    "explainSk": "Forward proxy medzi internými používateľmi a internetom filtruje, cachuje a uplatňuje politiku."
   },
   {
     "id": "q220",
@@ -1011,7 +1088,8 @@
       "Cold standby in another region"
     ],
     "answer": 1,
-    "explain": "Multi-AZ active/active or active/passive with auto-failover provides HA across availability zones."
+    "explain": "Multi-AZ active/active or active/passive with auto-failover provides HA across availability zones.",
+    "explainSk": "Multi-AZ s automatickým failoverom zvyčajne najlepšie zvládne výpadok jednej zóny dostupnosti."
   },
   {
     "id": "q221",
@@ -1024,7 +1102,8 @@
       "They are synonyms"
     ],
     "answer": 1,
-    "explain": "RTO = how long until restored. RPO = how much data loss is acceptable (drives backup frequency)."
+    "explain": "RTO = how long until restored. RPO = how much data loss is acceptable (drives backup frequency).",
+    "explainSk": "RTO = tolerovaný výpadok času. RPO = tolerovaná strata dát (frekvencia záloh)."
   },
   {
     "id": "q222",
@@ -1037,7 +1116,8 @@
       "Quick"
     ],
     "answer": 1,
-    "explain": "Tunnel mode encrypts the entire original packet, including the IP header, and adds a new outer IP header."
+    "explain": "Tunnel mode encrypts the entire original packet, including the IP header, and adds a new outer IP header.",
+    "explainSk": "Tunelový režim IPsec zašifruje celý pôvodný paket vrátane IP hlavičky a pridá novú vonkajšiu hlavičku."
   },
   {
     "id": "q223",
@@ -1050,7 +1130,8 @@
       "Share root credentials with the team"
     ],
     "answer": 2,
-    "explain": "Cloud admins should have phishing-resistant MFA, individual accounts, least privilege, and just-in-time elevation."
+    "explain": "Cloud admins should have phishing-resistant MFA, individual accounts, least privilege, and just-in-time elevation.",
+    "explainSk": "Cloud admini: phishing-odolné MFA, individuálne účty, least privilege a JIT eskalácia."
   },
   {
     "id": "q224",
@@ -1063,7 +1144,8 @@
       "Backup server"
     ],
     "answer": 1,
-    "explain": "A bastion host is a hardened pivot point used for administrative access, with strong logging."
+    "explain": "A bastion host is a hardened pivot point used for administrative access, with strong logging.",
+    "explainSk": "Jump/bastion server je centralizovaný, monitorovaný vstup na správu interných systémov."
   },
   {
     "id": "q225",
@@ -1076,7 +1158,8 @@
       "MAC filtering on the firewall"
     ],
     "answer": 1,
-    "explain": "Port security restricts the number/identity of MAC addresses allowed on a switch port."
+    "explain": "Port security restricts the number/identity of MAC addresses allowed on a switch port.",
+    "explainSk": "Port security na prepínači obmedzuje počet/identitu MAC adries na porte."
   },
   {
     "id": "q226",
@@ -1089,7 +1172,8 @@
       "RAID 5"
     ],
     "answer": 2,
-    "explain": "Confidential computing uses secure enclaves (SGX, TrustZone, AMD SEV) to keep data encrypted while being processed."
+    "explain": "Confidential computing uses secure enclaves (SGX, TrustZone, AMD SEV) to keep data encrypted while being processed.",
+    "explainSk": "Dôverné výpočty (secure enclaves / confidential computing) chránia dáta aj počas spracovania."
   },
   {
     "id": "q301",
@@ -1102,7 +1186,8 @@
       "Recovery"
     ],
     "answer": 1,
-    "explain": "Preparation comes first: plan, tools, training, contacts. You can't respond well to what you haven't prepared for."
+    "explain": "Preparation comes first: plan, tools, training, contacts. You can't respond well to what you haven't prepared for.",
+    "explainSk": "Príprava je prvá: plán, nástroje, školenia, kontakty — bez nej sa nedá kvalitne reagovať."
   },
   {
     "id": "q302",
@@ -1115,7 +1200,8 @@
       "RAM → CPU registers → Disk"
     ],
     "answer": 1,
-    "explain": "From most to least volatile: CPU registers/cache → RAM → network/process state → disk → backups/archives."
+    "explain": "From most to least volatile: CPU registers/cache → RAM → network/process state → disk → backups/archives.",
+    "explainSk": "Od najvolatilnejšieho po najmenej: CPU registre/cache → RAM → stav siete/procesov → disk → zálohy/archívy."
   },
   {
     "id": "q303",
@@ -1128,7 +1214,8 @@
       "BIA"
     ],
     "answer": 1,
-    "explain": "Chain of custody is required for forensic evidence to be admissible and trustworthy."
+    "explain": "Chain of custody is required for forensic evidence to be admissible and trustworthy.",
+    "explainSk": "Reťaz zodpovednosti (chain of custody) je potrebná na dôveryhodné a súdne použiteľné dôkazy."
   },
   {
     "id": "q304",
@@ -1141,7 +1228,8 @@
       "EDR replaces SIEM"
     ],
     "answer": 1,
-    "explain": "EDR focuses on endpoints; XDR correlates data across multiple security domains for broader detection."
+    "explain": "EDR focuses on endpoints; XDR correlates data across multiple security domains for broader detection.",
+    "explainSk": "EDR sa zameriava na endpointy; XDR koreluje telemetriu zo siete, e-mailu, cloudu a identity."
   },
   {
     "id": "q305",
@@ -1154,7 +1242,8 @@
       "The default vendor settings"
     ],
     "answer": 1,
-    "explain": "A baseline is the formally approved secure configuration; deviations are 'drift.'"
+    "explain": "A baseline is the formally approved secure configuration; deviations are 'drift.'",
+    "explainSk": "Baseline je formálne schválená bezpečná konfigurácia; odchýlky sú „drift“."
   },
   {
     "id": "q306",
@@ -1167,7 +1256,8 @@
       "DLP"
     ],
     "answer": 1,
-    "explain": "A SIEM aggregates logs from many sources and applies correlation rules and analytics."
+    "explain": "A SIEM aggregates logs from many sources and applies correlation rules and analytics.",
+    "explainSk": "SIEM centralizuje logy z viacerých zdrojov a používa koreláciu a analytiku."
   },
   {
     "id": "q307",
@@ -1180,7 +1270,8 @@
       "CASB"
     ],
     "answer": 0,
-    "explain": "SOAR (Security Orchestration, Automation, and Response) automates incident response actions."
+    "explain": "SOAR (Security Orchestration, Automation, and Response) automates incident response actions.",
+    "explainSk": "SOAR automatizuje kroky reakcie na incidenty (orchestrácia a playbooky)."
   },
   {
     "id": "q308",
@@ -1193,7 +1284,8 @@
       "Disable the scanner"
     ],
     "answer": 0,
-    "explain": "Validate to avoid wasted effort, then prioritize based on exposure, exploitability, and asset criticality."
+    "explain": "Validate to avoid wasted effort, then prioritize based on exposure, exploitability, and asset criticality.",
+    "explainSk": "Najprv over nález (falošné pozitíva), potom prioritizuj podľa expozície, zneužiteľnosti a kritickosti aktíva."
   },
   {
     "id": "q309",
@@ -1206,7 +1298,8 @@
       "Fuzzing"
     ],
     "answer": 1,
-    "explain": "Static Application Security Testing analyzes source/bytecode without execution to find vulns early."
+    "explain": "Static Application Security Testing analyzes source/bytecode without execution to find vulns early.",
+    "explainSk": "SAST analyzuje zdrojový alebo bajtkód bez spustenia — včasné hľadanie zraniteľností."
   },
   {
     "id": "q310",
@@ -1219,7 +1312,8 @@
       "Insider testing"
     ],
     "answer": 2,
-    "explain": "Black-box (unknown environment) testing simulates an external attacker with no insider knowledge."
+    "explain": "Black-box (unknown environment) testing simulates an external attacker with no insider knowledge.",
+    "explainSk": "Black-box test simuluje externého útočníka bez interných informácií."
   },
   {
     "id": "q311",
@@ -1232,7 +1326,8 @@
       "NIST CSF"
     ],
     "answer": 1,
-    "explain": "CVSS scores severity; CVE is the unique identifier for the vulnerability."
+    "explain": "CVSS scores severity; CVE is the unique identifier for the vulnerability.",
+    "explainSk": "CVSS hodnotí závažnosť 0,0–10,0; CVE je jedinečný identifikátor zraniteľnosti."
   },
   {
     "id": "q312",
@@ -1245,7 +1340,8 @@
       "Disable scanning"
     ],
     "answer": 0,
-    "explain": "Risk acceptance must be documented with the owner, justification, compensating controls, and a review date."
+    "explain": "Risk acceptance must be documented with the owner, justification, compensating controls, and a review date.",
+    "explainSk": "Akceptované riziko musí byť zdokumentované s vlastníkom, zdôvodnením, kompenzačnými kontrolami a dátom revízie."
   },
   {
     "id": "q313",
@@ -1258,7 +1354,8 @@
       "Annual penetration test"
     ],
     "answer": 1,
-    "explain": "Threat hunting proactively searches for adversaries that haven't tripped alerts, often guided by TTPs (MITRE ATT&CK)."
+    "explain": "Threat hunting proactively searches for adversaries that haven't tripped alerts, often guided by TTPs (MITRE ATT&CK).",
+    "explainSk": "Threat hunting aktívne hľadá kompromitáciu, ktorá ešte nespustila alerty, často podľa TTP (MITRE ATT&CK)."
   },
   {
     "id": "q314",
@@ -1271,7 +1368,8 @@
       "ACLs"
     ],
     "answer": 1,
-    "explain": "JIT access grants elevated rights for a short window then revokes them, reducing standing privilege."
+    "explain": "JIT access grants elevated rights for a short window then revokes them, reducing standing privilege.",
+    "explainSk": "JIT prístup udelí vyvýšené práva len na krátky čas a potom ich odoberie — menej stálych privilegií."
   },
   {
     "id": "q315",
@@ -1284,7 +1382,8 @@
       "SMS code"
     ],
     "answer": 2,
-    "explain": "FIDO2/WebAuthn binds the credential to the legitimate site origin, defeating credential phishing."
+    "explain": "FIDO2/WebAuthn binds the credential to the legitimate site origin, defeating credential phishing.",
+    "explainSk": "FIDO2/WebAuthn viaže poverenie na legitímny pôvod stránky a odoláva phishingu hesiel."
   },
   {
     "id": "q316",
@@ -1297,7 +1396,8 @@
       "DLP policy"
     ],
     "answer": 1,
-    "explain": "An SBOM (Software Bill of Materials) inventories components and versions used so you can map advisories to your apps."
+    "explain": "An SBOM (Software Bill of Materials) inventories components and versions used so you can map advisories to your apps.",
+    "explainSk": "SBOM inventarizuje komponenty a verzie aplikácie na mapovanie bezpečnostných oznámení."
   },
   {
     "id": "q317",
@@ -1310,7 +1410,8 @@
       "Only used in cloud"
     ],
     "answer": 1,
-    "explain": "Federation enables identities from one domain to access resources in another via standards like SAML/OIDC."
+    "explain": "Federation enables identities from one domain to access resources in another via standards like SAML/OIDC.",
+    "explainSk": "Federácia umožní identitám z jednej domény prístup k zdrojom v inej (SAML, OIDC)."
   },
   {
     "id": "q318",
@@ -1323,7 +1424,8 @@
       "Kerberos"
     ],
     "answer": 2,
-    "explain": "SAML 2.0 is XML-based and widely used for enterprise SaaS SSO."
+    "explain": "SAML 2.0 is XML-based and widely used for enterprise SaaS SSO.",
+    "explainSk": "SAML 2.0 je XML a bežne sa používa na enterprise SSO do SaaS."
   },
   {
     "id": "q319",
@@ -1336,7 +1438,8 @@
       "Allowing long passphrases"
     ],
     "answer": 2,
-    "explain": "NIST recommends against routine forced expiration; rotate only on suspicion of compromise."
+    "explain": "NIST recommends against routine forced expiration; rotate only on suspicion of compromise.",
+    "explainSk": "NIST neodporúča rutinnú periodickú výmenu hesla; meniť pri podozrení na kompromitáciu."
   },
   {
     "id": "q320",
@@ -1349,7 +1452,8 @@
       "Replace MFA"
     ],
     "answer": 1,
-    "explain": "CASBs provide visibility, compliance, threat protection, and DLP for cloud applications."
+    "explain": "CASBs provide visibility, compliance, threat protection, and DLP for cloud applications.",
+    "explainSk": "CASB poskytuje viditeľnosť, compliance, ochranu pred hrozbami a DLP pre cloudové aplikácie."
   },
   {
     "id": "q321",
@@ -1362,7 +1466,8 @@
       "Delete everything quickly"
     ],
     "answer": 1,
-    "explain": "A write-blocker prevents accidental modification of source media during forensic imaging."
+    "explain": "A write-blocker prevents accidental modification of source media during forensic imaging.",
+    "explainSk": "Write-blocker zabráni náhodnej zmene zdrojového média pri forenznom imagingu."
   },
   {
     "id": "q322",
@@ -1375,7 +1480,8 @@
       "Insider sabotage"
     ],
     "answer": 1,
-    "explain": "Misconfiguration (open buckets, lax IAM, exposed services) drives the majority of cloud incidents."
+    "explain": "Misconfiguration (open buckets, lax IAM, exposed services) drives the majority of cloud incidents.",
+    "explainSk": "Chybná konfigurácia (verejné bucket-y, slabé IAM, expozície služieb) spôsobuje väčšinu cloud incidentov."
   },
   {
     "id": "q323",
@@ -1388,7 +1494,8 @@
       "Antivirus updates"
     ],
     "answer": 1,
-    "explain": "Endpoint policies that disable or whitelist USB devices defeat unauthorized USB-borne malware."
+    "explain": "Endpoint policies that disable or whitelist USB devices defeat unauthorized USB-borne malware.",
+    "explainSk": "Politika endpointu na USB (vypnutie alebo whitelist) bráni malwaru z nepovolených zariadení."
   },
   {
     "id": "q324",
@@ -1401,7 +1508,8 @@
       "BIMI"
     ],
     "answer": 1,
-    "explain": "SPF lists authorized sender IPs in DNS so receivers can validate the source."
+    "explain": "SPF lists authorized sender IPs in DNS so receivers can validate the source.",
+    "explainSk": "SPF v DNS zverejní povolené IP odosielateľov pre overenie zdroja."
   },
   {
     "id": "q325",
@@ -1414,7 +1522,8 @@
       "STARTTLS"
     ],
     "answer": 0,
-    "explain": "DMARC publishes a policy (none/quarantine/reject) and reporting addresses, building on SPF and DKIM."
+    "explain": "DMARC publishes a policy (none/quarantine/reject) and reporting addresses, building on SPF and DKIM.",
+    "explainSk": "DMARC zverejní politiku (none/quarantine/reject) a reporting, stavia na SPF a DKIM."
   },
   {
     "id": "q326",
@@ -1427,7 +1536,8 @@
       "ABAC"
     ],
     "answer": 3,
-    "explain": "ABAC evaluates attributes about the user, resource, and context to make decisions."
+    "explain": "ABAC evaluates attributes about the user, resource, and context to make decisions.",
+    "explainSk": "ABAC rozhoduje podľa atribútov používateľa, zdroja a kontextu."
   },
   {
     "id": "q327",
@@ -1440,7 +1550,8 @@
       "NAC"
     ],
     "answer": 0,
-    "explain": "DLP policies inspect outbound channels (email, web, USB, cloud) for sensitive data per policy."
+    "explain": "DLP policies inspect outbound channels (email, web, USB, cloud) for sensitive data per policy.",
+    "explainSk": "DLP kontroluje odchádzajúce kanály (e-mail, web, USB, cloud) na únik citlivých dát."
   },
   {
     "id": "q328",
@@ -1453,7 +1564,8 @@
       "SOAR"
     ],
     "answer": 0,
-    "explain": "FIM tools (Tripwire, OSSEC) hash critical files and alert on unexpected changes."
+    "explain": "FIM tools (Tripwire, OSSEC) hash critical files and alert on unexpected changes.",
+    "explainSk": "FIM sleduje zmeny kritických súborov (hash, upozornenia pri nečakaných zmenách)."
   },
   {
     "id": "q329",
@@ -1466,7 +1578,8 @@
       "Replaces the security team"
     ],
     "answer": 0,
-    "explain": "A CAB reviews and approves proposed changes, weighing risk, business impact, and timing."
+    "explain": "A CAB reviews and approves proposed changes, weighing risk, business impact, and timing.",
+    "explainSk": "CAB schvaľuje a posudzuje zmeny z hľadiska rizika, dopadu a načasovania."
   },
   {
     "id": "q330",
@@ -1479,7 +1592,8 @@
       "Adversary-in-the-middle"
     ],
     "answer": 1,
-    "explain": "LotL uses legitimate, signed system utilities to evade signature-based defenses."
+    "explain": "LotL uses legitimate, signed system utilities to evade signature-based defenses.",
+    "explainSk": "LotL zneužíva legitímne nástroje OS na obchádzanie signatúrových obrán."
   },
   {
     "id": "q331",
@@ -1492,7 +1606,8 @@
       "FIM"
     ],
     "answer": 0,
-    "explain": "DNS filtering (e.g., Umbrella) blocks resolution of known-bad domains, defeating many phishing and C2 attempts."
+    "explain": "DNS filtering (e.g., Umbrella) blocks resolution of known-bad domains, defeating many phishing and C2 attempts.",
+    "explainSk": "DNS filtering blokuje rozlíšenie známych škodlivých domén (phishing, C2)."
   },
   {
     "id": "q332",
@@ -1505,7 +1620,8 @@
       "Containment"
     ],
     "answer": 2,
-    "explain": "Lessons learned (post-incident) is the final phase, feeding improvements back into preparation."
+    "explain": "Lessons learned (post-incident) is the final phase, feeding improvements back into preparation.",
+    "explainSk": "Záverečná fáza NIST IR sú ponaučenia (lessons learned), ktoré posilnia prípravu."
   },
   {
     "id": "q401",
@@ -1518,7 +1634,8 @@
       "Guideline"
     ],
     "answer": 2,
-    "explain": "Policies are high-level, authoritative, and approved by leadership. Standards/procedures derive from them."
+    "explain": "Policies are high-level, authoritative, and approved by leadership. Standards/procedures derive from them.",
+    "explainSk": "Politiky sú vysokoúrovňové, schválené vedením; štandardy a postupy z nich vychádzajú."
   },
   {
     "id": "q402",
@@ -1531,7 +1648,8 @@
       "RTO"
     ],
     "answer": 1,
-    "explain": "Annualized Loss Expectancy = Single Loss Expectancy × Annualized Rate of Occurrence."
+    "explain": "Annualized Loss Expectancy = Single Loss Expectancy × Annualized Rate of Occurrence.",
+    "explainSk": "ALE = SLE × ARO (ročná očakávaná strata = jednotková strata × ročná frekvencia výskytu)."
   },
   {
     "id": "q403",
@@ -1544,7 +1662,8 @@
       "Avoid"
     ],
     "answer": 1,
-    "explain": "Risk transference moves financial responsibility to another party, often via insurance or outsourcing."
+    "explain": "Risk transference moves financial responsibility to another party, often via insurance or outsourcing.",
+    "explainSk": "Transfer rizika presunie finančnú zodpovednosť inam, často poistením alebo outsourcingom."
   },
   {
     "id": "q404",
@@ -1557,7 +1676,8 @@
       "BPA"
     ],
     "answer": 1,
-    "explain": "A Statement of Work specifies deliverables, timeline, and acceptance criteria within a Master Service Agreement."
+    "explain": "A Statement of Work specifies deliverables, timeline, and acceptance criteria within a Master Service Agreement.",
+    "explainSk": "SOW špecifikuje dodávky, časový plán a kritériá akceptácie v rámci MSA."
   },
   {
     "id": "q405",
@@ -1570,7 +1690,8 @@
       "SOW"
     ],
     "answer": 2,
-    "explain": "SLAs (Service Level Agreements) state performance commitments and remedies."
+    "explain": "SLAs (Service Level Agreements) state performance commitments and remedies.",
+    "explainSk": "SLA stanovuje metriky výkonu služby a nápravné opatrenia."
   },
   {
     "id": "q406",
@@ -1583,7 +1704,8 @@
       "PCI DSS"
     ],
     "answer": 2,
-    "explain": "The General Data Protection Regulation governs personal data of EU residents."
+    "explain": "The General Data Protection Regulation governs personal data of EU residents.",
+    "explainSk": "GDPR upravuje ochranu osobných údajov obyvateľov EÚ."
   },
   {
     "id": "q407",
@@ -1596,7 +1718,8 @@
       "ITIL"
     ],
     "answer": 1,
-    "explain": "The NIST Cybersecurity Framework organizes outcomes into these core Functions."
+    "explain": "The NIST Cybersecurity Framework organizes outcomes into these core Functions.",
+    "explainSk": "NIST CSF organizuje výstupy do funkcií Identify, Protect, Detect, Respond, Recover (v 2.0 aj Govern)."
   },
   {
     "id": "q408",
@@ -1609,7 +1732,8 @@
       "SOC 3"
     ],
     "answer": 2,
-    "explain": "SOC 2 Type II evaluates control effectiveness across a period (typically 6–12 months)."
+    "explain": "SOC 2 Type II evaluates control effectiveness across a period (typically 6–12 months).",
+    "explainSk": "SOC 2 Type II hodnotí účinnosť kontrol počas obdobia (typicky 6–12 mesiacov)."
   },
   {
     "id": "q409",
@@ -1622,7 +1746,8 @@
       "A security awareness program"
     ],
     "answer": 1,
-    "explain": "A Business Impact Analysis identifies critical processes, dependencies, and the impact of disruption (RTO/RPO inputs)."
+    "explain": "A Business Impact Analysis identifies critical processes, dependencies, and the impact of disruption (RTO/RPO inputs).",
+    "explainSk": "BIA identifikuje kritické procesy, závislosti a dopad prerušenia (vstupy pre RTO/RPO)."
   },
   {
     "id": "q410",
@@ -1635,7 +1760,8 @@
       "CISO"
     ],
     "answer": 2,
-    "explain": "The DPO is responsible for privacy compliance and is mandatory for certain processing activities under GDPR."
+    "explain": "The DPO is responsible for privacy compliance and is mandatory for certain processing activities under GDPR.",
+    "explainSk": "DPO dohliada na súlad s ochranou osobných údajov; pri určitých spracovaniach je povinný."
   },
   {
     "id": "q411",
@@ -1648,7 +1774,8 @@
       "Code review"
     ],
     "answer": 1,
-    "explain": "Tabletops are facilitated discussions that test plans without touching production systems."
+    "explain": "Tabletops are facilitated discussions that test plans without touching production systems.",
+    "explainSk": "Tabletop je diskusná prechádzka scenárom bez zásahu do produkčných systémov."
   },
   {
     "id": "q412",
@@ -1661,7 +1788,8 @@
       "Pay invoice"
     ],
     "answer": 1,
-    "explain": "Due diligence starts with collecting evidence: questionnaires (SIG/CAIQ), SOC 2 / ISO 27001 reports, references."
+    "explain": "Due diligence starts with collecting evidence: questionnaires (SIG/CAIQ), SOC 2 / ISO 27001 reports, references.",
+    "explainSk": "Due diligence začína zberom dôkazov: dotazníky, SOC 2 / ISO 27001, referencie."
   },
   {
     "id": "q413",
@@ -1674,7 +1802,8 @@
       "Force majeure"
     ],
     "answer": 0,
-    "explain": "A right-to-audit clause is essential for verifying vendor security claims."
+    "explain": "A right-to-audit clause is essential for verifying vendor security claims.",
+    "explainSk": "Doložka práva na audit umožní overiť tvrdenia dodávateľa o bezpečnosti."
   },
   {
     "id": "q414",
@@ -1687,7 +1816,8 @@
       "SOW"
     ],
     "answer": 0,
-    "explain": "A risk register is the central tracking document for identified risks."
+    "explain": "A risk register is the central tracking document for identified risks.",
+    "explainSk": "Register rizík centralizuje identifikované riziká, vlastníkov a stav mitigácie."
   },
   {
     "id": "q415",
@@ -1700,7 +1830,8 @@
       "A control's effectiveness"
     ],
     "answer": 1,
-    "explain": "Risk appetite is the level of risk an organization is willing to accept to achieve its objectives."
+    "explain": "Risk appetite is the level of risk an organization is willing to accept to achieve its objectives.",
+    "explainSk": "Risk appetite je úroveň rizika, ktorú organizácia vedenie ochotne prijme pri dosahovaní cieľov."
   },
   {
     "id": "q416",
@@ -1713,7 +1844,8 @@
       "MOUs require government approval"
     ],
     "answer": 1,
-    "explain": "MOUs are typically expressions of intent and not strictly enforceable; contracts (MSA/SOW) are."
+    "explain": "MOUs are typically expressions of intent and not strictly enforceable; contracts (MSA/SOW) are.",
+    "explainSk": "MOU vyjadruje zámer a zvyčajne nie je právne vymáhateľný; zmluvy (MSA/SOW) sú."
   },
   {
     "id": "q417",
@@ -1726,7 +1858,8 @@
       "Physical destruction (shred/incinerate)"
     ],
     "answer": 3,
-    "explain": "Destruction (shredding, incineration, pulverization) is required for the most sensitive media."
+    "explain": "Destruction (shredding, incineration, pulverization) is required for the most sensitive media.",
+    "explainSk": "Pri najcitlivejších médiách, ktoré sa nesmú znova použiť, treba fyzickú deštrukciu (sekanie, spaľovanie)."
   },
   {
     "id": "q418",
@@ -1739,7 +1872,8 @@
       "Define backup retention"
     ],
     "answer": 1,
-    "explain": "An AUP communicates rules and expectations for using company resources."
+    "explain": "An AUP communicates rules and expectations for using company resources.",
+    "explainSk": "AUP stanovuje pravidlá a očakávania pri používaní firemných zdrojov."
   },
   {
     "id": "q419",
@@ -1752,7 +1886,8 @@
       "RPO"
     ],
     "answer": 1,
-    "explain": "Mean Time To Repair (or Recover) measures the average restoration time. RTO is the *target*, MTTR is the *measured average*."
+    "explain": "Mean Time To Repair (or Recover) measures the average restoration time. RTO is the *target*, MTTR is the *measured average*.",
+    "explainSk": "MTTR meria priemerný čas obnovy; RTO je cieľ, MTTR je meraný priemer."
   },
   {
     "id": "q420",
@@ -1765,7 +1900,8 @@
       "BPA"
     ],
     "answer": 0,
-    "explain": "An NDA legally protects shared confidential information."
+    "explain": "An NDA legally protects shared confidential information.",
+    "explainSk": "NDA chráni zdieľané dôverné informácie pred zverejnením tretím stranám."
   },
   {
     "id": "q421",
@@ -1778,7 +1914,8 @@
       "A privacy law"
     ],
     "answer": 1,
-    "explain": "ISO 27001 is the international standard for ISMS, supported by ISO 27002 control guidance."
+    "explain": "ISO 27001 is the international standard for ISMS, supported by ISO 27002 control guidance.",
+    "explainSk": "ISO 27001 je medzinárodný štandard pre ISMS; ISO 27002 dáva usmernenie kontrol."
   },
   {
     "id": "q422",
@@ -1791,7 +1928,8 @@
       "Increase invoice payments"
     ],
     "answer": 1,
-    "explain": "Activate the vendor IR clause — get facts, scope of exposure, customer impact, required actions."
+    "explain": "Activate the vendor IR clause — get facts, scope of exposure, customer impact, required actions.",
+    "explainSk": "Spusti IR s dodávateľom — rozsah, expozícia, dopad na zákazníka, potrebné kroky."
   },
   {
     "id": "q423",
@@ -1804,7 +1942,8 @@
       "Lower insurance premiums (only)"
     ],
     "answer": 1,
-    "explain": "Awareness reduces the human attack surface — the most exploited target in modern breaches."
+    "explain": "Awareness reduces the human attack surface — the most exploited target in modern breaches.",
+    "explainSk": "Povedomie znižuje ľudský útočný povrch — často najzraniteľnejší prvok."
   },
   {
     "id": "q424",
@@ -1817,7 +1956,8 @@
       "A regulatory penalty"
     ],
     "answer": 1,
-    "explain": "Key Risk Indicators are forward-looking metrics that warn when a risk is trending upward."
+    "explain": "Key Risk Indicators are forward-looking metrics that warn when a risk is trending upward.",
+    "explainSk": "KRI sú prediktívne metriky varujúce, že riziko rastie."
   },
   {
     "id": "q425",
@@ -1830,7 +1970,8 @@
       "Call the vendor monthly"
     ],
     "answer": 1,
-    "explain": "Certificates of Destruction provide auditable proof, often with serial numbers and method."
+    "explain": "Certificates of Destruction provide auditable proof, often with serial numbers and method.",
+    "explainSk": "Certifikát deštrukcie poskytuje auditovateľný dôkaz so sériovými číslami a metódou."
   },
   {
     "id": "q426",
@@ -1843,7 +1984,8 @@
       "Reduced regulatory scrutiny"
     ],
     "answer": 1,
-    "explain": "Reputational damage and loss of customer trust are common consequences of public breach disclosures."
+    "explain": "Reputational damage and loss of customer trust are common consequences of public breach disclosures.",
+    "explainSk": "Verejné úniky často poškodia reputáciu a dôveru zákazníkov a partnerov."
   },
   {
     "id": "q427",
@@ -1856,7 +1998,8 @@
       "Vulnerability scan"
     ],
     "answer": 1,
-    "explain": "Compliance audits formally evaluate controls against a defined framework or regulation."
+    "explain": "Compliance audits formally evaluate controls against a defined framework or regulation.",
+    "explainSk": "Compliance audit formálne porovná kontroly s definovaným rámcom alebo predpisom."
   },
   {
     "id": "q428",
@@ -1869,6 +2012,7 @@
       "Storing more data"
     ],
     "answer": 1,
-    "explain": "Segmentation limits the systems in scope, reducing PCI assessment burden and risk."
+    "explain": "Segmentation limits the systems in scope, reducing PCI assessment burden and risk.",
+    "explainSk": "Segmentácia siete obmedzí systémy v rozsahu PCI a zníži náklad na posúdenie aj riziko."
   }
 ]
